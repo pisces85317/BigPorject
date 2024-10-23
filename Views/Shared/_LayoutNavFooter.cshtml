@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<title>@ViewBag.Title</title>
+	<link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+	<link rel="stylesheet" href="~/BigPorject.styles.css" asp-append-version="true" />
+</head>
+<body>
+	<header>
+		<div style="background-color:lightgray;height:50px">
+			這是一個導覽列，裡面有Logo，還有三個icon:會員、購物車、語言
+		</div>
+	</header>
+	<div style="position:relative">
+		@RenderBody()
+	</div>
+	<footer class="border-top footer text-muted">
+		<div style="background-color:lightgray;height:50px;">
+			這是一個腳er，有網站版權說明
+		</div>
+	</footer>
+</body>
+</html>

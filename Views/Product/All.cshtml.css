@@ -1,0 +1,65 @@
+﻿/*當前分類位置*/
+.index {
+    background-color: orange;
+    width: 100px;
+    height: 25px;
+}
+/*分類欄*/
+.classify {
+    background-color: red;
+    width: 200px;
+    height: 300px
+}
+/*篩選欄*/
+.filter {
+    background-color: lightgreen;
+    width: 800px;
+    height: 100px;
+    position: absolute;
+    top: 0px;
+    left: 200px;
+}
+/*排序*/
+.sort {
+    background-color: orange;
+    width: 200px;
+    height: 25px;
+    position: absolute;
+    top: 100px;
+    left: 1000px;
+}
+/*產品清單*/
+.list {
+    background-color: blue;
+    width: 1000px;
+    height: 100%;
+    position: absolute;
+    top: 125px;
+    left: 200px;
+}
+/*頁數*/
+.page {
+    background-color: lightblue;
+    width: 250px;
+    height: 25px;
+    position: absolute;
+    bottom: 0px;
+    /*置中方法一:*/
+    /*    
+    left: 0;
+    right: 0;
+    margin: auto;
+    */
+    /*置中方法二:*/
+    left: 50%;
+    transform: translateX(-50%);
+}
+/*到頂部*/
+.top {
+    background-color: lightblue;
+    width: 50px;
+    height: 50px;
+    position:fixed;
+    bottom:0px;
+    right:0px;
+}
