@@ -1,22 +1,122 @@
-﻿@* <link rel="stylesheet" href="~/BigPorject.styles.css" asp-append-version="true" /> *@
-<div class="index">
-    當前分類位置
+﻿<div class="productList">
+	@* Breadcrumb 麵包屑 *@
+	<nav aria-label="breadcrumb">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">首頁</a></li>
+			<li class="breadcrumb-item active" aria-current="page">所有商品</li>
+		</ol>
+	</nav>
+	<div class="container">
+		<div class="row">
+			<div class="col-3">
+				@* Dropdown Sidebar *@
+				<div class="sidenav">
+					<button class="dropdown-btn">
+						<a asp-area="" asp-controller="Product" asp-action="All">所有商品</a>
+					</button>
+					<button class="dropdown-btn">
+						產區
+						<i class="fa fa-caret-down"></i>
+					</button>
+					<div class="dropdown-container">
+						<a href="#">巴西</a>
+						<a href="#">哥倫比亞</a>
+						<a href="#">夏威夷</a>
+						<a href="#">衣索比亞</a>
+						<a href="#">肯亞</a>
+						<a href="#">蘇門答臘</a>
+					</div>
+					<button class="dropdown-btn">
+						風味
+						<i class="fa fa-caret-down"></i>
+					</button>
+					<div class="dropdown-container">
+						<a href="#">花香</a>
+						<a href="#">果香</a>
+						<a href="#">巧克力</a>
+						<a href="#">紅酒</a>
+					</div>
+					<button class="dropdown-btn">
+						<a asp-area="" asp-controller="Product" asp-action="All">耳掛系列</a>
+					</button>
+				</div>
+			</div>
+			<div class="col-9">
+				<div class="row numSort">
+					<div class="col-9">
+						查詢結果的數量
+					</div>
+					@* Clickable Dropdown *@
+					<div class="col-3">
+						<div class="dropdown">
+							<button onclick="myFunction(this)" class="dropbtn">排序↓</button>
+							<div class="dropdown-content">
+								<a href="#">價格:由低到高</a>
+								<a href="#">價格:由高到低</a>
+							</div>
+						</div>
+						<div class="dropdown">
+							<button onclick="myFunction(this)" class="dropbtn">每頁顯示12個</button>
+							<div class="dropdown-content">
+								<a href="#">每頁顯示12個</a>
+								<a href="#">每頁顯示18個</a>
+								<a href="#">每頁顯示24個</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="filter">
+					篩選欄
+				</div>
+				<div class="list">
+					產品清單
+				</div>
+				<div class="page">
+					頁數
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="top">
+		到頂部
+	</div>
 </div>
-<div class="classify">
-    分類欄
-</div>
-<div class="filter">
-    篩選欄
-</div>
-<div class="sort">
-    排序
-</div>
-<div class="list">
-    產品清單
-    <div class="page">
-        頁數
-    </div>
-</div>
-<div class="top">
-    到頂部
-</div>
+
+@* Dropdown Sidebar
+   Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict *@
+<script>
+	var dropdown = document.getElementsByClassName("dropdown-btn");
+	var i;
+
+	for (i = 0; i < dropdown.length; i++) {
+		dropdown[i].addEventListener("click", function () {
+			var dropdownContent = this.nextElementSibling;
+			if (dropdownContent.style.display === "block") {
+				dropdownContent.style.display = "none";
+			} else {
+				dropdownContent.style.display = "block";
+			}
+		});
+	}
+</script>
+@* Clickable Dropdown
+   When the user clicks on the button,toggle between hiding and showing the dropdown content *@
+<script>
+	function myFunction(test) {
+		test.nextElementSibling.classList.toggle("show");
+	}
+
+	// Close the dropdown menu if the user clicks outside of it
+	window.onclick = function (event) {
+		if (!event.target.matches('.dropbtn')) {
+			var dropdowns = document.getElementsByClassName("dropdown-content");
+			var i;
+			for (i = 0; i < dropdowns.length; i++) {
+				var openDropdown = dropdowns[i];
+				if (openDropdown.classList.contains('show')) {
+					openDropdown.classList.remove('show');
+				}
+			}
+		}
+	}
+</script>

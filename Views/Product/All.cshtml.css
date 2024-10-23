@@ -1,65 +1,112 @@
-﻿/*當前分類位置*/
-.index {
-    background-color: orange;
-    width: 100px;
-    height: 25px;
+﻿/*可以寫的網頁範圍*/
+.productList {
+    background-color: pink;
+    color: #818181;
 }
-/*分類欄*/
-.classify {
-    background-color: red;
-    width: 200px;
-    height: 300px
+/*Dropdown Sidebar*/
+/* Style the sidenav links and the dropdown button */
+.sidenav a, .dropdown-btn {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #818181;
+    display: block;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
 }
+
+    /* On mouse-over */
+    .sidenav a:hover, .dropdown-btn:hover {
+        color: #f1f1f1;
+    }
+
+/* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+.dropdown-container {
+    display: none;
+    padding-left: 8px;
+}
+
+/* Optional: Style the caret down icon */
+.fa-caret-down {
+    float: right;
+    padding-right: 8px;
+}
+/*數量和排序左右不留空*/
+.numSort {
+    margin-left: 0;
+    margin-right: 0;
+}
+/*Clickable Dropdown*/
+/* Dropdown Button */
+.dropbtn {
+    color: #818181;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    background: none;
+}
+
+    /* Dropdown button on hover & focus */
+    .dropbtn:hover {
+        color: #f1f1f1;
+    }
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width:max-content;
+    z-index: 1;
+}
+
+    /* Links inside the dropdown */
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+        /* Change color of dropdown links on hover */
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {
+    display: block;
+}
+
 /*篩選欄*/
 .filter {
     background-color: lightgreen;
-    width: 800px;
-    height: 100px;
-    position: absolute;
-    top: 0px;
-    left: 200px;
-}
-/*排序*/
-.sort {
-    background-color: orange;
-    width: 200px;
-    height: 25px;
-    position: absolute;
-    top: 100px;
-    left: 1000px;
 }
 /*產品清單*/
 .list {
     background-color: blue;
-    width: 1000px;
-    height: 100%;
-    position: absolute;
-    top: 125px;
-    left: 200px;
 }
 /*頁數*/
 .page {
     background-color: lightblue;
-    width: 250px;
-    height: 25px;
-    position: absolute;
-    bottom: 0px;
-    /*置中方法一:*/
-    /*    
-    left: 0;
-    right: 0;
-    margin: auto;
-    */
-    /*置中方法二:*/
-    left: 50%;
-    transform: translateX(-50%);
+    text-align: center;
 }
 /*到頂部*/
 .top {
     background-color: lightblue;
-    width: 50px;
-    height: 50px;
-    position:fixed;
-    bottom:0px;
-    right:0px;
+    width: 5%;
+    aspect-ratio: 1/1;
+    position: fixed;
+    bottom: 100px;
+    right: 5%;
 }
