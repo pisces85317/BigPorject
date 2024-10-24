@@ -1,6 +1,6 @@
 ﻿/*可以寫的網頁範圍*/
 .productList {
-    background-color: pink;
+/*    background-color: pink;*/
     color: #818181;
 }
 /*Dropdown Sidebar*/
@@ -37,6 +37,11 @@
 }
 /*數量和排序左右不留空*/
 .numSort {
+    margin-left: 0;
+    margin-right: 0;
+}
+/*篩選欄*/
+.filter {
     margin-left: 0;
     margin-right: 0;
 }
@@ -102,7 +107,10 @@
     .filterDropdown-content input[type="range"] {
         display:block;
     }
-
+.tasteLabel{
+    display:flex;
+    justify-content:space-evenly;
+}
 /* Change color of dropdown links on hover */
 .dropdown-content a:hover {
     background-color: #ddd;
@@ -113,12 +121,7 @@
     display: block;
 }
 
-/*篩選欄*/
-.filter {
-    background-color: lightgreen;
-    margin-left: 0;
-    margin-right: 0;
-}
+
 /*產品清單*/
 .list {
     background-color: blue;

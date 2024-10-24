@@ -1,4 +1,5 @@
-﻿<div class="productList">
+﻿<script src="~/lib/jquery/dist/jquery.js"></script>
+<div class="productList">
 	@* Breadcrumb 麵包屑 *@
 	<nav aria-label="breadcrumb">
 		<ol class="breadcrumb">
@@ -8,8 +9,8 @@
 	</nav>
 	<div class="container">
 		<div class="row">
+			@* Dropdown Sidebar *@
 			<div class="col-3">
-				@* Dropdown Sidebar *@
 				<div class="sidenav">
 					<button class="dropdown-btn">
 						<a asp-area="" asp-controller="Product" asp-action="All">所有商品</a>
@@ -42,11 +43,11 @@
 				</div>
 			</div>
 			<div class="col-9">
-				<div class="row numSort">
+				<div class="numSort row">
 					<div class="col-9">
 						查詢結果的數量
 					</div>
-					@* Clickable Dropdown *@
+					@* 排序 Dropdown *@
 					<div class="col-3">
 						<div class="dropdown">
 							<button onclick="sortFunction(this)" class="dropbtn">排序↓</button>
@@ -65,6 +66,7 @@
 						</div>
 					</div>
 				</div>
+				@* 篩選 Dropdown *@
 				<div class="filter row">
 					<div class="col-2">
 						<div class="filterDropdown">
@@ -121,11 +123,11 @@
 									<button onclick="closeFunction(this)">X</button>
 								</div>
 								<div>
-									<input type="range" min="1" max="5" id="fragrance" /><label for="fragrance">香氣<span>1</span></label>
-									<input type="range" min="1" max="5" id="sour" /><label for="sour">酸味<span>1</span></label>
-									<input type="range" min="1" max="5" id="bitter" /><label for="bitter">苦味<span>1</span></label>
-									<input type="range" min="1" max="5" id="sweet" /><label for="sweet">甜味<span>1</span></label>
-									<input type="range" min="1" max="5" id="strong" /><label for="strong">厚實<span>1</span></label>
+									<input type="range" min="1" max="5" value="1" id="fragrance" oninput="valueChange(this)"/><label for="fragrance" class="tasteLabel">香氣<span>1</span></label>
+									<input type="range" min="1" max="5" value="1" id="sour" oninput="valueChange(this)"/><label for="sour" class="tasteLabel">酸味<span>1</span></label>
+									<input type="range" min="1" max="5" value="1" id="bitter" oninput="valueChange(this)"/><label for="bitter" class="tasteLabel">苦味<span>1</span></label>
+									<input type="range" min="1" max="5" value="1" id="sweet" oninput="valueChange(this)"/><label for="sweet" class="tasteLabel">甜味<span>1</span></label>
+									<input type="range" min="1" max="5" value="1" id="strong" oninput="valueChange(this)"/><label for="strong" class="tasteLabel">厚實<span>1</span></label>
 								</div>
 							</div>
 						</div>
@@ -145,7 +147,7 @@
 	</div>
 </div>
 
-@* Dropdown Sidebar
+@* Dropdown Sidebar 分類下拉欄
    Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict *@
 <script>
 	var dropdown = document.getElementsByClassName("dropdown-btn");
@@ -162,39 +164,42 @@
 		});
 	}
 </script>
-@* Clickable Dropdown
+@* Clickable Dropdown 排序&篩選下拉欄
    When the user clicks on the button,toggle between hiding and showing the dropdown content *@
 <script>
+	// 點擊排序按鈕控制選單開關
 	function sortFunction(test) {
 		test.nextElementSibling.classList.toggle("show");
 	}
+	
+	// 點擊篩選按鈕控制選單開關
+	function filterFunction(test) {
+		test.nextElementSibling.classList.toggle("show");
+	}
 
-	// Close the dropdown menu if the user clicks outside of it
+	// 點擊X按鈕關閉選單
+	function closeFunction(test) {
+		$(test).parents('.filterDropdown-content')[0].classList.remove('show');
+	}
+	// 重新判斷標的:點擊時有選單show就關閉該選單
 	window.onclick = function (event) {
-		if (!event.target.matches('.dropbtn')) {
-			var dropdowns = document.getElementsByClassName("dropdown-content");
-			var i;
+		// 排序: 當使用者點擊非排序的按鈕(不包括按鈕選單本人)關閉選單
+		if (!$(event.target).is('.dropbtn')){
+			let dropdowns = document.getElementsByClassName("dropdown-content");
+			let i;
 			for (i = 0; i < dropdowns.length; i++) {
-				var openDropdown = dropdowns[i];
+				let openDropdown = dropdowns[i];
 				if (openDropdown.classList.contains('show')) {
 					openDropdown.classList.remove('show');
 				}
 			}
 		}
-	}
-	function filterFunction(test) {
-		test.nextElementSibling.classList.toggle("show");
-	}
-	function closeFunction(test) {
-		$(test).parents('.filterDropdown-content')[0].classList.remove('show');
-	}
-	//$('.filterDropdown-content')[0] filterDropdown-content  !event.target.matches('.filterDropbtn') ||
-	window.onclick = function (event) {
+		// 篩選: 當使用者點擊非篩選區域(包括按鈕和選單)關閉選單
 		if (!$(event.target).is('.filterDropdown *')) {
-			var dropdowns = document.getElementsByClassName("filterDropdown-content");
-			var i;
+			let dropdowns = document.getElementsByClassName("filterDropdown-content");
+			let i;
 			for (i = 0; i < dropdowns.length; i++) {
-				var openDropdown = dropdowns[i];
+				let openDropdown = dropdowns[i];
 				if (openDropdown.classList.contains('show')) {
 					openDropdown.classList.remove('show');
 				}
@@ -202,7 +207,9 @@
 		}
 		}
 </script>
-@* range的value *@
+@* 當range的value更動時顯示其值在對應的span裡 *@
 <script>
-	$('input[type="range"]').addEventListener('') /* 監聽range有更動時 */
+	function valueChange(test){
+		$(test).next('label').find('span').text($(test).val())
+	}
 </script>
