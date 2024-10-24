@@ -49,14 +49,14 @@
 					@* Clickable Dropdown *@
 					<div class="col-3">
 						<div class="dropdown">
-							<button onclick="myFunction(this)" class="dropbtn">排序↓</button>
+							<button onclick="sortFunction(this)" class="dropbtn">排序↓</button>
 							<div class="dropdown-content">
 								<a href="#">價格:由低到高</a>
 								<a href="#">價格:由高到低</a>
 							</div>
 						</div>
 						<div class="dropdown">
-							<button onclick="myFunction(this)" class="dropbtn">每頁顯示12個</button>
+							<button onclick="sortFunction(this)" class="dropbtn">每頁顯示12個</button>
 							<div class="dropdown-content">
 								<a href="#">每頁顯示12個</a>
 								<a href="#">每頁顯示18個</a>
@@ -65,8 +65,71 @@
 						</div>
 					</div>
 				</div>
-				<div class="filter">
-					篩選欄
+				<div class="filter row">
+					<div class="col-2">
+						<div class="filterDropdown">
+							<button onclick="filterFunction(this)" class="filterDropbtn">價格</button>
+							<div class="filterDropdown-content">
+								<div style="display:flex;justify-content:right">
+									<button onclick="closeFunction(this)">X</button>
+								</div>
+								<div>
+									<input type="text" name="name" value="min" />
+									<span> - </span>
+									<input type="text" name="name" value="max" />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-2">
+						<div class="filterDropdown">
+							<button onclick="filterFunction(this)" class="filterDropbtn">烘培程度</button>
+							<div class="filterDropdown-content">
+								<div style="display:flex;justify-content:right">
+									<button onclick="closeFunction(this)">X</button>
+								</div>
+								<div>
+									<input type="checkbox" id="L"/><label for="L">淺</label>
+									<input type="checkbox" id="LM" /><label for="LM">中淺</label>
+									<input type="checkbox" id="M"/><label for="M">中</label>
+									<input type="checkbox" id="MH" /><label for="MH">中深</label>
+									<input type="checkbox" id="H"/><label for="H">深</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-2">
+						<div class="filterDropdown">
+							<button onclick="filterFunction(this)" class="filterDropbtn">處理方式</button>
+							<div class="filterDropdown-content">
+								<div style="display:flex;justify-content:right">
+									<button onclick="closeFunction(this)">X</button>
+								</div>
+								<div>
+									<input type="checkbox" id="Wet" /><label for="Wet">水洗</label>
+									<input type="checkbox" id="Dry" /><label for="Dry">日曬</label>
+									<input type="checkbox" id="Honey" /><label for="Honey">蜜處理</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-2">
+						<div class="filterDropdown">
+							<button onclick="filterFunction(this)" class="filterDropbtn">味道</button>
+							<div class="filterDropdown-content">
+								<div style="display:flex;justify-content:right">
+									<button onclick="closeFunction(this)">X</button>
+								</div>
+								<div>
+									<input type="range" min="1" max="5" id="fragrance" /><label for="fragrance">香氣<span>1</span></label>
+									<input type="range" min="1" max="5" id="sour" /><label for="sour">酸味<span>1</span></label>
+									<input type="range" min="1" max="5" id="bitter" /><label for="bitter">苦味<span>1</span></label>
+									<input type="range" min="1" max="5" id="sweet" /><label for="sweet">甜味<span>1</span></label>
+									<input type="range" min="1" max="5" id="strong" /><label for="strong">厚實<span>1</span></label>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 				<div class="list">
 					產品清單
@@ -102,7 +165,7 @@
 @* Clickable Dropdown
    When the user clicks on the button,toggle between hiding and showing the dropdown content *@
 <script>
-	function myFunction(test) {
+	function sortFunction(test) {
 		test.nextElementSibling.classList.toggle("show");
 	}
 
@@ -119,4 +182,27 @@
 			}
 		}
 	}
+	function filterFunction(test) {
+		test.nextElementSibling.classList.toggle("show");
+	}
+	function closeFunction(test) {
+		$(test).parents('.filterDropdown-content')[0].classList.remove('show');
+	}
+	//$('.filterDropdown-content')[0] filterDropdown-content  !event.target.matches('.filterDropbtn') ||
+	window.onclick = function (event) {
+		if (!$(event.target).is('.filterDropdown *')) {
+			var dropdowns = document.getElementsByClassName("filterDropdown-content");
+			var i;
+			for (i = 0; i < dropdowns.length; i++) {
+				var openDropdown = dropdowns[i];
+				if (openDropdown.classList.contains('show')) {
+					openDropdown.classList.remove('show');
+				}
+			}
+		}
+		}
+</script>
+@* range的value *@
+<script>
+	$('input[type="range"]').addEventListener('') /* 監聽range有更動時 */
 </script>
