@@ -9,7 +9,8 @@
 	</nav>
 	<div class="container">
 		<div class="row">
-			@* Dropdown Sidebar *@
+			@* 分類欄 Dropdown Sidebar *@
+			@* !!!改成bootstrap的 *@
 			<div class="col-3">
 				<div class="sidenav">
 					<button class="dropdown-btn">
@@ -43,11 +44,13 @@
 				</div>
 			</div>
 			<div class="col-9">
+				@* 數量和排序 *@
 				<div class="numSort row">
 					<div class="col-9">
 						查詢結果的數量
 					</div>
 					@* 排序 Dropdown *@
+					@* !!!改成bootstrap的 *@
 					<div class="col-3">
 						<div class="dropdown">
 							<button onclick="sortFunction(this)" class="dropbtn">排序↓</button>
@@ -67,6 +70,7 @@
 					</div>
 				</div>
 				@* 篩選 Dropdown *@
+				@* !!!改成bootstrap的 *@
 				<div class="filter row">
 					<div class="col-2">
 						<div class="filterDropdown">
@@ -91,11 +95,11 @@
 									<button onclick="closeFunction(this)">X</button>
 								</div>
 								<div>
-									<input type="checkbox" id="L"/><label for="L">淺</label>
+									<input type="checkbox" id="L" /><label for="L">淺</label>
 									<input type="checkbox" id="LM" /><label for="LM">中淺</label>
-									<input type="checkbox" id="M"/><label for="M">中</label>
+									<input type="checkbox" id="M" /><label for="M">中</label>
 									<input type="checkbox" id="MH" /><label for="MH">中深</label>
-									<input type="checkbox" id="H"/><label for="H">深</label>
+									<input type="checkbox" id="H" /><label for="H">深</label>
 								</div>
 							</div>
 						</div>
@@ -123,20 +127,40 @@
 									<button onclick="closeFunction(this)">X</button>
 								</div>
 								<div>
-									<input type="range" min="1" max="5" value="1" id="fragrance" oninput="valueChange(this)"/><label for="fragrance" class="tasteLabel">香氣<span>1</span></label>
-									<input type="range" min="1" max="5" value="1" id="sour" oninput="valueChange(this)"/><label for="sour" class="tasteLabel">酸味<span>1</span></label>
-									<input type="range" min="1" max="5" value="1" id="bitter" oninput="valueChange(this)"/><label for="bitter" class="tasteLabel">苦味<span>1</span></label>
-									<input type="range" min="1" max="5" value="1" id="sweet" oninput="valueChange(this)"/><label for="sweet" class="tasteLabel">甜味<span>1</span></label>
-									<input type="range" min="1" max="5" value="1" id="strong" oninput="valueChange(this)"/><label for="strong" class="tasteLabel">厚實<span>1</span></label>
+									<input type="range" min="1" max="5" value="1" id="fragrance" oninput="valueChange(this)" /><label for="fragrance" class="tasteLabel">香氣<span>1</span></label>
+									<input type="range" min="1" max="5" value="1" id="sour" oninput="valueChange(this)" /><label for="sour" class="tasteLabel">酸味<span>1</span></label>
+									<input type="range" min="1" max="5" value="1" id="bitter" oninput="valueChange(this)" /><label for="bitter" class="tasteLabel">苦味<span>1</span></label>
+									<input type="range" min="1" max="5" value="1" id="sweet" oninput="valueChange(this)" /><label for="sweet" class="tasteLabel">甜味<span>1</span></label>
+									<input type="range" min="1" max="5" value="1" id="strong" oninput="valueChange(this)" /><label for="strong" class="tasteLabel">厚實<span>1</span></label>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="list">
-					產品清單
+				<div @* class="container" *@>
+					@* !!!佔位符 (Placeholders) *@
+					<div class="row">
+						@{
+							for (int i = 0; i < 9; i++)
+							{
+								<div class="col-4">
+									<div class="card">
+										<div class="card-imgSelf">
+											<img src="~/img/neko.png" class="card-img-top">
+											<a href="#" class="btn btn-primary" style="display:none">加入購物車</a>
+										</div>
+										<div class="card-body">
+											<h5 class="card-title text-center">產品名稱</h5>
+											<p class="card-text text-center">價格</p>
+										</div>
+									</div>
+								</div>
+							}
+						}
+					</div>
 				</div>
 				<div class="page">
+					@* !!!分頁 (Pagination) *@
 					頁數
 				</div>
 			</div>
@@ -167,11 +191,12 @@
 @* Clickable Dropdown 排序&篩選下拉欄
    When the user clicks on the button,toggle between hiding and showing the dropdown content *@
 <script>
+	// !!!重新判斷標的:點擊時有選單show就關閉該選單
 	// 點擊排序按鈕控制選單開關
 	function sortFunction(test) {
 		test.nextElementSibling.classList.toggle("show");
 	}
-	
+	// !!!重新判斷標的:點擊時有選單show就關閉該選單
 	// 點擊篩選按鈕控制選單開關
 	function filterFunction(test) {
 		test.nextElementSibling.classList.toggle("show");
@@ -181,10 +206,10 @@
 	function closeFunction(test) {
 		$(test).parents('.filterDropdown-content')[0].classList.remove('show');
 	}
-	// 重新判斷標的:點擊時有選單show就關閉該選單
+
 	window.onclick = function (event) {
 		// 排序: 當使用者點擊非排序的按鈕(不包括按鈕選單本人)關閉選單
-		if (!$(event.target).is('.dropbtn')){
+		if (!$(event.target).is('.dropbtn')) {
 			let dropdowns = document.getElementsByClassName("dropdown-content");
 			let i;
 			for (i = 0; i < dropdowns.length; i++) {
@@ -205,11 +230,18 @@
 				}
 			}
 		}
-		}
+	}
 </script>
 @* 當range的value更動時顯示其值在對應的span裡 *@
 <script>
-	function valueChange(test){
+	function valueChange(test) {
 		$(test).next('label').find('span').text($(test).val())
 	}
+</script>
+@* 當hover進卡片的圖片時顯示加入購物車 *@
+@* !!!動畫怪怪的 *@
+<script>
+	$(".card-img-top").hover(function () {
+		$(this).next().slideToggle();
+	})
 </script>
