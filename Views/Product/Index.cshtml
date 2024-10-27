@@ -97,7 +97,7 @@
 					</div>
 				</div>
 				@* Dropdown 篩選 *@
-				@* !! checkbox的樣式 *@
+				@* !! checkbox的樣式 Custom Checkbox range的滑鈕樣式*@
 				<div class="filter row">
 					<div class="col-auto">
 						<div class="dropdown">
@@ -221,7 +221,6 @@
 				</div>
 				@* Card 產品卡 *@
 				<div class="cardContainer">
-					@* !佔位符 (Placeholders) *@
 					<div class="row">
 						@{
 							for (int i = 0; i < 9; i++)
@@ -241,100 +240,6 @@
 							}
 						}
 					</div>
-					@* Modal 產品資訊互動視窗 *@
-					@* !!! 圖片動效 *@
-					<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-						<div class="modal-dialog modal-lg">
-							<div class="modal-content">
-								<div class="modal-header">
-									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-								</div>
-								<div class="modal-body">
-									<div class="container-fluid">
-										<div class="row">
-											<div class="col-6">
-												@* 產品圖 *@
-												<div class="productImg">
-													@* 產品大圖 *@
-													<div>
-														<img src="/img/neko.png" class="mainImg" />
-													</div>
-													@* 產品縮圖 *@
-													<div>
-														<div class="row">
-															<img src="/img/neko.png" class="col-3" />
-															<img src="/img/fish.png" class="col-3" />
-															<img src="/img/pig.png" class="col-3" />
-															<img src="/img/sheep.png" class="col-3" />
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="col-6">
-												@* 產品規格 *@
-												<div class="productFormat">
-													<h1>產品名稱</h1>
-													<p>產地</p>
-													<p>風味</p>
-													<p>處理方式</p>
-													<p>烘培程度</p>
-													<p>價格</p>
-													@* 數量 *@
-													<div class="modalUOMcomponent">
-														@* 在函式裡設定最大最小值 *@
-														<button onclick="modalUOMbtn(this)" name="minus">-</button>
-														<input type="number" value="1" readonly />
-														<button onclick="modalUOMbtn(this)" name="plus">+</button>
-													</div>
-													@* 加入購物車 *@
-													<div class="modalBtn">
-														<button class="btn btn-primary">加入購物車</button>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="row">
-											<div class="productDesc">
-												產品描述
-												<div class="productDescText">
-													<br />
-													<br />
-													<br />
-													<br />
-													<br />
-													<br />
-													<br />
-													<br />
-													<br />
-													<br />
-													<br />
-													<br />
-													<br />
-													<br />
-													<br />
-													<br />
-													<br />
-													<br />
-													<br />
-													<br />
-													<br />
-													<br />
-													<br />
-													<br />
-													<br />
-													<br />
-													<br />
-													<br />
-												</div>
-												<hr />
-												<a href="/Product/Index">more</a>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
 				</div>
 				@* !!!分頁 (Pagination) *@
 				<div class="page">
@@ -343,7 +248,82 @@
 			</div>
 		</div>
 	</div>
-	@* 到頂部 *@
+	@* Modal 產品資訊互動視窗 *@
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-6">
+								@* 產品圖 *@
+								<div class="productImg">
+									@* 產品大圖 *@
+									<div class="bigImg">
+										<div class="bigImgWrapper">
+											<div><img src="/img/neko.png" class="mainImg" /></div>
+											<div><img src="/img/fish.png" class="mainImg" /></div>
+											<div><img src="/img/pig.png" class="mainImg" /></div>
+											<div><img src="/img/sheep.png" class="mainImg" /></div>
+										</div>														
+										<a class="prev" onclick="slideImg(-1)">&#10094;</a>
+										<a class="next" onclick="slideImg(1)">&#10095;</a>
+									</div>
+									@* 產品縮圖 *@
+									<div class="smallImg">
+										<div class="row">
+											<img src="/img/neko.png" class="col-3 subImg" onclick="changeImg(0)"/>
+											<img src="/img/fish.png" class="col-3 subImg" onclick="changeImg(1)" />
+											<img src="/img/pig.png" class="col-3 subImg" onclick="changeImg(2)"/>
+											<img src="/img/sheep.png" class="col-3 subImg" onclick="changeImg(3)"/>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-6">
+								@* 產品規格 *@
+								<div class="productFormat">
+									<h1>產品名稱</h1>
+									<p>產地</p>
+									<p>風味</p>
+									<p>處理方式</p>
+									<p>烘培程度</p>
+									<p>價格</p>
+									@* 數量 *@
+									<div class="modalUOMcomponent">
+										@* 在函式裡設定最大最小值 *@
+										<button onclick="modalUOMbtn(this)" name="minus">-</button>
+										<input type="number" value="1" readonly />
+										<button onclick="modalUOMbtn(this)" name="plus">+</button>
+									</div>
+									@* 加入購物車 *@
+									<div class="modalBtn">
+										<button class="btn btn-primary">加入購物車</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="productDesc">
+								產品描述
+								<div class="productDescText">
+									<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+									<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />				
+								</div>
+								<hr />
+								<a href="/Product/Index">more</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	@* !!!加入購物車清單 *@
+	@* !!!到頂部 *@
 	<div class="top">
 		到頂部
 	</div>
@@ -361,7 +341,6 @@
 		$(test).next('span').text($(test).val());
 		const progress = ($(test).val() - $(test).prop('min')) / ($(test).prop('max') - $(test).prop('min')) * 100;
 		$(test).css('background', 'linear-gradient(to right, green 0%, green ' + progress + '%, #82CFD0 ' + progress + '%, #82CFD0 100%)')
-		console.log(progress)
 	}
 </script>
 @* 產品數量顯示綁定產品數量的按鈕 *@
@@ -384,5 +363,35 @@
 				$(test).closest('.modalUOMcomponent').find('input').val((UOM - 1).toString())
 			}
 		}
+	}
+</script>
+
+@* 點小圖換大圖 *@
+<script>
+	let currentIndexS = 0;
+	const totalImagesS = $('.bigImgWrapper div').length;
+	function changeImg(test){
+		currentIndexS = test
+		const offset = -currentIndexS * (100/totalImagesS);
+		$('.bigImgWrapper').css('transform',`translateX(${offset}%)`)
+	}
+</script>
+@* 點圖示換大圖 *@
+<script>
+	let currentIndex = 0;
+	const totalImages = $('.bigImgWrapper div').length;
+	function slideImg(i){
+		// 更新索引
+		currentIndex += i
+		// 確保索引不超出張數範圍
+		if(currentIndex < 0){
+			currentIndex = totalImages -1; // 返回到最後一張
+		}else if(currentIndex >= totalImages){
+			currentIndex = 0; // 返回到第一張
+		}
+		// 計算移動的距離
+		const offset = -currentIndex * (100/totalImages); // 每次移動 100% 的寬度
+  
+	  $('.bigImgWrapper').css('transform',`translateX(${offset}%)`)
 	}
 </script>

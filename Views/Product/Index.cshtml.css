@@ -186,10 +186,12 @@ li {
     }
 
         .filterTasteItem input[type="range"]::-webkit-slider-thumb {
+            appearance: none;
             position: relative;
-            width: .8rem;
-            height: .8rem;
+            width: 10px;
+            height: 10px;
             background-color: green;
+            /*background: url(/wwwroot/img/neko.png);*/
             border-radius: 50%;
         }
 /*修改Card 產品卡樣式*/
@@ -236,11 +238,63 @@ li {
     margin-right: 3rem;
 }
 
+.bigImg {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+    .bigImg .prev, .bigImg .next {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        width: auto;
+        padding: 8px;
+        margin-top: -22px;
+        color: green;
+        font-weight: bold;
+        font-size: 30px;
+        transition: 200ms ease-out;
+        border-radius: 50%;
+    }
+
+    .bigImg .next {
+        right: 0;
+        border-radius: 50%;
+    }
+
+        .bigImg .prev:hover, .bigImg .next:hover {
+            color: lightgreen;
+        }
+
+    .bigImg .bigImgWrapper {
+        display: flex;
+        width: 400%;
+        transition: transform 200ms ease-out;
+    }
+
+.bigImgWrapper div {
+    width: 100%;
+    height: auto;
+}
+
 .mainImg {
     width: 100%;
     height: auto;
-    object-fit: contain;
 }
+
+.smallImg {
+    margin-top: 1rem;
+}
+
+.subImg {
+    cursor: pointer;
+}
+
+    .subImg:hover {
+        outline: 2px solid lightgreen;
+        border-radius: 0.25rem;
+    }
 
 .productFormat p {
     margin-bottom: 0;
