@@ -1,0 +1,343 @@
+﻿/*!!!整理範圍*/
+a {
+    color: black;
+    text-decoration: none;
+    display: block;
+}
+
+    a:hover {
+        color: #6c757d;
+    }
+
+button:hover {
+    color: #6c757d;
+}
+
+li {
+    list-style: none;
+    cursor: pointer;
+}
+
+    li:hover {
+        color: #6c757d;
+    }
+/*修改bootstrap的 .row > * 樣式*/
+.row > * {
+    padding-top: calc(var(--bs-gutter-x) * .5);
+    padding-bottom: calc(var(--bs-gutter-x) * .5);
+}
+/*修改Sidebar 側邊欄的樣式(accordion)*/
+.accordion-body {
+    padding: 0 0 0 2rem;
+}
+
+    .accordion-body a {
+        padding-bottom: 1rem;
+    }
+
+.accordion-item {
+    border: none;
+}
+
+.accordion-button {
+    color: black;
+}
+
+    .accordion-button:not(.collapsed) {
+        background-color: inherit;
+        box-shadow: none;
+    }
+
+        .accordion-button:not(.collapsed)::after {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+        }
+
+    .accordion-button:focus {
+        border-color: inherit;
+        box-shadow: inherit;
+    }
+/*數量和排序左右不留空*/
+.numSort {
+    margin-left: 0;
+    margin-right: 0;
+}
+/*修改Dropdown 排序的樣式*/
+.dropdown-toggle {
+    display: flex;
+    align-items: center;
+}
+
+    .dropdown-toggle:not(.show)::after {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+        transform: rotate(-180deg);
+    }
+
+    .dropdown-toggle::after {
+        flex-shrink: 0;
+        width: 1.25rem;
+        height: 1.25rem;
+        margin-left: 1rem;
+        content: "";
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        border: none;
+        transition: transform 0.2s ease-in-out;
+    }
+
+.dropdown-item:hover, .dropdown-item:focus {
+    color: #6c757d;
+    background-color: inherit;
+}
+/*篩選欄左右不留空*/
+.filter {
+    margin-left: 0;
+    margin-right: 0;
+}
+/*修改Dropdown 篩選的樣式*/
+.dropdown .btn {
+    padding: 0;
+    border: 0;
+    margin-left: 1rem;
+}
+
+    .dropdown .btn:focus {
+        box-shadow: none;
+    }
+
+.dropdown .btn-primary {
+    color: black;
+    background-color: inherit;
+}
+
+.dropdown .btn-close {
+    transition: all 100ms ease-out;
+}
+
+    .dropdown .btn-close:hover {
+        transition: all 200ms ease-out;
+    }
+
+    .dropdown .btn-close:focus {
+        box-shadow: none;
+        opacity: 0.75;
+    }
+
+.filterPriceItem, .filterBakingItem, .filterProcedureItem, .filterTasteItem {
+    padding-top: 1rem;
+}
+
+    .filterPriceItem input {
+        border: 1px solid rgba(0,0,0,.15);
+        border-radius: .25rem;
+        max-width: 4rem;
+        text-align: center;
+    }
+
+        .filterPriceItem input[type="text"]:focus {
+            outline: 0;
+        }
+
+        .filterPriceItem input[type="submit"] {
+            margin-left: 4rem;
+            background-color: inherit;
+        }
+
+            .filterPriceItem input[type="submit"]:hover {
+                border: 1px solid green;
+                transition: 150ms ease-out;
+                background-color: green;
+                color: white;
+            }
+
+.dropdown-item.filterBakingItem:hover, .dropdown-item.filterProcedureItem:hover, .dropdown-item.filterTasteItem:hover {
+    color: black;
+}
+
+.filterBakingItem div, .filterProcedureItem div, .filterTasteItem div {
+    display: flex;
+    margin-bottom: 1rem;
+    align-items: center;
+}
+
+.filterBakingItem input, .filterProcedureItem input {
+    cursor: pointer;
+}
+
+.filterBakingItem label, .filterProcedureItem label {
+    margin-left: 1rem;
+    cursor: pointer;
+}
+
+.filterTasteItem {
+    cursor: default;
+}
+
+    .filterTasteItem input[type="range"],
+    .filterTasteItem input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+    }
+
+    .filterTasteItem input[type="range"] {
+        cursor: pointer;
+        margin: 0 1rem;
+        height: .2rem;
+        border-radius: 0.25rem;
+        background: #82CFD0;
+    }
+
+        .filterTasteItem input[type="range"]::-webkit-slider-thumb {
+            position: relative;
+            width: .8rem;
+            height: .8rem;
+            background-color: green;
+            border-radius: 50%;
+        }
+/*修改Card 產品卡樣式*/
+.cardImgBody {
+    position: relative;
+}
+
+    .cardImgBody .btn {
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        transform: translate(-50%,100%);
+        width: 100%;
+        border-radius: 0;
+        opacity: 0;
+        transition: all 200ms ease-out;
+        background-color: #2f6919;
+        border-color: #2f6919;
+        margin: 0;
+        color: white;
+        padding: .5rem 0;
+    }
+
+        .cardImgBody .btn:focus {
+            box-shadow: none;
+        }
+
+    .cardImgBody .btn-primary {
+        background-color: #2f6919;
+        border-color: #2f6919;
+    }
+
+.card:hover .btn {
+    transform: translate(-50%);
+    opacity: 1;
+    transition: all 200ms ease-out;
+}
+/*修改Modal 產品資訊互動視窗樣式*/
+.modal-header {
+    border-bottom: none;
+}
+
+.productImg {
+    margin-right: 3rem;
+}
+
+.mainImg {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.productFormat p {
+    margin-bottom: 0;
+    padding-left: 1rem;
+    padding-bottom: 1rem;
+}
+
+.productFormat h1 {
+    padding-bottom: 0;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(0,0,0,.15)
+}
+
+.modalUOMcomponent {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 1rem;
+}
+
+    .modalUOMcomponent button[name="minus"] {
+        padding: 0;
+        width: 2rem;
+        height: 2rem;
+        background-color: inherit;
+        border: 1px solid rgba(0,0,0,.15);
+        border-radius: 0.25rem 0 0 0.25rem;
+    }
+
+    .modalUOMcomponent button[name="plus"] {
+        padding: 0;
+        width: 2rem;
+        height: 2rem;
+        background-color: inherit;
+        border: 1px solid rgba(0,0,0,.15);
+        border-radius: 0 0.25rem 0.25rem 0;
+    }
+
+
+    .modalUOMcomponent input[type="number"] {
+        max-width: 8rem;
+        border: 1px solid rgba(0,0,0,.15);
+        border-radius: 0;
+        cursor: default;
+        text-align: center;
+    }
+
+        .modalUOMcomponent input[type="number"]:focus {
+            outline: none;
+        }
+
+.modalBtn {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 1rem;
+}
+
+    .modalBtn button {
+        color: white;
+    }
+
+    .modalBtn .btn-primary {
+        background-color: green;
+        border-color: green;
+        width: 12rem;
+        box-shadow: none;
+    }
+
+.productDesc {
+    border-top: 1px solid rgba(0,0,0,.15);
+}
+
+    .productDesc hr {
+        width: 20rem;
+        margin: 0 auto;
+    }
+
+    .productDesc a {
+        text-align: center;
+        transition: 100ms ease-out;
+    }
+
+        .productDesc a:hover {
+            color: #6c757d;
+            transition: 100ms ease-out;
+        }
+/*頁數*/
+.page {
+    background-color: lightblue;
+    text-align: center;
+}
+/*到頂部*/
+.top {
+    background-color: lightblue;
+    width: 5%;
+    aspect-ratio: 1/1;
+    position: fixed;
+    bottom: 1%;
+    right: 1%;
+    z-index: 1;
+}

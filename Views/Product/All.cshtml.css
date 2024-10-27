@@ -1,8 +1,11 @@
-﻿/*所有的a標籤樣式都不要有底線*/
-/*但是設定無效*/
+﻿/*所有的a標籤樣式都不要有底線，顏色統一*/
 a {
+    color: black; 
     text-decoration: none;
 }
+    a:hover {
+        color: #818181;
+    }
 /*修改bootstrap的 .row > * 樣式*/
 .row > * {
     padding-top: calc(var(--bs-gutter-x) * .5);
@@ -44,101 +47,47 @@ a {
     margin-left: 0;
     margin-right: 0;
 }
-/*篩選欄*/
+/*篩選欄左右不留空*/
 .filter {
     margin-left: 0;
     margin-right: 0;
 }
-/*Clickable Dropdown*/
-/* Dropdown Button */
-.dropbtn, .filterDropbtn {
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-    background: none;
-}
-
-    /* Dropdown button on hover & focus */
-    .dropbtn:hover, .filterDropbtn:hover {
-        color: #818181;
-    }
-
-/* The container <div> - needed to position the dropdown content */
-.dropdown, .filterDropdown {
-    position: relative;
-    display: inline-block;
-}
-
-/* Dropdown Content (Hidden by Default) */
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: max-content;
-    z-index: 1;
-}
-    /* Links inside the dropdown */
-    .dropdown-content a {
-        color: black;
-        padding: 12px 16px;
-        text-decoration: none;
-        display: block;
-    }
-
-.filterDropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    padding: 12px;
-    min-width: max-content;
-    z-index: 1;
-}
-
-    .filterDropdown-content * {
-    }
-
-    .filterDropdown-content button {
-        border: 0;
-        padding-bottom: 12px;
-    }
-
-    .filterDropdown-content input[type="text"] {
-        width: 3em;
-        border: solid,1px,#818181;
-        border-radius: 3px;
-    }
-
-    .filterDropdown-content input[type="range"] {
-        display: block;
-    }
-
-.tasteLabel {
-    display: flex;
-    justify-content: space-evenly;
-}
-/* Change color of dropdown links on hover */
-.dropdown-content a:hover {
-    background-color: #ddd;
-}
-
-/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
-.show {
-    display: block;
+.dropdown{
+    display:inline;
 }
 
 /*卡片的a標籤*/
 .card-imgSelf {
     position: relative;
 }
-
-    .card-imgSelf a {
+    .card-imgSelf .btn {
         position: absolute;
-        bottom: 0;
         left: 50%;
-        transform: translateX(-50%);
-        width:100%;
-        border-radius:0;
+        bottom: 0;
+        transform: translate(-50%,100%);
+        width: 100%;
+        border-radius: 0;
+        opacity: 0;
+        transition: all 200ms ease-out;
     }
+        .card-imgSelf .btn:focus {
+            box-shadow: none;
+        }
+    .card-imgSelf .btn-primary {
+        background-color: #2f6919;
+        border-color: #2f6919;
+    }
+/*經過卡片範圍按鈕浮現出來的動畫效果*/
+.card:hover .btn {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translate(-50%);
+    width: 100%;
+    border-radius: 0;
+    opacity: 1;
+    transition: all 250ms ease-out;
+}
 /*頁數*/
 .page {
     background-color: lightblue;
@@ -150,6 +99,7 @@ a {
     width: 5%;
     aspect-ratio: 1/1;
     position: fixed;
-    bottom: 100px;
-    right: 5%;
+    bottom: 1%;
+    right: 1%;
+    z-index:1;
 }
