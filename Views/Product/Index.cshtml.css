@@ -380,6 +380,11 @@ li {
             color: #6c757d;
             transition: 100ms ease-out;
         }
+/*購物車卡片*/
+.cart .card-header {
+    display: flex;
+    flex-direction: row-reverse;
+}
 /*頁數*/
 .page {
     background-color: lightblue;

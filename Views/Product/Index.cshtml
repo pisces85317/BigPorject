@@ -97,7 +97,7 @@
 					</div>
 				</div>
 				@* Dropdown 篩選 *@
-				@* !! checkbox的樣式 Custom Checkbox range的滑鈕樣式*@
+				@* !! checkbox的樣式 Custom Checkbox / range的滑鈕樣式*@
 				<div class="filter row">
 					<div class="col-auto">
 						<div class="dropdown">
@@ -268,17 +268,17 @@
 											<div><img src="/img/fish.png" class="mainImg" /></div>
 											<div><img src="/img/pig.png" class="mainImg" /></div>
 											<div><img src="/img/sheep.png" class="mainImg" /></div>
-										</div>														
+										</div>
 										<a class="prev" onclick="slideImg(-1)">&#10094;</a>
 										<a class="next" onclick="slideImg(1)">&#10095;</a>
 									</div>
 									@* 產品縮圖 *@
 									<div class="smallImg">
 										<div class="row">
-											<img src="/img/neko.png" class="col-3 subImg" onclick="changeImg(0)"/>
+											<img src="/img/neko.png" class="col-3 subImg" onclick="changeImg(0)" />
 											<img src="/img/fish.png" class="col-3 subImg" onclick="changeImg(1)" />
-											<img src="/img/pig.png" class="col-3 subImg" onclick="changeImg(2)"/>
-											<img src="/img/sheep.png" class="col-3 subImg" onclick="changeImg(3)"/>
+											<img src="/img/pig.png" class="col-3 subImg" onclick="changeImg(2)" />
+											<img src="/img/sheep.png" class="col-3 subImg" onclick="changeImg(3)" />
 										</div>
 									</div>
 								</div>
@@ -311,7 +311,7 @@
 								產品描述
 								<div class="productDescText">
 									<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-									<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />				
+									<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 								</div>
 								<hr />
 								<a href="/Product/Index">more</a>
@@ -323,6 +323,22 @@
 		</div>
 	</div>
 	@* !!!加入購物車清單 *@
+	<div class="card cart">
+		<div class="card-header">
+			<button type="button" class="btn-close" aria-label="Close"></button>
+		</div>
+		<div class="row g-0">
+			<div class="col-4">
+				<img src="~/img/fish.png" class="img-fluid rounded-start" />
+			</div>
+			<div class="col-8">
+				<div class="card-body">
+					<h5 class="card-title">產品名稱</h5>
+					<p class="card-text"><i class="cartUOM">數量</i>x<i class="cartPrice">NT.價格</i></p>
+				</div>
+			</div>
+		</div>
+	</div>
 	@* !!!到頂部 *@
 	<div class="top">
 		到頂部
@@ -370,28 +386,28 @@
 <script>
 	let currentIndexS = 0;
 	const totalImagesS = $('.bigImgWrapper div').length;
-	function changeImg(test){
+	function changeImg(test) {
 		currentIndexS = test
-		const offset = -currentIndexS * (100/totalImagesS);
-		$('.bigImgWrapper').css('transform',`translateX(${offset}%)`)
+		const offset = -currentIndexS * (100 / totalImagesS);
+		$('.bigImgWrapper').css('transform', `translateX(${offset}%)`)
 	}
 </script>
 @* 點圖示換大圖 *@
 <script>
 	let currentIndex = 0;
 	const totalImages = $('.bigImgWrapper div').length;
-	function slideImg(i){
+	function slideImg(i) {
 		// 更新索引
 		currentIndex += i
 		// 確保索引不超出張數範圍
-		if(currentIndex < 0){
-			currentIndex = totalImages -1; // 返回到最後一張
-		}else if(currentIndex >= totalImages){
+		if (currentIndex < 0) {
+			currentIndex = totalImages - 1; // 返回到最後一張
+		} else if (currentIndex >= totalImages) {
 			currentIndex = 0; // 返回到第一張
 		}
 		// 計算移動的距離
-		const offset = -currentIndex * (100/totalImages); // 每次移動 100% 的寬度
-  
-	  $('.bigImgWrapper').css('transform',`translateX(${offset}%)`)
+		const offset = -currentIndex * (100 / totalImages); // 每次移動 100% 的寬度
+
+		$('.bigImgWrapper').css('transform', `translateX(${offset}%)`)
 	}
 </script>
