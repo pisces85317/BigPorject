@@ -191,7 +191,7 @@ li {
             width: 10px;
             height: 10px;
             background-color: green;
-            /*background: url(/wwwroot/img/neko.png);*/
+            /*background: url(/img/neko.png);*/
             border-radius: 50%;
         }
 /*修改Card 產品卡樣式*/
@@ -233,6 +233,10 @@ li {
 .modal-header {
     border-bottom: none;
 }
+
+    .modal-header .btn-close {
+        box-shadow: none;
+    }
 
 .productImg {
     margin-right: 3rem;
@@ -314,7 +318,7 @@ li {
     padding-bottom: 1rem;
 }
 
-    .modalUOMcomponent button[name="minus"] {
+    .modalUOMcomponent button[name="minus"], .cartBtn button[name="minus"] {
         padding: 0;
         width: 2rem;
         height: 2rem;
@@ -323,7 +327,7 @@ li {
         border-radius: 0.25rem 0 0 0.25rem;
     }
 
-    .modalUOMcomponent button[name="plus"] {
+    .modalUOMcomponent button[name="plus"], .cartBtn button[name="plus"] {
         padding: 0;
         width: 2rem;
         height: 2rem;
@@ -341,7 +345,7 @@ li {
         text-align: center;
     }
 
-        .modalUOMcomponent input[type="number"]:focus {
+        .modalUOMcomponent input[type="number"]:focus, .cartBtn input[type="number"]:focus {
             outline: none;
         }
 
@@ -381,22 +385,95 @@ li {
             transition: 100ms ease-out;
         }
 /*購物車卡片*/
-.cart .card-header {
+.cart {
+    width: 25%;
+    position: relative;
+}
+
+.cartImg {
+    margin: 1rem 0 0 1rem;
+}
+
+.cart .btn-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: .25rem;
+    box-shadow: none;
+    opacity: .5;
+}
+
+    .cart .btn-close:hover {
+        opacity: 0.75;
+        transition: 100ms ease-out;
+    }
+
+.cartBtn input[type="number"] {
+    width: 3rem;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 0;
+    cursor: default;
+    text-align: center;
+    padding-left: 1rem;
+}
+
+.cartText {
+    margin-top: .5rem;
+}
+
+.cartBtn {
     display: flex;
-    flex-direction: row-reverse;
+    justify-content: center;
+    margin: 1rem 0;
 }
 /*頁數*/
 .page {
-    background-color: lightblue;
+    background-color: #2E724A;
     text-align: center;
+    margin-top: 20px;
 }
+
+    .page ul {
+        display: inline-block;
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+
+    .page li {
+        display: inline-block;
+        margin: 0 5px;
+        color: white;
+    }
+
+        .page li a {
+            display: inline-block;
+            padding: 5px 10px;
+            text-decoration: none;
+            background-color: #E0732A;
+            color: white;
+        }
+
+        .page li.active a {
+            background-color: white;
+            color: #333;
+        }
 /*到頂部*/
-.top {
-    background-color: lightblue;
-    width: 5%;
+.topbtn {
+    background-color: #E0732A;
+    width: 3rem;
     aspect-ratio: 1/1;
-    position: fixed;
-    bottom: 1%;
-    right: 1%;
+    border-radius: 50%;
+    border: none;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     z-index: 1;
+    position: fixed;
+    bottom: 3rem;
+    right: 3rem;
+    display: none;
 }
+
+    .topbtn:hover {
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        transition: 200ms ease-out;
+    }

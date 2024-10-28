@@ -1,413 +1,502 @@
 ﻿<script src="~/lib/jquery/dist/jquery.js"></script>
 <div class="productList">
-	@* Breadcrumb 麵包屑 *@
-	<nav aria-label="breadcrumb">
-		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="/Home/Index">首頁</a></li>
-			<li class="breadcrumb-item active" aria-current="page">所有商品</li>
-		</ol>
-	</nav>
-	<div class="container">
-		<div class="row">
-			@* Sidebar 側邊欄 *@
-			<div class="col-3">
-				<div class="accordion" id="accordionSidebar">
-					<div class="accordion-item">
-						<a href="/Product/Index" class="accordion-header accordion-button">
-							所有商品
-						</a>
-					</div>
-					<div class="accordion-item">
-						<h2 class="accordion-header" id="headingOne">
-							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-								產區
-							</button>
-						</h2>
-						<div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionSidebar">
-							<div class="accordion-body">
-								<a href="#">巴西</a>
-								<a href="#">哥倫比亞</a>
-								<a href="#">夏威夷</a>
-								<a href="#">衣索比亞</a>
-								<a href="#">肯亞</a>
-								<a href="#">蘇門答臘</a>
-							</div>
-						</div>
-					</div>
-					<div class="accordion-item">
-						<h2 class="accordion-header" id="headingTwo">
-							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-								風味
-							</button>
-						</h2>
-						<div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionSidebar">
-							<div class="accordion-body">
-								<a href="#">花香</a>
-								<a href="#">果香</a>
-								<a href="#">巧克力</a>
-								<a href="#">紅酒</a>
-							</div>
-						</div>
-					</div>
-					<div class="accordion-item">
-						<a href="/Product/Index" class="accordion-header accordion-button">
-							耳掛系列
-						</a>
-					</div>
-				</div>
-			</div>
-			<div class="col-9">
-				@* 數量和排序 *@
-				<div class="numSort row">
-					@* 數量 *@
-					<div class="col">
-						查詢結果的數量
-					</div>
-					@* Dropdown 排序 *@
-					<div class="col-auto">
-						<div class="d-inline-flex">
-							<div class="dropdown">
-								<button class="btn btn-primary dropdown-toggle"
-										type="button"
-										id="dropdownMenuButtonPriceSort"
-										data-bs-toggle="dropdown"
-										aria-expanded="false">
-									排序
-								</button>
-								<ul class="dropdown-menu" aria-labelledby="dropdownMenuButtonPriceSort">
-									<li class="dropdown-item">價格:由低到高</li>
-									<li class="dropdown-item">價格:由高到低</li>
-								</ul>
-							</div>
-							<div class="dropdown">
-								<button class="btn btn-primary dropdown-toggle"
-										type="button"
-										id="dropdownMenuButtonItem"
-										data-bs-toggle="dropdown"
-										aria-expanded="false">
-									每頁顯示12個
-								</button>
-								<ul class="dropdown-menu" aria-labelledby="dropdownMenuButtonItem">
-									<li class="dropdown-item">每頁顯示12個</li>
-									<li class="dropdown-item">每頁顯示18個</li>
-									<li class="dropdown-item">每頁顯示24個</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-				@* Dropdown 篩選 *@
-				@* !! checkbox的樣式 Custom Checkbox / range的滑鈕樣式*@
-				<div class="filter row">
-					<div class="col-auto">
-						<div class="dropdown">
-							<button class="btn btn-primary dropdown-toggle"
-									type="button"
-									id="dropdownMenuButtonPrice"
-									data-bs-toggle="dropdown"
-									data-bs-auto-close="outside"
-									aria-expanded="false">
-								價格
-							</button>
-							<div class="dropdown-menu" aria-labelledby="dropdownMenuButtonPrice">
-								<div class="dropdown-item" style="display:flex;justify-content:right">
-									<button type="button" class="btn-close" aria-label="Close" onclick="filterBtnClose(this)"></button>
-								</div>
-								<div class="dropdown-item filterPriceItem">
-									<input type="text" value="min" />
-									<span> - </span>
-									<input type="text" value="max" />
-									<input type="submit" value="Go" onclick="filterBtnClose(this)" />
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-auto">
-						<div class="dropdown">
-							<button class="btn btn-primary dropdown-toggle"
-									type="button"
-									id="dropdownMenuButtonBaking"
-									data-bs-toggle="dropdown"
-									data-bs-auto-close="outside"
-									aria-expanded="false">
-								烘培程度
-							</button>
-							<div class="dropdown-menu" aria-labelledby="dropdownMenuButtonBaking">
-								<div class="dropdown-item" style="display:flex;justify-content:right">
-									<button type="button" class="btn-close" aria-label="Close" onclick="filterBtnClose(this)"></button>
-								</div>
-								<div class="dropdown-item filterBakingItem">
-									<div>
-										<input type="checkbox" id="L" /><label for="L">淺</label>
-									</div>
-									<div>
-										<input type="checkbox" id="LM" /><label for="LM">中淺</label>
-									</div>
-									<div>
-										<input type="checkbox" id="M" /><label for="M">中</label>
-									</div>
-									<div>
-										<input type="checkbox" id="MH" /><label for="MH">中深</label>
-									</div>
-									<div>
-										<input type="checkbox" id="H" /><label for="H">深</label>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-auto">
-						<div class="dropdown">
-							<button class="btn btn-primary dropdown-toggle"
-									type="button"
-									id="dropdownMenuButtonProcedure"
-									data-bs-toggle="dropdown"
-									data-bs-auto-close="outside"
-									aria-expanded="false">
-								處理方式
-							</button>
-							<div class="dropdown-menu" aria-labelledby="dropdownMenuButtonProcedure">
-								<div class="dropdown-item" style="display:flex;justify-content:right">
-									<button type="button" class="btn-close" aria-label="Close" onclick="filterBtnClose(this)"></button>
-								</div>
-								<div class="dropdown-item filterProcedureItem">
-									<div>
-										<input type="checkbox" id="Wet" /><label for="Wet">水洗</label>
-									</div>
-									<div>
-										<input type="checkbox" id="Dry" /><label for="Dry">日曬</label>
-									</div>
-									<div>
-										<input type="checkbox" id="Honey" /><label for="Honey">蜜處理</label>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-auto">
-						<div class="dropdown">
-							<button class="btn btn-primary dropdown-toggle"
-									type="button"
-									id="dropdownMenuButtonTaste"
-									data-bs-toggle="dropdown"
-									data-bs-auto-close="outside"
-									aria-expanded="false">
-								味道
-							</button>
-							<div class="dropdown-menu" aria-labelledby="dropdownMenuButtonTaste">
-								<div class="dropdown-item" style="display:flex;justify-content:right">
-									<button type="button" class="btn-close" aria-label="Close" onclick="filterBtnClose(this)"></button>
-								</div>
-								<div class="dropdown-item filterTasteItem">
-									<div>
-										香氣<input type="range" min="1" max="5" value="1" id="fragrance" oninput="valueChange(this)" /><span>1</span>
-									</div>
-									<div>
-										酸味<input type="range" min="1" max="5" value="1" id="sour" oninput="valueChange(this)" /><span>1</span>
-									</div>
-									<div>
-										苦味<input type="range" min="1" max="5" value="1" id="bitter" oninput="valueChange(this)" /><span>1</span>
-									</div>
-									<div>
-										甜味<input type="range" min="1" max="5" value="1" id="sweet" oninput="valueChange(this)" /><span>1</span>
-									</div>
-									<div>
-										厚實<input type="range" min="1" max="5" value="1" id="strong" oninput="valueChange(this)" /><span>1</span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				@* Card 產品卡 *@
-				<div class="cardContainer">
-					<div class="row">
-						@{
-							for (int i = 0; i < 9; i++)
-							{
-								<div class="col-4">
-									<div class="card">
-										<div class="cardImgBody">
-											<a href="/Product/Index"><img src="~/img/neko.png" class="card-img-top"></a>
-											<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">加入購物車</button>
-										</div>
-										<div class="card-body">
-											<h5 class="card-title text-center">產品名稱</h5>
-											<p class="card-text text-center">價格</p>
-										</div>
-									</div>
-								</div>
-							}
-						}
-					</div>
-				</div>
-				@* !!!分頁 (Pagination) *@
-				<div class="page">
-					頁數
-				</div>
-			</div>
-		</div>
-	</div>
-	@* Modal 產品資訊互動視窗 *@
-	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<div class="container-fluid">
-						<div class="row">
-							<div class="col-6">
-								@* 產品圖 *@
-								<div class="productImg">
-									@* 產品大圖 *@
-									<div class="bigImg">
-										<div class="bigImgWrapper">
-											<div><img src="/img/neko.png" class="mainImg" /></div>
-											<div><img src="/img/fish.png" class="mainImg" /></div>
-											<div><img src="/img/pig.png" class="mainImg" /></div>
-											<div><img src="/img/sheep.png" class="mainImg" /></div>
-										</div>
-										<a class="prev" onclick="slideImg(-1)">&#10094;</a>
-										<a class="next" onclick="slideImg(1)">&#10095;</a>
-									</div>
-									@* 產品縮圖 *@
-									<div class="smallImg">
-										<div class="row">
-											<img src="/img/neko.png" class="col-3 subImg" onclick="changeImg(0)" />
-											<img src="/img/fish.png" class="col-3 subImg" onclick="changeImg(1)" />
-											<img src="/img/pig.png" class="col-3 subImg" onclick="changeImg(2)" />
-											<img src="/img/sheep.png" class="col-3 subImg" onclick="changeImg(3)" />
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-6">
-								@* 產品規格 *@
-								<div class="productFormat">
-									<h1>產品名稱</h1>
-									<p>產地</p>
-									<p>風味</p>
-									<p>處理方式</p>
-									<p>烘培程度</p>
-									<p>價格</p>
-									@* 數量 *@
-									<div class="modalUOMcomponent">
-										@* 在函式裡設定最大最小值 *@
-										<button onclick="modalUOMbtn(this)" name="minus">-</button>
-										<input type="number" value="1" readonly />
-										<button onclick="modalUOMbtn(this)" name="plus">+</button>
-									</div>
-									@* 加入購物車 *@
-									<div class="modalBtn">
-										<button class="btn btn-primary">加入購物車</button>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="productDesc">
-								產品描述
-								<div class="productDescText">
-									<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-									<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-								</div>
-								<hr />
-								<a href="/Product/Index">more</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	@* !!!加入購物車清單 *@
-	<div class="card cart">
-		<div class="card-header">
-			<button type="button" class="btn-close" aria-label="Close"></button>
-		</div>
-		<div class="row g-0">
-			<div class="col-4">
-				<img src="~/img/fish.png" class="img-fluid rounded-start" />
-			</div>
-			<div class="col-8">
-				<div class="card-body">
-					<h5 class="card-title">產品名稱</h5>
-					<p class="card-text"><i class="cartUOM">數量</i>x<i class="cartPrice">NT.價格</i></p>
-				</div>
-			</div>
-		</div>
-	</div>
-	@* !!!到頂部 *@
-	<div class="top">
-		到頂部
-	</div>
+    @* Breadcrumb 麵包屑 *@
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/Home/Index">首頁</a></li>
+            <li class="breadcrumb-item active" aria-current="page">所有商品</li>
+        </ol>
+    </nav>
+    <div class="container">
+        <div class="row">
+            @* Sidebar 側邊欄 *@
+            <div class="col-3">
+                <div class="accordion" id="accordionSidebar">
+                    <div class="accordion-item">
+                        <a href="/Product/Index" class="accordion-header accordion-button">
+                            所有商品
+                        </a>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                產區
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionSidebar">
+                            <div class="accordion-body">
+                                <a href="#">巴西</a>
+                                <a href="#">哥倫比亞</a>
+                                <a href="#">夏威夷</a>
+                                <a href="#">衣索比亞</a>
+                                <a href="#">肯亞</a>
+                                <a href="#">蘇門答臘</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                風味
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionSidebar">
+                            <div class="accordion-body">
+                                <a href="#">花香</a>
+                                <a href="#">果香</a>
+                                <a href="#">巧克力</a>
+                                <a href="#">紅酒</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <a href="/Product/Index" class="accordion-header accordion-button">
+                            耳掛系列
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-9">
+                @* 數量和排序 *@
+                <div class="numSort row">
+                    @* 數量 *@
+                    <div class="col">
+                        查詢結果的數量
+                    </div>
+                    @* Dropdown 排序 *@
+                    <div class="col-auto">
+                        <div class="d-inline-flex">
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle"
+                                        type="button"
+                                        id="dropdownMenuButtonPriceSort"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                    排序
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButtonPriceSort">
+                                    <li class="dropdown-item">價格:由低到高</li>
+                                    <li class="dropdown-item">價格:由高到低</li>
+                                </ul>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle"
+                                        type="button"
+                                        id="dropdownMenuButtonItem"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                    每頁顯示12個
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButtonItem">
+                                    <li class="dropdown-item" onclick="showItemPerPage(12)">每頁顯示12個</li>
+                                    <li class="dropdown-item" onclick="showItemPerPage(18)">每頁顯示18個</li>
+                                    <li class="dropdown-item" onclick="showItemPerPage(24)">每頁顯示24個</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @* Dropdown 篩選 *@
+                @* !! checkbox的樣式 Custom Checkbox / range的滑鈕樣式*@
+                <div class="filter row">
+                    <div class="col-auto">
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle"
+                                    type="button"
+                                    id="dropdownMenuButtonPrice"
+                                    data-bs-toggle="dropdown"
+                                    data-bs-auto-close="outside"
+                                    aria-expanded="false">
+                                價格
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonPrice">
+                                <div class="dropdown-item" style="display:flex;justify-content:right">
+                                    <button type="button" class="btn-close" aria-label="Close" onclick="filterBtnClose(this)"></button>
+                                </div>
+                                <div class="dropdown-item filterPriceItem">
+                                    <input type="text" value="min" />
+                                    <span> - </span>
+                                    <input type="text" value="max" />
+                                    <input type="submit" value="Go" onclick="filterBtnClose(this)" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle"
+                                    type="button"
+                                    id="dropdownMenuButtonBaking"
+                                    data-bs-toggle="dropdown"
+                                    data-bs-auto-close="outside"
+                                    aria-expanded="false">
+                                烘培程度
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonBaking">
+                                <div class="dropdown-item" style="display:flex;justify-content:right">
+                                    <button type="button" class="btn-close" aria-label="Close" onclick="filterBtnClose(this)"></button>
+                                </div>
+                                <div class="dropdown-item filterBakingItem">
+                                    <div>
+                                        <input type="checkbox" id="L" /><label for="L">淺</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" id="LM" /><label for="LM">中淺</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" id="M" /><label for="M">中</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" id="MH" /><label for="MH">中深</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" id="H" /><label for="H">深</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle"
+                                    type="button"
+                                    id="dropdownMenuButtonProcedure"
+                                    data-bs-toggle="dropdown"
+                                    data-bs-auto-close="outside"
+                                    aria-expanded="false">
+                                處理方式
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonProcedure">
+                                <div class="dropdown-item" style="display:flex;justify-content:right">
+                                    <button type="button" class="btn-close" aria-label="Close" onclick="filterBtnClose(this)"></button>
+                                </div>
+                                <div class="dropdown-item filterProcedureItem">
+                                    <div>
+                                        <input type="checkbox" id="Wet" /><label for="Wet">水洗</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" id="Dry" /><label for="Dry">日曬</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" id="Honey" /><label for="Honey">蜜處理</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle"
+                                    type="button"
+                                    id="dropdownMenuButtonTaste"
+                                    data-bs-toggle="dropdown"
+                                    data-bs-auto-close="outside"
+                                    aria-expanded="false">
+                                味道
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonTaste">
+                                <div class="dropdown-item" style="display:flex;justify-content:right">
+                                    <button type="button" class="btn-close" aria-label="Close" onclick="filterBtnClose(this)"></button>
+                                </div>
+                                <div class="dropdown-item filterTasteItem">
+                                    <div>
+                                        香氣<input type="range" min="1" max="5" value="1" id="fragrance" oninput="valueChange(this)" /><span>1</span>
+                                    </div>
+                                    <div>
+                                        酸味<input type="range" min="1" max="5" value="1" id="sour" oninput="valueChange(this)" /><span>1</span>
+                                    </div>
+                                    <div>
+                                        苦味<input type="range" min="1" max="5" value="1" id="bitter" oninput="valueChange(this)" /><span>1</span>
+                                    </div>
+                                    <div>
+                                        甜味<input type="range" min="1" max="5" value="1" id="sweet" oninput="valueChange(this)" /><span>1</span>
+                                    </div>
+                                    <div>
+                                        厚實<input type="range" min="1" max="5" value="1" id="strong" oninput="valueChange(this)" /><span>1</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @* Card 產品卡 *@
+                <div class="cardContainer">
+                    <div class="row">
+                        @{
+                            int totalItems = 9;
+                            for (int i = 0; i < totalItems; i++)
+                            {
+                                <div class="col-4">
+                                    <div class="card">
+                                        <div class="cardImgBody">
+                                            <a href="/Product/Index"><img src="~/img/neko.png" class="card-img-top"></a>
+                                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">加入購物車</button>
+                                        </div>
+                                        <div class="card-body">
+                                            <h5 class="card-title text-center">產品名稱</h5>
+                                            <p class="card-text text-center">價格</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+                @* !!!分頁 (Pagination) *@
+                <div class="page">
+                    <ul>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    @* Modal 產品資訊互動視窗 *@
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-6">
+                                @* 產品圖 *@
+                                <div class="productImg">
+                                    @* 產品大圖 *@
+                                    <div class="bigImg">
+                                        <div class="bigImgWrapper">
+                                            <div><img src="/img/neko.png" class="mainImg" /></div>
+                                            <div><img src="/img/fish.png" class="mainImg" /></div>
+                                            <div><img src="/img/pig.png" class="mainImg" /></div>
+                                            <div><img src="/img/sheep.png" class="mainImg" /></div>
+                                        </div>
+                                        <a class="prev" onclick="slideImg(-1)">&#10094;</a>
+                                        <a class="next" onclick="slideImg(1)">&#10095;</a>
+                                    </div>
+                                    @* 產品縮圖 *@
+                                    <div class="smallImg">
+                                        <div class="row">
+                                            <img src="/img/neko.png" class="col-3 subImg" onclick="changeImg(0)" />
+                                            <img src="/img/fish.png" class="col-3 subImg" onclick="changeImg(1)" />
+                                            <img src="/img/pig.png" class="col-3 subImg" onclick="changeImg(2)" />
+                                            <img src="/img/sheep.png" class="col-3 subImg" onclick="changeImg(3)" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                @* 產品規格 *@
+                                <div class="productFormat">
+                                    <h1>產品名稱</h1>
+                                    <p>產地</p>
+                                    <p>風味</p>
+                                    <p>處理方式</p>
+                                    <p>烘培程度</p>
+                                    <p>價格</p>
+                                    @* 數量 *@
+                                    <div class="modalUOMcomponent">
+                                        @* 在函式裡設定最大最小值 *@
+                                        <button onclick="modalUOMbtn(this)" name="minus">-</button>
+                                        <input type="number" value="1" readonly />
+                                        <button onclick="modalUOMbtn(this)" name="plus">+</button>
+                                    </div>
+                                    @* 加入購物車 *@
+                                    <div class="modalBtn">
+                                        <button class="btn btn-primary" onclick="addCart()">加入購物車</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="productDesc">
+                                產品描述
+                                <div class="productDescText">
+                                    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+                                    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+                                </div>
+                                <hr />
+                                <a href="/Product/Index">more</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+@* !!!加入購物車清單 *@
+<div class="test">
+    <div class="card cart">
+        <button type="button" class="btn-close" aria-label="Close" onclick="removeCart(this)"></button>
+        <div class="row g-0">
+            <div class="col-4">
+                <div class="cartImg">
+                    <img src="~/img/fish.png" class="img-fluid rounded-start" />
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="card-body">
+                    <h5 class="card-title">產品名稱</h5>
+                    <h6 class="card-subtitle">NT.價錢</h6>
+                    <div class="cartText">
+                        <p>重量</p>
+                        <div class="cartBtn">
+                            <button onclick="cartUOMbtn(this)" name="minus">-</button>
+                            <input type="number" value="1" readonly />
+                            <button onclick="cartUOMbtn(this)" name="plus">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@* 到頂部 *@
+<button class="topbtn">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="#FFF" class="bi bi-arrow-up-short" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5" />
+    </svg>
+</button>
 @* 點選關閉按鈕關閉篩選選單 *@
 <script>
-	function filterBtnClose(test) {
-		$(test).closest('.dropdown-menu').prev().removeClass('show');
-		$(test).closest('.dropdown-menu').removeClass('show');
-	}
+    function filterBtnClose(test) {
+        $(test).closest('.dropdown-menu').prev().removeClass('show');
+        $(test).closest('.dropdown-menu').removeClass('show');
+    }
 </script>
 @* 當range的value更動時顯示其值在對應的span裡和input的樣式 *@
 <script>
-	function valueChange(test) {
-		$(test).next('span').text($(test).val());
-		const progress = ($(test).val() - $(test).prop('min')) / ($(test).prop('max') - $(test).prop('min')) * 100;
-		$(test).css('background', 'linear-gradient(to right, green 0%, green ' + progress + '%, #82CFD0 ' + progress + '%, #82CFD0 100%)')
-	}
+    function valueChange(test) {
+        $(test).next('span').text($(test).val());
+        const progress = ($(test).val() - $(test).prop('min')) / ($(test).prop('max') - $(test).prop('min')) * 100;
+        $(test).css('background', 'linear-gradient(to right, green 0%, green ' + progress + '%, #82CFD0 ' + progress + '%, #82CFD0 100%)')
+    }
 </script>
 @* 產品數量顯示綁定產品數量的按鈕 *@
 <script>
-	function modalUOMbtn(test) {
-		let UOM = parseInt($(test).closest('.modalUOMcomponent').find('input').val());
-		if ($(test).text() == "+") {
-			// 設定最大為10
-			if ($(test).closest('.modalUOMcomponent').find('input').val() == 10) {
-				$(test).closest('.modalUOMcomponent').find('input').val(10)
-			} else {
-				$(test).closest('.modalUOMcomponent').find('input').val((UOM + 1).toString())
-			}
-		}
-		if ($(test).text() == "-") {
-			// 設定最小為1
-			if ($(test).closest('.modalUOMcomponent').find('input').val() == 1) {
-				$(test).closest('.modalUOMcomponent').find('input').val(1)
-			} else {
-				$(test).closest('.modalUOMcomponent').find('input').val((UOM - 1).toString())
-			}
-		}
-	}
+    function modalUOMbtn(test) {
+        let UOM = parseInt($(test).closest('.modalUOMcomponent').find('input').val());
+        if ($(test).text() == "+") {
+            // 設定最大為10
+            if ($(test).closest('.modalUOMcomponent').find('input').val() == 10) {
+                $(test).closest('.modalUOMcomponent').find('input').val(10)
+            } else {
+                $(test).closest('.modalUOMcomponent').find('input').val((UOM + 1).toString())
+            }
+        }
+        if ($(test).text() == "-") {
+            // 設定最小為1
+            if ($(test).closest('.modalUOMcomponent').find('input').val() == 1) {
+                $(test).closest('.modalUOMcomponent').find('input').val(1)
+            } else {
+                $(test).closest('.modalUOMcomponent').find('input').val((UOM - 1).toString())
+            }
+        }
+    }
 </script>
-
+<script>
+    function cartUOMbtn(test) {
+        let cartUOM = parseInt($(test).closest('.cartBtn').find('input').val())
+        let op = $(test).text()
+        if (op == "-") {
+            if (cartUOM == 1) {
+                $(test).closest('.cartBtn').find('input').val(1)
+            } else {
+                $(test).closest('.cartBtn').find('input').val((cartUOM - 1).toString())
+            }
+        } else if (op == "+") {
+            if (cartUOM == 10) {
+                $(test).closest('.cartBtn').find('input').val(10)
+            } else {
+                $(test).closest('.cartBtn').find('input').val((cartUOM + 1).toString())
+            }
+        }
+    }
+</script>
 @* 點小圖換大圖 *@
 <script>
-	let currentIndexS = 0;
-	const totalImagesS = $('.bigImgWrapper div').length;
-	function changeImg(test) {
-		currentIndexS = test
-		const offset = -currentIndexS * (100 / totalImagesS);
-		$('.bigImgWrapper').css('transform', `translateX(${offset}%)`)
-	}
+    let currentIndexS = 0;
+    const totalImagesS = $('.bigImgWrapper div').length;
+    function changeImg(test) {
+        currentIndexS = test
+        const offset = -currentIndexS * (100 / totalImagesS);
+        $('.bigImgWrapper').css('transform', `translateX(${offset}%)`)
+    }
 </script>
 @* 點圖示換大圖 *@
 <script>
-	let currentIndex = 0;
-	const totalImages = $('.bigImgWrapper div').length;
-	function slideImg(i) {
-		// 更新索引
-		currentIndex += i
-		// 確保索引不超出張數範圍
-		if (currentIndex < 0) {
-			currentIndex = totalImages - 1; // 返回到最後一張
-		} else if (currentIndex >= totalImages) {
-			currentIndex = 0; // 返回到第一張
-		}
-		// 計算移動的距離
-		const offset = -currentIndex * (100 / totalImages); // 每次移動 100% 的寬度
+    let currentIndex = 0;
+    const totalImages = $('.bigImgWrapper div').length;
+    function slideImg(i) {
+        // 更新索引
+        currentIndex += i
+        // 確保索引不超出張數範圍
+        if (currentIndex < 0) {
+            currentIndex = totalImages - 1; // 返回到最後一張
+        } else if (currentIndex >= totalImages) {
+            currentIndex = 0; // 返回到第一張
+        }
+        // 計算移動的距離
+        const offset = -currentIndex * (100 / totalImages); // 每次移動 100% 的寬度
 
-		$('.bigImgWrapper').css('transform', `translateX(${offset}%)`)
-	}
+        $('.bigImgWrapper').css('transform', `translateX(${offset}%)`)
+    }
+</script>
+@* 加入購物車 *@
+<script>
+    function addCart() {
+        $('.test').append($('.test').html())
+    }
+</script>
+@* 移除購物車 *@
+<script>
+    function removeCart(test) {
+        $(test).closest('.cart').remove();
+    }
+</script>
+@* 到頂部 *@
+<script>
+    window.onscroll = function () {
+        scrollFunction();
+    };
+
+    function scrollFunction() {
+        if (
+            document.body.scrollTop > 200 ||
+            document.documentElement.scrollTop > 200
+        ) {
+            $('.topbtn').show()
+        } else {
+            $('.topbtn').hide()
+        }
+    }
+    $('.topbtn').on('click', function () {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    })
+
+    function backToTop() {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    }
+</script>
+@* 分頁 *@
+<script>
+    itemPerPage = 12 // 全域變數:每頁顯示的項目
+    totalItems = 50 // 全域變數:總項目
+    totalPages = Math.ceil(totalItems / itemPerPage) // 全域變數:總頁數
+    // 根據總頁數生成分頁標籤
+    for (let i = 1; i <= totalPages; i++) {
+        $('.page ul').append(`<li><a href="#">${i}</a></li>`)
+    }
+    // 根據點選的選項重新設定數量
+    function showItemPerPage(num) {
+        itemPerPage = num
+        totalPages = Math.ceil(totalItems / itemPerPage)
+        $('.page ul').empty()
+        for (let i = 1; i <= totalPages; i++) {
+            $('.page ul').append(`<li><a href="#">${i}</a></li>`)
+        }
+    }
 </script>
