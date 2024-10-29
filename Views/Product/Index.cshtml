@@ -1,6 +1,27 @@
 ﻿<script src="~/lib/jquery/dist/jquery.js"></script>
+<button id="add-element-btn">加入新元素</button>
+<script>
+    $(document).ready(function () {
+        $('#add-element-btn').on('click', function () {
+            $.ajax({
+                url: '@Url.Action("AddElementToLayout", "Product")',
+                type: 'POST',
+                success: function (data) {
+                    if (data.success) {
+                        // 將返回的 HTML 插入到 Layout 中指定的區域
+                        $('#layout-target').append(data.html);
+                    }
+                },
+                error: function () {
+                    console.log("請求失敗");
+                }
+            });
+        });
+    });
+</script>
 <div class="productList">
     @* Breadcrumb 麵包屑 *@
+    @* !!!根據點選的分類顯示不同路徑 *@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/Home/Index">首頁</a></li>
@@ -97,7 +118,7 @@
                     </div>
                 </div>
                 @* Dropdown 篩選 *@
-                @* !! checkbox的樣式 Custom Checkbox / range的滑鈕樣式*@
+                @* !! range的滑鈕樣式*@
                 <div class="filter row">
                     <div class="col-auto">
                         <div class="dropdown">
@@ -138,19 +159,19 @@
                                 </div>
                                 <div class="dropdown-item filterBakingItem">
                                     <div>
-                                        <input type="checkbox" id="L" /><label for="L">淺</label>
+                                        <label for="L" class="CBcontainer"><input type="checkbox" id="L" /><span class="checkmark"></span>淺</label>
                                     </div>
                                     <div>
-                                        <input type="checkbox" id="LM" /><label for="LM">中淺</label>
+                                        <label for="LM" class="CBcontainer"><input type="checkbox" id="LM" /><span class="checkmark"></span>中淺</label>
                                     </div>
                                     <div>
-                                        <input type="checkbox" id="M" /><label for="M">中</label>
+                                        <label for="M" class="CBcontainer"><input type="checkbox" id="M" /><span class="checkmark"></span>中</label>
                                     </div>
                                     <div>
-                                        <input type="checkbox" id="MH" /><label for="MH">中深</label>
+                                        <label for="MH" class="CBcontainer"><input type="checkbox" id="MH" /><span class="checkmark"></span>中深</label>
                                     </div>
                                     <div>
-                                        <input type="checkbox" id="H" /><label for="H">深</label>
+                                        <label for="H" class="CBcontainer"><input type="checkbox" id="H" /><span class="checkmark"></span>深</label>
                                     </div>
                                 </div>
                             </div>
@@ -172,13 +193,13 @@
                                 </div>
                                 <div class="dropdown-item filterProcedureItem">
                                     <div>
-                                        <input type="checkbox" id="Wet" /><label for="Wet">水洗</label>
+                                        <label for="Wet" class="CBcontainer"><input type="checkbox" id="Wet" /><span class="checkmark"></span>水洗</label>
                                     </div>
                                     <div>
-                                        <input type="checkbox" id="Dry" /><label for="Dry">日曬</label>
+                                        <label for="Dry" class="CBcontainer"><input type="checkbox" id="Dry" /><span class="checkmark"></span>日曬</label>
                                     </div>
                                     <div>
-                                        <input type="checkbox" id="Honey" /><label for="Honey">蜜處理</label>
+                                        <label for="Honey" class="CBcontainer"><input type="checkbox" id="Honey" /><span class="checkmark"></span>蜜處理</label>
                                     </div>
                                 </div>
                             </div>
@@ -223,7 +244,7 @@
                 <div class="cardContainer">
                     <div class="row">
                         @{
-                            int totalItems = 9;
+                            int totalItems = 40;
                             for (int i = 0; i < totalItems; i++)
                             {
                                 <div class="col-4">
@@ -242,9 +263,20 @@
                         }
                     </div>
                 </div>
-                @* !!!分頁 (Pagination) *@
+                @* 分頁 (Pagination) *@
+                @* !!!用js產生的元素無法套用css*@
                 <div class="page">
-                    <ul>
+                    <ul class="pageul">
+                        @{
+                        int itemPerPage = 12; // 全域變數:每頁顯示的項目
+                        // totalItems // 全域變數:總項目
+                        int totalPages = (totalItems / itemPerPage)+1; // 全域變數:總頁數
+                        // 根據總頁數生成分頁標籤
+                        for (int i = 1; i <= totalPages; i++)
+                        {
+                        <li><a href="#">@i</a></li>
+                        }
+                        }
                     </ul>
                 </div>
             </div>
@@ -314,9 +346,11 @@
                                 <div class="productDescText">
                                     <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
                                     <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+                                    <hr />
+                                    <div>
+                                    <a href="/Product/Index">more</a>
+                                    </div>
                                 </div>
-                                <hr />
-                                <a href="/Product/Index">more</a>
                             </div>
                         </div>
                     </div>
@@ -325,7 +359,7 @@
         </div>
     </div>
 </div>
-@* !!!加入購物車清單 *@
+@* !!!加入購物車清單 跨頁測試 *@
 <div class="test">
     <div class="card cart">
         <button type="button" class="btn-close" aria-label="Close" onclick="removeCart(this)"></button>
@@ -370,7 +404,7 @@
     function valueChange(test) {
         $(test).next('span').text($(test).val());
         const progress = ($(test).val() - $(test).prop('min')) / ($(test).prop('max') - $(test).prop('min')) * 100;
-        $(test).css('background', 'linear-gradient(to right, green 0%, green ' + progress + '%, #82CFD0 ' + progress + '%, #82CFD0 100%)')
+        $(test).css('background', 'linear-gradient(to right, #FFB818 0%, #FFB818 ' + progress + '%, #ffd068 ' + progress + '%, #ffd068 100%)')
     }
 </script>
 @* 產品數量顯示綁定產品數量的按鈕 *@
@@ -483,20 +517,42 @@
 </script>
 @* 分頁 *@
 <script>
-    itemPerPage = 12 // 全域變數:每頁顯示的項目
-    totalItems = 50 // 全域變數:總項目
-    totalPages = Math.ceil(totalItems / itemPerPage) // 全域變數:總頁數
-    // 根據總頁數生成分頁標籤
-    for (let i = 1; i <= totalPages; i++) {
-        $('.page ul').append(`<li><a href="#">${i}</a></li>`)
+    itemPerPage = 12  // 全域變數:每頁顯示的項目
+    totalItems = 40 // 全域變數:總項目
+    // totalPages = Math.ceil(totalItems / itemPerPage) // 全域變數:總頁數
+    // // 根據總頁數生成分頁標籤
+    // for (let i = 1; i <= totalPages; i++) {
+    //     $('.pageul').append(`<li><a href="#">${i}</a></li>`)
+    // }
+    $('.pageul li').first().addClass('active')
+    showPage(1)
+    //根據點選的頁數設定顯示的項目索引
+    function showPage(num) {
+        let start = (num - 1) * itemPerPage // 要顯示的項目起始索引
+        let end = start + itemPerPage // 要顯示的項目結束索引
+        console.log(start)
+
+        $('.cardContainer').find('.col-4').css('display', 'none');
+        $('.cardContainer').find('.col-4').slice(start, end).css('display', 'flex')
     }
-    // 根據點選的選項重新設定數量
+    //當頁數的連結被點擊時設定該元素的li類別和顯示對應的項目索引
+    $('.pageul li a').on('click', function (e) {
+        e.preventDefault();
+        let currentPage = $(this).text()
+        console.log(currentPage) // 測試用
+        $('.pageul li').removeClass('active')
+        $(this).parent().addClass('active')
+        showPage(currentPage)
+        // 回到頁面頂部
+        backToTop()
+    })
+    //根據點選的選項重新設定頁數數量 !!!重新設定後無法觸發點擊事件
     function showItemPerPage(num) {
         itemPerPage = num
         totalPages = Math.ceil(totalItems / itemPerPage)
-        $('.page ul').empty()
+        $('.pageul').empty()
         for (let i = 1; i <= totalPages; i++) {
-            $('.page ul').append(`<li><a href="#">${i}</a></li>`)
+            $('.pageul').append(`<li><a href="#">${i}</a></li>`)
         }
     }
 </script>

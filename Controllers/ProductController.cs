@@ -12,5 +12,14 @@ namespace BigPorject.Controllers
 		{
 			return View();
 		}
-	}
+        [HttpPost]
+        public IActionResult AddElementToLayout()
+        {
+            // 要新增的 HTML 內容
+            string newElementHtml = "<div class='new-element'>動態加入的內容</div>";
+
+            // 返回部分視圖或 JSON 資料
+            return Json(new { success = true, html = newElementHtml });
+        }
+    }
 }
