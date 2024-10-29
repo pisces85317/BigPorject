@@ -21,7 +21,7 @@
 </script>
 <div class="productList">
     @* Breadcrumb 麵包屑 *@
-    @* !!!根據點選的分類顯示不同路徑 *@
+    @* !!根據點選的分類顯示不同路徑 *@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/Home/Index">首頁</a></li>
@@ -46,12 +46,11 @@
                         </h2>
                         <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionSidebar">
                             <div class="accordion-body">
+                                <a href="#">衣索比亞</a>
                                 <a href="#">巴西</a>
                                 <a href="#">哥倫比亞</a>
-                                <a href="#">夏威夷</a>
-                                <a href="#">衣索比亞</a>
+                                <a href="#">瓜地馬拉</a>
                                 <a href="#">肯亞</a>
-                                <a href="#">蘇門答臘</a>
                             </div>
                         </div>
                     </div>
@@ -63,10 +62,12 @@
                         </h2>
                         <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionSidebar">
                             <div class="accordion-body">
-                                <a href="#">花香</a>
                                 <a href="#">果香</a>
+                                <a href="#">花香</a>
                                 <a href="#">巧克力</a>
                                 <a href="#">紅酒</a>
+                                <a href="#">堅果香</a>
+                                <a href="#">茶香</a>
                             </div>
                         </div>
                     </div>
@@ -85,6 +86,7 @@
                         查詢結果的數量
                     </div>
                     @* Dropdown 排序 *@
+                    @* !!!顯示項目數量的函式 *@
                     <div class="col-auto">
                         <div class="d-inline-flex">
                             <div class="dropdown">
@@ -109,7 +111,7 @@
                                     每頁顯示12個
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButtonItem">
-                                    <li class="dropdown-item" onclick="showItemPerPage(12)">每頁顯示12個</li>
+                                    <li class="dropdown-item" onclick="showItemPerPage(12)">每頁顯示12個</li> @*  data-items="12" *@
                                     <li class="dropdown-item" onclick="showItemPerPage(18)">每頁顯示18個</li>
                                     <li class="dropdown-item" onclick="showItemPerPage(24)">每頁顯示24個</li>
                                 </ul>
@@ -118,7 +120,7 @@
                     </div>
                 </div>
                 @* Dropdown 篩選 *@
-                @* !! range的滑鈕樣式*@
+                @* !range的滑鈕樣式*@
                 <div class="filter row">
                     <div class="col-auto">
                         <div class="dropdown">
@@ -267,16 +269,6 @@
                 @* !!!用js產生的元素無法套用css*@
                 <div class="page">
                     <ul class="pageul">
-                        @{
-                        int itemPerPage = 12; // 全域變數:每頁顯示的項目
-                        // totalItems // 全域變數:總項目
-                        int totalPages = (totalItems / itemPerPage)+1; // 全域變數:總頁數
-                        // 根據總頁數生成分頁標籤
-                        for (int i = 1; i <= totalPages; i++)
-                        {
-                        <li><a href="#">@i</a></li>
-                        }
-                        }
                     </ul>
                 </div>
             </div>
@@ -328,7 +320,7 @@
                                     <p>價格</p>
                                     @* 數量 *@
                                     <div class="modalUOMcomponent">
-                                        @* 在函式裡設定最大最小值 *@
+                                        @* 可在函式裡設定最大最小值 *@
                                         <button onclick="modalUOMbtn(this)" name="minus">-</button>
                                         <input type="number" value="1" readonly />
                                         <button onclick="modalUOMbtn(this)" name="plus">+</button>
@@ -348,7 +340,7 @@
                                     <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
                                     <hr />
                                     <div>
-                                    <a href="/Product/Index">more</a>
+                                        <a href="/Product/Index">more</a>
                                     </div>
                                 </div>
                             </div>
@@ -359,7 +351,7 @@
         </div>
     </div>
 </div>
-@* !!!加入購物車清單 跨頁測試 *@
+@* !!加入購物車清單 跨頁測試 *@
 <div class="test">
     <div class="card cart">
         <button type="button" class="btn-close" aria-label="Close" onclick="removeCart(this)"></button>
@@ -483,7 +475,7 @@
         $('.test').append($('.test').html())
     }
 </script>
-@* 移除購物車 *@
+@* !移除購物車 (該放在layout的函式) *@
 <script>
     function removeCart(test) {
         $(test).closest('.cart').remove();
@@ -517,20 +509,31 @@
 </script>
 @* 分頁 *@
 <script>
-    itemPerPage = 12  // 全域變數:每頁顯示的項目
     totalItems = 40 // 全域變數:總項目
-    // totalPages = Math.ceil(totalItems / itemPerPage) // 全域變數:總頁數
-    // // 根據總頁數生成分頁標籤
-    // for (let i = 1; i <= totalPages; i++) {
-    //     $('.pageul').append(`<li><a href="#">${i}</a></li>`)
-    // }
+    itemPerPage = 12  // 全域變數:每頁顯示的項目
+    totalPages = Math.ceil(totalItems / itemPerPage) // 全域變數:總頁數
+    // 根據總頁數生成分頁標籤
+    for (let i = 1; i <= totalPages; i++) {
+        $('.pageul').append(`<li><a href="#">${i}</a></li>`)
+    }
+
+    //根據點選的選項重新設定頁數數量 !!!重新設定後無法觸發點擊事件
+    function showItemPerPage(num) {
+        itemPerPage = num
+        totalPages = Math.ceil(totalItems / itemPerPage)
+        $('.pageul').empty()
+        for (let i = 1; i <= totalPages; i++) {
+            $('.pageul').append(`<li><a href="#">${i}</a></li>`)
+        }
+    }
+    // 在清單中的第一個項目增加類別
     $('.pageul li').first().addClass('active')
+    // 顯示第一頁的項目
     showPage(1)
-    //根據點選的頁數設定顯示的項目索引
+    //根據點選的頁數顯示項目索引
     function showPage(num) {
         let start = (num - 1) * itemPerPage // 要顯示的項目起始索引
         let end = start + itemPerPage // 要顯示的項目結束索引
-        console.log(start)
 
         $('.cardContainer').find('.col-4').css('display', 'none');
         $('.cardContainer').find('.col-4').slice(start, end).css('display', 'flex')
@@ -546,13 +549,4 @@
         // 回到頁面頂部
         backToTop()
     })
-    //根據點選的選項重新設定頁數數量 !!!重新設定後無法觸發點擊事件
-    function showItemPerPage(num) {
-        itemPerPage = num
-        totalPages = Math.ceil(totalItems / itemPerPage)
-        $('.pageul').empty()
-        for (let i = 1; i <= totalPages; i++) {
-            $('.pageul').append(`<li><a href="#">${i}</a></li>`)
-        }
-    }
 </script>
