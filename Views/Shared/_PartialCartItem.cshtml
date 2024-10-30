@@ -1,0 +1,30 @@
+﻿@* 加入購物車清單 *@
+<link href="~/css/CartItem.css" rel="stylesheet" />
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<div class="test">
+    <div class="card cart">
+        <button type="button" class="btn-close" aria-label="Close" onclick="removeCart(this)"></button>
+        <div class="row g-0">
+            <div class="col-4">
+                <div class="cartImg">
+                    <img src="~/img/fish.png" class="img-fluid rounded-start" />
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="card-body">
+                    <h5 class="card-title">產品名稱</h5>
+                    <h6 class="card-subtitle">NT.價錢</h6>
+                    <div class="cartText">
+                        <p>重量</p>
+                        <div class="cartBtn">
+                            <button onclick="cartUOMbtn(this)" name="minus">-</button>
+                            <input type="number" value="1" readonly />
+                            <button onclick="cartUOMbtn(this)" name="plus">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/ProductIndex.js"></script>

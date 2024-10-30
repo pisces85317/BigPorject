@@ -390,7 +390,7 @@
         color: var(--font-color);
     }
 
-    .modalUOMcomponent button[name="minus"], .cartBtn button[name="minus"] {
+    .modalUOMcomponent button[name="minus"]{
         padding: 0;
         width: 2rem;
         height: 2rem;
@@ -399,7 +399,7 @@
         border-radius: 0.25rem 0 0 0.25rem;
     }
 
-    .modalUOMcomponent button[name="plus"], .cartBtn button[name="plus"] {
+    .modalUOMcomponent button[name="plus"] {
         padding: 0;
         width: 2rem;
         height: 2rem;
@@ -418,7 +418,7 @@
         text-align: center;
     }
 
-        .modalUOMcomponent input[type="number"]:focus, .cartBtn input[type="number"]:focus {
+        .modalUOMcomponent input[type="number"]:focus {
             outline: none;
         }
 
@@ -465,48 +465,7 @@
         color: var(--font-color-hover);
         transition: 100ms ease-out;
     }
-/*購物車卡片*/
-.cart {
-    width: 25%;
-    position: relative;
-}
 
-.cartImg {
-    margin: 1rem 0 0 1rem;
-}
-
-.cart .btn-close {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: .25rem;
-    box-shadow: none;
-    opacity: .5;
-}
-
-    .cart .btn-close:hover {
-        opacity: 0.75;
-        transition: 100ms ease-out;
-    }
-
-.cartBtn input[type="number"] {
-    width: 3rem;
-    border: 1px solid rgba(0,0,0,.15);
-    border-radius: 0;
-    cursor: default;
-    text-align: center;
-    padding-left: 1rem;
-}
-
-.cartText {
-    margin-top: .5rem;
-}
-
-.cartBtn {
-    display: flex;
-    justify-content: center;
-    margin: 1rem 0;
-}
 /*頁數*/
 .page {
     background-color: #2E724A;

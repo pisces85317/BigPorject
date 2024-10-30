@@ -1,0 +1,65 @@
+﻿/*購物車卡片*/
+.cart {
+    width: 25%;
+    position: relative;
+}
+
+.cartImg {
+    margin: 1rem 0 0 1rem;
+}
+
+.cart .btn-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: .25rem;
+    box-shadow: none;
+    opacity: .5;
+}
+
+    .cart .btn-close:hover {
+        opacity: 0.75;
+        transition: 100ms ease-out;
+    }
+
+.cartBtn button[name="minus"] {
+    padding: 0;
+    width: 2rem;
+    height: 2rem;
+    background-color: inherit;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 0.25rem 0 0 0.25rem;
+}
+
+.cartBtn button[name="plus"] {
+    padding: 0;
+    width: 2rem;
+    height: 2rem;
+    background-color: inherit;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 0 0.25rem 0.25rem 0;
+}
+
+
+.cartBtn input[type="number"] {
+    width: 3rem;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 0;
+    cursor: default;
+    text-align: center;
+    padding-left: 1rem;
+}
+
+    .cartBtn input[type="number"]:focus {
+        outline: none;
+    }
+
+.cartText {
+    margin-top: .5rem;
+}
+
+.cartBtn {
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0;
+}
