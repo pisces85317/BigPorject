@@ -1,4 +1,10 @@
-﻿.productList {
+﻿/*修改bootstrap的樣式*/
+.row > * {
+    padding-top: calc(var(--bs-gutter-x) * .5);
+    padding-bottom: calc(var(--bs-gutter-x) * .5);
+}
+
+.productList {
     --font-color: white;
     --font-color-hover: #cccccc;
     --background-color: #464646; /*如果inherit失效就用此變數*/
@@ -21,11 +27,7 @@
 .breadcrumb-item.active {
     color: var(--font-color-hover);
 }
-/*修改bootstrap的 .row > * 樣式*/
-.row > * {
-    padding-top: calc(var(--bs-gutter-x) * .5);
-    padding-bottom: calc(var(--bs-gutter-x) * .5);
-}
+
 /*修改Sidebar 側邊欄的樣式*/
 .accordion a {
     padding-bottom: 1rem;
@@ -73,7 +75,7 @@
         border-color: inherit;
         box-shadow: inherit;
     }
-/*數量和排序左右不留空*/
+/*修改Dropdown 排序的樣式*/
 .numSort {
     margin-left: 0;
     margin-right: 0;
@@ -82,7 +84,7 @@
     .numSort * {
         color: var(--font-color);
     }
-/*修改Dropdown 排序的樣式*/
+
 .dropdown-toggle {
     display: flex;
     align-items: center;
@@ -109,15 +111,16 @@
     color: var(--font-color-hover);
     background-color: inherit;
 }
-/*篩選欄左右不留空*/
+/*修改Dropdown 篩選的樣式*/
 .filter {
     margin-left: 0;
     margin-right: 0;
 }
-.filter * {
-    color:var(--font-color);
-}
-/*修改Dropdown 篩選的樣式*/
+
+    .filter * {
+        color: var(--font-color);
+    }
+
 .dropdown-menu {
     background-color: var(--background-color);
 }
@@ -163,6 +166,7 @@
         border-radius: .25rem;
         max-width: 4rem;
         text-align: center;
+        color: var(--background-color);
     }
 
         .filterPriceItem input[type="text"]:focus {
@@ -171,7 +175,6 @@
 
         .filterPriceItem input[type="submit"] {
             margin-left: 4rem;
-            background-color: inherit;
         }
 
             .filterPriceItem input[type="submit"]:hover {
@@ -390,7 +393,7 @@
         color: var(--font-color);
     }
 
-    .modalUOMcomponent button[name="minus"]{
+    .modalUOMcomponent button[name="minus"] {
         padding: 0;
         width: 2rem;
         height: 2rem;
@@ -465,39 +468,6 @@
         color: var(--font-color-hover);
         transition: 100ms ease-out;
     }
-
-/*頁數*/
-.page {
-    background-color: #2E724A;
-    text-align: center;
-    margin-top: 20px;
-}
-
-.pageul {
-    display: inline-block;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-}
-
-    .pageul li {
-        display: inline-block;
-        margin: 0;
-        color: white;
-    }
-
-        .pageul li a {
-            display: inline-block;
-            padding: 0px 5px;
-            text-decoration: none;
-            background-color: #E0732A;
-            color: white;
-        }
-
-        .pageul li.active a {
-            background-color: #A31313;
-            color: white;
-        }
 /*到頂部*/
 .topbtn {
     background-color: #E0732A;

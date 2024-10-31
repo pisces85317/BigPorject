@@ -1,7 +1,7 @@
 ﻿<script src="~/lib/jquery/dist/jquery.js"></script>
+<link href="~/css/Page.css" rel="stylesheet" />
 <div class="productList">
     @* Breadcrumb 麵包屑 *@
-    @* !!根據點選的分類顯示不同路徑 *@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/Home/Index">首頁</a></li>
@@ -66,7 +66,6 @@
                         查詢結果的數量
                     </div>
                     @* Dropdown 排序 *@
-                    @* !!!顯示項目數量的函式 *@
                     <div class="col-auto">
                         <div class="d-inline-flex">
                             <div class="dropdown">
@@ -91,7 +90,7 @@
                                     每頁顯示12個
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButtonItem">
-                                    <li class="dropdown-item" onclick="showItemPerPage(12)">每頁顯示12個</li> @*  data-items="12" *@
+                                    <li class="dropdown-item" onclick="showItemPerPage(12)">每頁顯示12個</li>
                                     <li class="dropdown-item" onclick="showItemPerPage(18)">每頁顯示18個</li>
                                     <li class="dropdown-item" onclick="showItemPerPage(24)">每頁顯示24個</li>
                                 </ul>
@@ -100,7 +99,6 @@
                     </div>
                 </div>
                 @* Dropdown 篩選 *@
-                @* !range的滑鈕樣式*@
                 <div class="filter row">
                     <div class="col-auto">
                         <div class="dropdown">
@@ -246,7 +244,6 @@
                     </div>
                 </div>
                 @* 分頁 (Pagination) *@
-                @* !!!用js產生的元素無法套用css*@
                 <div class="page">
                     <ul class="pageul">
                     </ul>

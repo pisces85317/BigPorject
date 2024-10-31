@@ -2,7 +2,7 @@
 function filterBtnClose(test) {
     $(test).closest('.dropdown-menu').prev().removeClass('show');
     $(test).closest('.dropdown-menu').removeClass('show');
-}//產品數量顯示綁定產品數量的按鈕
+}
 
 //當range的value更動時顯示其值在對應的span裡和input的樣式
 function valueChange(test) {
@@ -76,15 +76,12 @@ function slideImg(i) {
 function addCart() {
     console.log("OK")
     $.ajax({
-        url: "http://localhost:5122/Product/AddCartItemToLayout",
-        method: "GET",
+        url: "/Product/AddCartItemToLayout",
+        method: "POST",
+        data:
         success: function (data) {
-            if (data.success) {
-                // 將返回的 HTML 插入到 Layout 中指定的區域
-                console.log(data)
-                //$('#layout-target').append(data.html);
-                //$('#layout-target').html(data);
-            }
+            console.log(data);
+            $('#layout-target').append(data);
         },
         error: function () {
             console.log("請求失敗");
@@ -126,16 +123,6 @@ totalPages = Math.ceil(totalItems / itemPerPage) // 全域變數:總頁數
 for (let i = 1; i <= totalPages; i++) {
     $('.pageul').append(`<li><a href="#">${i}</a></li>`)
 }
-
-//根據點選的選項重新設定頁數數量 !!!重新設定後無法觸發點擊事件
-function showItemPerPage(num) {
-    itemPerPage = num
-    totalPages = Math.ceil(totalItems / itemPerPage)
-    $('.pageul').empty()
-    for (let i = 1; i <= totalPages; i++) {
-        $('.pageul').append(`<li><a href="#">${i}</a></li>`)
-    }
-}
 // 在清單中的第一個項目增加類別
 $('.pageul li').first().addClass('active')
 // 顯示第一頁的項目
@@ -152,10 +139,29 @@ function showPage(num) {
 $('.pageul li a').on('click', function (e) {
     e.preventDefault();
     let currentPage = $(this).text()
-    console.log(currentPage) // 測試用
     $('.pageul li').removeClass('active')
     $(this).parent().addClass('active')
     showPage(currentPage)
     // 回到頁面頂部
     backToTop()
 })
+//根據點選的選項重新設定頁數數量
+function showItemPerPage(num) {
+    itemPerPage = num
+    totalPages = Math.ceil(totalItems / itemPerPage)
+    $('.pageul').empty()
+    for (let i = 1; i <= totalPages; i++) {
+        $('.pageul').append(`<li><a href="#">${i}</a></li>`)
+    }
+    $('.pageul li').first().addClass('active')
+    showPage(1)
+    $('.pageul li a').on('click', function (e) {
+        e.preventDefault();
+        let currentPage = $(this).text()
+        $('.pageul li').removeClass('active')
+        $(this).parent().addClass('active')
+        showPage(currentPage)
+        // 回到頁面頂部
+        backToTop()
+    })
+}

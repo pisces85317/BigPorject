@@ -1,0 +1,32 @@
+﻿/*頁數*/
+.page {
+    background-color: inherit;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pageul {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+    .pageul li {
+        display: inline-block;
+        margin: 0;
+        color: white;
+    }
+
+        .pageul li a {
+            display: inline-block;
+            padding: 0px 5px;
+            text-decoration: none;
+            background-color: #E0732A;
+            color: white;
+        }
+
+        .pageul li.active a {
+            background-color: #A31313;
+            color: white;
+        }
