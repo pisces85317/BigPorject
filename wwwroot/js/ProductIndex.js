@@ -48,17 +48,20 @@ function cartUOMbtn(test) {
     }
 }
 //點小圖換大圖 
-let currentIndexS = 0;
-const totalImagesS = $('.bigImgWrapper div').length;
+
 function changeImg(test) {
+    let currentIndexS = 0;
+    let totalImagesS = $('.bigImgWrapper div').length;
+
     currentIndexS = test
-    const offset = -currentIndexS * (100 / totalImagesS);
+    let offset = -currentIndexS * (100 / totalImagesS);
     $('.bigImgWrapper').css('transform', `translateX(${offset}%)`)
 }
 //點圖示換大圖 
-let currentIndex = 0;
-const totalImages = $('.bigImgWrapper div').length;
+
 function slideImg(i) {
+    let currentIndex = 0;
+    let totalImages = $('.bigImgWrapper div').length;
     // 更新索引
     currentIndex += i
     // 確保索引不超出張數範圍
@@ -68,35 +71,36 @@ function slideImg(i) {
         currentIndex = 0; // 返回到第一張
     }
     // 計算移動的距離
-    const offset = -currentIndex * (100 / totalImages); // 每次移動 100% 的寬度
+    let offset = -currentIndex * (100 / totalImages); // 每次移動 100% 的寬度
 
     $('.bigImgWrapper').css('transform', `translateX(${offset}%)`)
 }
 //加入購物車 
 function addCart() {
-    console.log("OK")
     $.ajax({
         url: "/Product/AddCartItemToLayout",
         method: "POST",
-        data:
-        success: function (data) {
-            console.log(data);
-            $('#layout-target').append(data);
-        },
+        //data:
+            success: function(data) {
+                console.log(data);
+                $('#layout-target').append(data);
+            },
         error: function () {
             console.log("請求失敗");
         }
     });
-    console.log("OK")
 }
 //!移除購物車(該放在layout的函式)
 function removeCart(test) {
     $(test).closest('.cart').remove();
 }
-//到頂部 
+//瀏覽器滾動到指定位置時顯示/隱藏按鈕
 window.onscroll = function () {
     scrollFunction();
 };
+/**
+ * 根據頁面滾動位置顯示或隱藏至頂按鈕
+ */
 function scrollFunction() {
     if (
         document.body.scrollTop > 200 ||
@@ -107,61 +111,70 @@ function scrollFunction() {
         $('.topbtn').hide()
     }
 }
+//點擊時滾動頁面
 $('.topbtn').on('click', function () {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
 })
-function backToTop() {
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
-}
-//分頁 
-totalItems = 40 // 全域變數:總項目
-itemPerPage = 12  // 全域變數:每頁顯示的項目
-totalPages = Math.ceil(totalItems / itemPerPage) // 全域變數:總頁數
-// 根據總頁數生成分頁標籤
-for (let i = 1; i <= totalPages; i++) {
-    $('.pageul').append(`<li><a href="#">${i}</a></li>`)
-}
-// 在清單中的第一個項目增加類別
-$('.pageul li').first().addClass('active')
-// 顯示第一頁的項目
-showPage(1)
-//根據點選的頁數顯示項目索引
-function showPage(num) {
-    let start = (num - 1) * itemPerPage // 要顯示的項目起始索引
-    let end = start + itemPerPage // 要顯示的項目結束索引
 
-    $('.cardContainer').find('.col-4').css('display', 'none');
-    $('.cardContainer').find('.col-4').slice(start, end).css('display', 'flex')
+//瀏覽器載入時設定分頁
+window.onload = function () {
+    Set_Page(40, 12)
 }
-//當頁數的連結被點擊時設定該元素的li類別和顯示對應的項目索引
-$('.pageul li a').on('click', function (e) {
-    e.preventDefault();
-    let currentPage = $(this).text()
-    $('.pageul li').removeClass('active')
-    $(this).parent().addClass('active')
-    showPage(currentPage)
-    // 回到頁面頂部
-    backToTop()
+
+$('.f-show-item').on('click', function () {
+    Set_Page(40, $(this).data('num'))
 })
-//根據點選的選項重新設定頁數數量
-function showItemPerPage(num) {
-    itemPerPage = num
-    totalPages = Math.ceil(totalItems / itemPerPage)
+/**
+ * 設定分頁、設定css並繫結點擊事件
+ * @param {number} total_item 總項目
+ * @param {number} item_per_page 每頁要顯示的項目
+ */
+function Set_Page(total_item,item_per_page) {
+    // 頁數的數量 = 總項目/每頁要顯示的項目
+    let total_pages = Math.ceil(total_item / item_per_page)
+
+    // 根據頁數的數量生成分頁標籤，在分頁清單中的第一個項目增加css類別
     $('.pageul').empty()
-    for (let i = 1; i <= totalPages; i++) {
+    for (let i = 1; i <= total_pages; i++) {
         $('.pageul').append(`<li><a href="#">${i}</a></li>`)
     }
     $('.pageul li').first().addClass('active')
-    showPage(1)
+
+    // 顯示第一頁的項目
+    showPage(1, item_per_page)
+
+    //繫結分頁的點擊事件
     $('.pageul li a').on('click', function (e) {
         e.preventDefault();
         let currentPage = $(this).text()
         $('.pageul li').removeClass('active')
         $(this).parent().addClass('active')
-        showPage(currentPage)
+        // 顯示當前頁面的項目
+        showPage(currentPage, item_per_page)
         // 回到頁面頂部
         backToTop()
     })
+}
+
+/**
+ * 根據點選的分頁顯示項目索引
+ * @param {number} page_num 當前分頁數
+ * @param {number} item_per_page 每頁要顯示的個數
+ */
+function showPage(page_num, item_per_page) {
+    // 要顯示的項目起始索引
+    let start = (page_num - 1) * item_per_page
+    // 要顯示的項目結束索引
+    let end = start + item_per_page
+
+    $('.cardContainer').find('.col-4').css('display', 'none');
+    $('.cardContainer').find('.col-4').slice(start, end).css('display', 'flex')
+}
+/**
+ * 回到頂部
+ */
+function backToTop() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
 }
