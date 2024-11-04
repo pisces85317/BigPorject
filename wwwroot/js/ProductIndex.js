@@ -81,10 +81,10 @@ function addCart() {
         url: "/Product/AddCartItemToLayout",
         method: "POST",
         //data:
-            success: function(data) {
-                console.log(data);
-                $('#layout-target').append(data);
-            },
+        success: function (data) {
+            console.log(data);
+            $('#layout-target').append(data);
+        },
         error: function () {
             console.log("請求失敗");
         }
@@ -121,27 +121,27 @@ $('.topbtn').on('click', function () {
 window.onload = function () {
     Set_Page(40, 12)
 }
-
+//點選分頁設定卡片數量
 $('.f-show-item').on('click', function () {
     Set_Page(40, $(this).data('num'))
 })
 /**
  * 設定分頁、設定css並繫結點擊事件
- * @param {number} total_item 總項目
- * @param {number} item_per_page 每頁要顯示的項目
+ * @param {number} total_item 總卡片
+ * @param {number} item_per_page 每頁要顯示的卡片數量
  */
-function Set_Page(total_item,item_per_page) {
-    // 頁數的數量 = 總項目/每頁要顯示的項目
+function Set_Page(total_item, item_per_page) {
+    // 頁數的數量 = 總卡片/每頁要顯示的卡片數量
     let total_pages = Math.ceil(total_item / item_per_page)
 
-    // 根據頁數的數量生成分頁標籤，在分頁清單中的第一個項目增加css類別
+    // 根據頁數的數量生成分頁標籤，在分頁清單中的第一個清單增加css類別
     $('.pageul').empty()
     for (let i = 1; i <= total_pages; i++) {
         $('.pageul').append(`<li><a href="#">${i}</a></li>`)
     }
     $('.pageul li').first().addClass('active')
 
-    // 顯示第一頁的項目
+    // 顯示第一頁的卡片
     showPage(1, item_per_page)
 
     //繫結分頁的點擊事件
@@ -150,7 +150,7 @@ function Set_Page(total_item,item_per_page) {
         let currentPage = $(this).text()
         $('.pageul li').removeClass('active')
         $(this).parent().addClass('active')
-        // 顯示當前頁面的項目
+        // 顯示當前頁面的卡片
         showPage(currentPage, item_per_page)
         // 回到頁面頂部
         backToTop()
@@ -158,14 +158,14 @@ function Set_Page(total_item,item_per_page) {
 }
 
 /**
- * 根據點選的分頁顯示項目索引
+ * 根據點選的分頁顯示卡片數量
  * @param {number} page_num 當前分頁數
- * @param {number} item_per_page 每頁要顯示的個數
+ * @param {number} item_per_page 每頁要顯示的卡片數量
  */
 function showPage(page_num, item_per_page) {
-    // 要顯示的項目起始索引
+    // 要顯示的卡片起始值
     let start = (page_num - 1) * item_per_page
-    // 要顯示的項目結束索引
+    // 要顯示的卡片結束值
     let end = start + item_per_page
 
     $('.cardContainer').find('.col-4').css('display', 'none');
@@ -177,4 +177,25 @@ function showPage(page_num, item_per_page) {
 function backToTop() {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
+}
+//點選分類設定麵包屑路徑
+$('.accordion a').on('click', function () {
+    SetBreadcrumb(this)
+})
+/**
+ * 根據點選的分類顯示對應的麵包屑路徑
+ * @param {any} test 當前元素
+ */
+function SetBreadcrumb(test) {
+    //<li class="breadcrumb-item active" aria-current="page">所有商品</li>
+    if ($(test).text() == "所有商品" || $(test).text() == "耳掛系列") {
+        $('.breadcrumb').empty()
+        $('.breadcrumb').append('<li class="breadcrumb-item"><a href="/Home/Index">首頁</a></li>')
+        $('.breadcrumb').append(`<li class="breadcrumb-item active" aria-current="page">${$(test).text()}</li>`)
+    } else {
+        $('.breadcrumb').empty()
+        $('.breadcrumb').append('<li class="breadcrumb-item"><a href="/Home/Index">首頁</a></li>')
+        $('.breadcrumb').append(`<li class="breadcrumb-item">${$(test).closest('.accordion-item').find('button').text()}</li>`)
+        $('.breadcrumb').append(`<li class="breadcrumb-item active" aria-current="page">${$(test).text()}</li>`)
+    }
 }

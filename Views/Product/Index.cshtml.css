@@ -14,19 +14,6 @@
     --sub-color2: #A31313;
     background-color: var(--background-color);
 }
-/*修改麵包屑樣式*/
-.breadcrumb-item a {
-    color: var(--font-color);
-    text-decoration: none;
-}
-
-.breadcrumb-item::before {
-    color: var(--font-color);
-}
-
-.breadcrumb-item.active {
-    color: var(--font-color-hover);
-}
 
 /*修改Sidebar 側邊欄的樣式*/
 .accordion a {
