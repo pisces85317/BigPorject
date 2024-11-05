@@ -28,17 +28,17 @@ namespace BigPorject.Controllers
         {
             return PartialView("_PartialCartItem");
         }
-        public JsonResult SelectProduct(string column, string value)
+        public IActionResult SelectProduct(string column, string value)
         {
             if (column == "所有商品")
             {
                 var query = from p in Products
                             select p;
-                return Json("");
+                var a = query.ToList();
+                return new JsonResult(a);
             }
-            return Json("");
 
-
+            return new JsonResult("");
         }
     }
 }
