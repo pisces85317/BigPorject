@@ -5,7 +5,7 @@ namespace BigPorject.Controllers
 {
     public class ProductController : Controller
     {
-        private List<Product>Products = new List<Product>()
+        private List<Product> Products = new List<Product>()
         {
             new Product(1,"CB001","天堂",680,"咖啡豆","包","巴西","中淺焙","花香,果香",4,3,1,3,3,"蜜處理","~/img/neko.png"),
             new Product(2,"CB002","花蜜瓜瓜",680,"咖啡豆","包","哥倫比亞","中淺焙","果香,茶香",5,3,1,4,3,"水洗","~/img/fish.png"),
@@ -28,10 +28,17 @@ namespace BigPorject.Controllers
         {
             return PartialView("_PartialCartItem");
         }
-        public IActionResult SelectProduct(string column)
+        public JsonResult SelectProduct(string column, string value)
         {
+            if (column == "所有商品")
+            {
+                var query = from p in Products
+                            select p;
+                return Json("");
+            }
+            return Json("");
 
-            return View();
+
         }
     }
 }
