@@ -24,9 +24,9 @@ namespace BigPorject.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult AddCartItemToLayout()
+        public IActionResult AddCartItemToLayout(CartItemData data)
         {
-            return PartialView("_PartialCartItem");
+            return PartialView("_PartialCartItem", data);
         }
         public IActionResult SelectProduct(string column, string value)
         {

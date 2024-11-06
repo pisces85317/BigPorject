@@ -75,22 +75,19 @@ function slideImg(i) {
 
     $('.bigImgWrapper').css('transform', `translateX(${offset}%)`)
 }
-//加入購物車 
-function addCart() {
-    $.ajax({
-        url: "/Product/AddCartItemToLayout",
-        method: "POST",
-        //data:
-        success: function (data) {
-            console.log(data);
-            $('#layout-target').append(data);
-        },
-        error: function () {
-            console.log("請求失敗");
-        }
-    });
-}
-//!移除購物車(該放在layout的函式)
+//!加入購物車 
+$('.modalBtn').on('click', function () {
+    var data =
+    {
+        proID: "CB001",
+        img: "img/neko.png",
+        name: "咖啡A",
+        price: 680,
+        qty: 3,
+    }
+    setLsHtml(data)
+})
+//!移除購物車
 function removeCart(test) {
     $(test).closest('.cart').remove();
 }
