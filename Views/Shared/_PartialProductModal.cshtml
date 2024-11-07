@@ -1,0 +1,191 @@
+﻿@* Modal 產品資訊互動視窗 *@
+<div class="modalFixed">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" onclick="modalBtnClose(this)"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-6">
+                            @* 產品圖 *@
+                            <div class="productImg">
+                                @* 產品大圖 *@
+                                <div class="bigImg">
+                                    <div class="bigImgWrapper">
+                                        <div><img src="/img/neko.png" class="mainImg" /></div>
+                                        <div><img src="/img/fish.png" class="mainImg" /></div>
+                                        <div><img src="/img/pig.png" class="mainImg" /></div>
+                                        <div><img src="/img/sheep.png" class="mainImg" /></div>
+                                    </div>
+                                    <a class="prev" onclick="slideImg(-1)">&#10094;</a>
+                                    <a class="next" onclick="slideImg(1)">&#10095;</a>
+                                </div>
+                                @* 產品縮圖 *@
+                                <div class="smallImg">
+                                    <div class="row">
+                                        <img src="/img/neko.png" class="col-3 subImg" onclick="changeImg(0)" />
+                                        <img src="/img/fish.png" class="col-3 subImg" onclick="changeImg(1)" />
+                                        <img src="/img/pig.png" class="col-3 subImg" onclick="changeImg(2)" />
+                                        <img src="/img/sheep.png" class="col-3 subImg" onclick="changeImg(3)" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            @* 產品規格 *@
+                            <div class="productFormat">
+                                <h1>產品名稱</h1>
+                                <p>產地</p>
+                                <p>風味</p>
+                                <p>處理方式</p>
+                                <p>烘培程度</p>
+                                <p>價格</p>
+                                @* 數量 *@
+                                <div class="modalUOMcomponent">
+                                    @* 可在函式裡設定最大最小值 *@
+                                    <button onclick="modalBtnUom(this)" name="minus">-</button>
+                                    <input type="number" value="1" readonly />
+                                    <button onclick="modalBtnUom(this)" name="plus">+</button>
+                                </div>
+                                @* 加入購物車 *@
+                                <div class="modalBtn">
+                                    <button class="btn btn-primary" onclick="modalBtnAdd()">加入購物車</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="productDesc">
+                            產品描述
+                            <div class="productDescText">
+                                <div class="row">
+
+                                    @* 產品特色介紹 *@
+                                    <div class="col-6">
+                                        <h2 class="introduction">Introduction</h2>
+                                        <br />
+                                        @* <div>
+                                        <h5>產地</h5>
+                                        <span class="badge rounded-pill bg-secondary">巴西</span>
+                                        <span class="badge rounded-pill bg-dark">哥倫比亞</span>
+                                        <span class="badge rounded-pill bg-secondary">印尼</span>
+                                        <span class="badge rounded-pill bg-secondary">衣索比亞</span>
+                                        <span class="badge rounded-pill bg-secondary">肯亞</span>
+                                        </div><br /> *@
+
+                                        <div class="card border-light mb-3">
+                                            <div class="card-header">&nbsp;產地</div>
+                                            <div class="card-body">
+                                                <span class="badge bg-light text-dark">巴西</span>
+                                                <span class="badge bg-success">哥倫比亞</span>
+                                                <span class="badge bg-light text-dark">印尼</span>
+                                                <span class="badge bg-light text-dark">衣索比亞</span>
+                                                <span class="badge bg-light text-dark">肯亞</span>
+                                            </div>
+                                        </div>
+
+
+                                        @* <div>
+                                        <h5>烘焙程度</h5>
+                                        <span class="badge rounded-pill bg-secondary">淺焙</span>
+                                        <span class="badge rounded-pill bg-dark">中淺焙</span>
+                                        <span class="badge rounded-pill bg-secondary">中焙</span>
+                                        <span class="badge rounded-pill bg-secondary">中深焙</span>
+                                        <span class="badge rounded-pill bg-secondary">深焙</span>
+                                        </div><br /> *@
+
+                                        <div class="card border-light mb-3">
+                                            <div class="card-header">&nbsp;烘焙程度</div>
+                                            <div class="card-body">
+                                                <span class="badge bg-light text-dark">淺焙</span>
+                                                <span class="badge bg-success">中淺焙</span>
+                                                <span class="badge bg-light text-dark">中焙</span>
+                                                <span class="badge bg-light text-dark">中深焙</span>
+                                                <span class="badge bg-light text-dark">深焙</span>
+                                            </div>
+                                        </div>
+
+                                        @*  <div>
+                                        <h5>風味</h5>
+                                        <span class="badge rounded-pill bg-dark">白花</span>
+                                        <span class="badge rounded-pill bg-dark">檸檬草</span>
+                                        <span class="badge rounded-pill bg-dark">佛手柑</span>
+                                        <span class="badge rounded-pill bg-dark">甘蔗</span>
+                                        </div><br /> *@
+
+                                        <div class="card border-light mb-3">
+                                            <div class="card-header">&nbsp;風味</div>
+                                            <div class="card-body">
+                                                <span class="badge bg-success">白花</span>
+                                                <span class="badge bg-success">檸檬草</span>
+                                                <span class="badge bg-success">佛手柑</span>
+                                                <span class="badge bg-success">甘蔗</span>
+                                            </div>
+                                        </div>
+
+                                        @* <div>
+                                        <h5>處理法</h5>
+                                        <span class="badge rounded-pill bg-secondary">日曬</span>
+                                        <span class="badge rounded-pill bg-secondary">水洗</span>
+                                        <span class="badge rounded-pill bg-secondary">半水洗</span>
+                                        <span class="badge rounded-pill bg-dark">蜜處理</span><br />
+                                        <span class="badge rounded-pill bg-dark">結合了水洗與日曬，甜感飽滿、細緻酒香</span>
+                                        </div><br /> *@
+
+                                        <div class="card border-light mb-3">
+                                            <div class="card-header">&nbsp;處理法</div>
+                                            <div class="card-body">
+                                                <span class="badge bg-success">蜜處理</span>
+                                                <span class="badge bg-light text-dark">日曬</span>
+                                                <span class="badge bg-light text-dark">水洗</span>
+                                                <span class="badge bg-light text-dark">半水洗</span><br />
+                                                <span class="badge bg-success">結合了水洗與日曬，甜感飽滿、細緻酒香</span>
+                                            </div>
+                                        </div>
+
+                                        @* <div >
+                                        <h5>商品規格</h5>
+                                        <span class="badge rounded-pill bg-secondary">重 量</span>
+                                        <span class="badge rounded-pill bg-dark">2 0 0 g</span><br />
+                                        <span class="badge rounded-pill bg-secondary">保存期限</span>
+                                        <span class="badge rounded-pill bg-dark">1 2 個月</span>
+                                        </div><br /> *@
+
+                                        <div class="card border-light mb-3">
+                                            <div class="card-header">&nbsp;商品規格</div>
+                                            <div class="card-body">
+                                                <span class="badge bg-light text-dark">重 量</span>
+                                                <span class="badge bg-success">2 0 0 g</span><br />
+                                                <span class="badge bg-light text-dark">保存期限</span>
+                                                <span class="badge bg-success">1 2 個月</span>
+                                            </div>
+                                        </div>
+
+                                        @* <div>
+                                        <h5>味道分布</h5>
+                                        <canvas id="polarAreaChart" width="300" height="500"></canvas>
+                                        </div> *@
+
+
+                                        <div class="card border-light mb-3">
+                                            <div class="card-header">&nbsp;味道分布</div>
+                                            <div class="card-body">
+                                                @* <p>味道分布圖</p> *@
+                                                <canvas id="polarAreaChart" width="300" height="500"></canvas>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                <div>
+                                    <a href="/Product/Index">more</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

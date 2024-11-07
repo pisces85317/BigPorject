@@ -3,19 +3,21 @@ using System.Collections.Generic;
 
 namespace BigPorject.Models;
 
-public partial class Product
+public partial class VProductStock
 {
-    public int Id { get; set; }
+    public string StockId { get; set; } = null!;
 
     public string ProductId { get; set; } = null!;
 
     public string? ProductName { get; set; }
 
+    public short? Qty { get; set; }
+
+    public string? Uom { get; set; }
+
     public short? Price { get; set; }
 
     public string? Category { get; set; }
-
-    public string? Uom { get; set; }
 
     public string? Description { get; set; }
 
@@ -25,13 +27,7 @@ public partial class Product
 
     public string? Flavor { get; set; }
 
-    public string? CreateUser { get; set; }
-
-    public string? UpdateUser { get; set; }
-
-    public DateTime? CreateDate { get; set; }
-
-    public DateTime? UpdateDate { get; set; }
+    public bool? Dripbag { get; set; }
 
     public DateTime? Timelimit { get; set; }
 
@@ -56,6 +52,4 @@ public partial class Product
     public string? ImgD { get; set; }
 
     public short? Weight { get; set; }
-
-    public string? Status { get; set; }
 }

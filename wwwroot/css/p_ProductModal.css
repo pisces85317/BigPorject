@@ -1,0 +1,196 @@
+﻿/*修改Modal 產品資訊互動視窗樣式*/
+.modalFixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1055;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    outline: 0;
+    background-color: rgb(0, 0, 0, .5);
+}
+    .modalFixed::-webkit-scrollbar {
+        display: none;
+    }
+
+.modal-content {
+    background-color: #464646;
+}
+
+.modal-header {
+    border-bottom: none;
+}
+
+    .modal-header .btn-close {
+        box-shadow: none;
+        background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23FFFFFF'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat;
+    }
+
+.bigImg {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    background-color: white;
+    border-radius: 0.5rem;
+}
+
+    .bigImg .prev, .bigImg .next {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        width: auto;
+        padding: 8px;
+        margin-top: -22px;
+        color: #FFB818;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 30px;
+        transition: 200ms ease-out;
+        border-radius: 50%;
+    }
+
+    .bigImg .next {
+        right: 0;
+        border-radius: 50%;
+    }
+
+        .bigImg .prev:hover, .bigImg .next:hover {
+            color: #cccccc;
+        }
+
+    .bigImg .bigImgWrapper {
+        display: flex;
+        width: 400%;
+        transition: transform 200ms ease-out;
+    }
+
+.bigImgWrapper div {
+    width: 100%;
+    height: auto;
+}
+
+.mainImg {
+    width: 100%;
+    height: auto;
+}
+
+.smallImg {
+    margin-top: 1rem;
+}
+
+    .smallImg .row {
+        background-color: white;
+        border-radius: 0.5rem;
+    }
+
+
+.subImg {
+    cursor: pointer;
+}
+
+    .subImg:hover {
+        outline: 2px solid #FFB818;
+        border-radius: 0.5rem;
+    }
+
+.productFormat p {
+    margin-bottom: 0;
+    padding-left: 1rem;
+    padding-bottom: 1rem;
+    color: white;
+}
+
+.productFormat h1 {
+    padding-bottom: 0;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #cccccc;
+    color: white;
+}
+
+.modalUOMcomponent {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 1rem;
+}
+
+    .modalUOMcomponent * {
+        color: white;
+    }
+
+    .modalUOMcomponent button[name="minus"] {
+        padding: 0;
+        width: 2rem;
+        height: 2rem;
+        background-color: inherit;
+        border: 1px solid #cccccc;
+        border-radius: 0.25rem 0 0 0.25rem;
+    }
+
+    .modalUOMcomponent button[name="plus"] {
+        padding: 0;
+        width: 2rem;
+        height: 2rem;
+        background-color: inherit;
+        border: 1px solid #cccccc;
+        border-radius: 0 0.25rem 0.25rem 0;
+    }
+
+
+    .modalUOMcomponent input[type="number"] {
+        max-width: 8rem;
+        background-color: inherit;
+        border: 1px solid #cccccc;
+        border-radius: 0;
+        cursor: default;
+        text-align: center;
+    }
+
+        .modalUOMcomponent input[type="number"]:focus {
+            outline: none;
+        }
+
+.modalBtn {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 1rem;
+}
+
+    .modalBtn button {
+        color: white;
+    }
+
+    .modalBtn .btn-primary {
+        background-color: #FFB818;
+        border-color: #FFB818;
+        width: 12rem;
+        box-shadow: none;
+    }
+
+.productDesc {
+    border-top: 1px solid white;
+    color: white;
+    margin-top: 1rem;
+}
+
+.productDescText hr {
+    width: 20rem;
+    margin: 0 auto;
+    color: white;
+}
+
+.productDescText div {
+    display: flex;
+    justify-content: center;
+}
+
+.productDescText a {
+    text-decoration: none;
+    transition: 100ms ease-out;
+    color: white;
+}
+
+    .productDescText a:hover {
+        color: #cccccc;
+        transition: 100ms ease-out;
+    }

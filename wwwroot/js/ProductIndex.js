@@ -1,4 +1,12 @@
-﻿//點選關閉按鈕關閉篩選選單 
+﻿//每頁顯示文字改變
+function changeText(self) {
+    $(document).on('click', function (event) {
+        var text = $(event.target).text()
+        $(self).closest('.dropdown').find('button').text(text)
+    })
+}
+
+//點選關閉按鈕關閉篩選選單 
 function filterBtnClose(test) {
     $(test).closest('.dropdown-menu').prev().removeClass('show');
     $(test).closest('.dropdown-menu').removeClass('show');
@@ -10,57 +18,67 @@ function valueChange(test) {
     const progress = ($(test).val() - $(test).prop('min')) / ($(test).prop('max') - $(test).prop('min')) * 100;
     $(test).css('background', 'linear-gradient(to right, #FFB818 0%, #FFB818 ' + progress + '%, #ffd068 ' + progress + '%, #ffd068 100%)')
 }
-//產品數量顯示綁定產品數量的按鈕
-function modalUOMbtn(test) {
-    let UOM = parseInt($(test).closest('.modalUOMcomponent').find('input').val());
-    if ($(test).text() == "+") {
-        // 設定最大為10
-        if ($(test).closest('.modalUOMcomponent').find('input').val() == 10) {
-            $(test).closest('.modalUOMcomponent').find('input').val(10)
-        } else {
-            $(test).closest('.modalUOMcomponent').find('input').val((UOM + 1).toString())
-        }
-    }
-    if ($(test).text() == "-") {
-        // 設定最小為1
-        if ($(test).closest('.modalUOMcomponent').find('input').val() == 1) {
-            $(test).closest('.modalUOMcomponent').find('input').val(1)
-        } else {
-            $(test).closest('.modalUOMcomponent').find('input').val((UOM - 1).toString())
-        }
-    }
-}
-function cartUOMbtn(test) {
-    let cartUOM = parseInt($(test).closest('.cartBtn').find('input').val())
-    let op = $(test).text()
-    if (op == "-") {
-        if (cartUOM == 1) {
-            $(test).closest('.cartBtn').find('input').val(1)
-        } else {
-            $(test).closest('.cartBtn').find('input').val((cartUOM - 1).toString())
-        }
-    } else if (op == "+") {
-        if (cartUOM == 10) {
-            $(test).closest('.cartBtn').find('input').val(10)
-        } else {
-            $(test).closest('.cartBtn').find('input').val((cartUOM + 1).toString())
-        }
-    }
-}
-//點小圖換大圖 
 
+//產品卡顯示產品浮窗
+function cardBtnAdd(self) {
+    $.ajax({
+        url: "/Product/ShowProductModal",
+        method: "GET",
+        //data: data,
+        success: function (data) {
+            $('body').append(data);
+        }
+    });
+}
+
+//產品浮窗的關閉按鈕
+function modalBtnClose(self) {
+    $(self).closest('.modalFixed').remove()
+}
+
+//產品浮窗的Uom數量更新
+function modalBtnUom(self) {
+    var input = $(self).parent('.modalUOMcomponent').find('input')
+    var uom = parseInt($(input).val())
+    Update_Btn_Uom(uom, self, input)
+}
+
+/**
+ * Uom數量更新
+ * @param {number} uom 數量
+ * @param {any} self 加減號按鈕元素
+ * @param {any} input 輸入元素
+ */
+function Update_Btn_Uom(uom, self, input) {
+    if ($(self).text() == "+") {
+        // 設定購買上限為10
+        if (uom == 10) {
+            $(input).val(uom)
+        } else {
+            $(input).val(uom + 1)
+        }
+    }
+    if ($(self).text() == "-") {
+        // 設定購買下限為1
+        if (uom == 1) {
+            $(input).val(uom)
+        } else {
+            $(input).val(uom - 1)
+        }
+    }
+}
+
+//產品浮窗的圖片互動
+currentIndex = 0 // 不可以刪掉!!!
 function changeImg(test) {
-    let currentIndexS = 0;
+    //let currentIndex = 0;
     let totalImagesS = $('.bigImgWrapper div').length;
 
-    currentIndexS = test
-    let offset = -currentIndexS * (100 / totalImagesS);
+    currentIndex = test
+    let offset = -currentIndex * (100 / totalImagesS);
     $('.bigImgWrapper').css('transform', `translateX(${offset}%)`)
 }
-//點圖示換大圖 
-
 function slideImg(i) {
-    let currentIndex = 0;
     let totalImages = $('.bigImgWrapper div').length;
     // 更新索引
     currentIndex += i
@@ -75,8 +93,10 @@ function slideImg(i) {
 
     $('.bigImgWrapper').css('transform', `translateX(${offset}%)`)
 }
-//!加入購物車 
-$('.modalBtn').on('click', function () {
+
+//產品浮窗加入購物籃
+function modalBtnAdd() {
+    // 測試中...
     var data =
     {
         proID: "CB001",
@@ -85,16 +105,65 @@ $('.modalBtn').on('click', function () {
         price: 680,
         qty: 3,
     }
+    var data2 =
+    {
+        proID: "CB002",
+        img: "img/neko.png",
+        name: "咖啡B",
+        price: 360,
+        qty: 3,
+    }
+    var data3 =
+    {
+        proID: "CB002",
+        img: "img/neko.png",
+        name: "咖啡B",
+        price: 360,
+        qty: 2,
+    }
+    var data4 =
+    {
+        proID: "CB003",
+        img: "img/neko.png",
+        name: "咖啡C",
+        price: 360,
+        qty: 1,
+    }
     setLsHtml(data)
-})
-//!移除購物車
-function removeCart(test) {
-    $(test).closest('.cart').remove();
+    setLsHtml(data2)
+    setLsHtml(data3)
+    setLsHtml(data4)
 }
+
+//購物籃產品數量加減
+function cartBtnUom(self) {
+    var input = $(self).parent('.cartBtn').find('input')
+    var uom = parseInt($(input).val())
+    Update_Btn_Uom(uom, self, input)
+    var data =
+    {
+        proID: "CB001",
+        img: "img/neko.png",
+        name: "咖啡A",
+        price: 680,
+        qty: 5,
+    }
+    updateLs(data)
+}
+
+//移除購物籃產品
+function cartBtnClose(self) {
+    var cartItem = $(self).parent('.cart')
+    var id = cartItem.find('.card-title').data('id')
+    removeLs(id)
+    cartItem.remove()
+}
+
 //瀏覽器滾動到指定位置時顯示/隱藏按鈕
 window.onscroll = function () {
     scrollFunction();
-};
+}
+
 /**
  * 根據頁面滾動位置顯示或隱藏至頂按鈕
  */
@@ -108,6 +177,7 @@ function scrollFunction() {
         $('.topbtn').hide()
     }
 }
+
 //點擊時滾動頁面
 $('.topbtn').on('click', function () {
     document.body.scrollTop = 0;

@@ -1,5 +1,4 @@
-﻿<link href="~/css/Page.css" rel="stylesheet" />
-<link href="~/css/Breadcrumb.css" rel="stylesheet" />
+﻿@model List<Product>
 <div class="productList">
     @* Breadcrumb 麵包屑 *@
     <nav aria-label="breadcrumb">
@@ -78,13 +77,11 @@
                                         type="button"
                                         id="dropdownMenuButtonItem"
                                         data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                    每頁顯示12個
-                                </button>
+                                        aria-expanded="false">每頁顯示12個</button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButtonItem">
-                                    <li class="dropdown-item f-show-item" data-num="12">每頁顯示12個</li>
-                                    <li class="dropdown-item f-show-item" data-num="18">每頁顯示18個</li>
-                                    <li class="dropdown-item f-show-item" data-num="24">每頁顯示24個</li>
+                                    <li class="dropdown-item f-show-item" data-num="12" onclick="changeText(this)">每頁顯示12個</li>
+                                    <li class="dropdown-item f-show-item" data-num="18" onclick="changeText(this)">每頁顯示18個</li>
+                                    <li class="dropdown-item f-show-item" data-num="24" onclick="changeText(this)">每頁顯示24個</li>
                                 </ul>
                             </div>
                         </div>
@@ -216,18 +213,18 @@
                 <div class="cardContainer">
                     <div class="row">
                         @{
-                            int totalItems = 40;
-                            for (int i = 0; i < totalItems; i++)
+                            foreach (Product p in Model)
                             {
                                 <div class="col-4">
                                     <div class="card">
                                         <div class="cardImgBody">
                                             <a href="/Product/Index"><img src="~/img/neko.png" class="card-img-top"></a>
-                                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">加入購物車</button>
+                                            <button class="btn btn-primary" onclick="cardBtnAdd(this)">加入購物車</button>
+
                                         </div>
                                         <div class="card-body">
-                                            <h5 class="card-title text-center">產品名稱</h5>
-                                            <p class="card-text text-center">價格</p>
+                                            <h5 class="card-title text-center">@p.ProductName</h5>
+                                            <p class="card-text text-center">NT.@p.Price</p>
                                         </div>
                                     </div>
                                 </div>
@@ -243,82 +240,6 @@
             </div>
         </div>
     </div>
-    @* Modal 產品資訊互動視窗 *@
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-6">
-                                @* 產品圖 *@
-                                <div class="productImg">
-                                    @* 產品大圖 *@
-                                    <div class="bigImg">
-                                        <div class="bigImgWrapper">
-                                            <div><img src="/img/neko.png" class="mainImg" /></div>
-                                            <div><img src="/img/fish.png" class="mainImg" /></div>
-                                            <div><img src="/img/pig.png" class="mainImg" /></div>
-                                            <div><img src="/img/sheep.png" class="mainImg" /></div>
-                                        </div>
-                                        <a class="prev" onclick="slideImg(-1)">&#10094;</a>
-                                        <a class="next" onclick="slideImg(1)">&#10095;</a>
-                                    </div>
-                                    @* 產品縮圖 *@
-                                    <div class="smallImg">
-                                        <div class="row">
-                                            <img src="/img/neko.png" class="col-3 subImg" onclick="changeImg(0)" />
-                                            <img src="/img/fish.png" class="col-3 subImg" onclick="changeImg(1)" />
-                                            <img src="/img/pig.png" class="col-3 subImg" onclick="changeImg(2)" />
-                                            <img src="/img/sheep.png" class="col-3 subImg" onclick="changeImg(3)" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                @* 產品規格 *@
-                                <div class="productFormat">
-                                    <h1>產品名稱</h1>
-                                    <p>產地</p>
-                                    <p>風味</p>
-                                    <p>處理方式</p>
-                                    <p>烘培程度</p>
-                                    <p>價格</p>
-                                    @* 數量 *@
-                                    <div class="modalUOMcomponent">
-                                        @* 可在函式裡設定最大最小值 *@
-                                        <button onclick="modalUOMbtn(this)" name="minus">-</button>
-                                        <input type="number" value="1" readonly />
-                                        <button onclick="modalUOMbtn(this)" name="plus">+</button>
-                                    </div>
-                                    @* 加入購物車 *@
-                                    <div class="modalBtn">
-                                        <button class="btn btn-primary">加入購物車</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="productDesc">
-                                產品描述
-                                <div class="productDescText">
-                                    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-                                    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-                                    <hr />
-                                    <div>
-                                        <a href="/Product/Index">more</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 @* 到頂部 *@
 <button class="topbtn">
@@ -326,6 +247,3 @@
         <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5" />
     </svg>
 </button>
-<script src="~/lib/jquery/dist/jquery.js"></script>
-<script src="~/js/CartItem.js"></script>
-<script src="~/js/ProductIndex.js"></script>

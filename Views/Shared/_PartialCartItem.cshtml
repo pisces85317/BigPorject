@@ -1,8 +1,7 @@
 ﻿@* 加入購物車清單 *@
 @model BigPorject.Models.CartItemData
-<link href="~/css/p_CartItem.css" rel="stylesheet" />
 <div class="card cart">
-    <button type="button" class="btn-close" aria-label="Close" onclick="removeCart(this)"></button>
+    <button type="button" class="btn-close" aria-label="Close" onclick="cartBtnClose(this)"></button>
     <div class="row g-0">
         <div class="col-4">
             <div class="cartImg">
@@ -16,9 +15,9 @@
                 <div class="cartText">
                     <p>重量</p>
                     <div class="cartBtn">
-                        <button onclick="cartUOMbtn(this)" name="minus">-</button>
+                        <button onclick="cartBtnUom(this)" name="minus">-</button>
                         <input type="number" value="@Model.qty" readonly />
-                        <button onclick="cartUOMbtn(this)" name="plus">+</button>
+                        <button onclick="cartBtnUom(this)" name="plus">+</button>
                     </div>
                 </div>
             </div>

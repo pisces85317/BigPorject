@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/BigPorject.styles.css" asp-append-version="true" />
+    @* 新增... *@
+    <link href="~/css/Page.css" rel="stylesheet" />
+    <link href="~/css/Breadcrumb.css" rel="stylesheet" />
+    <link href="~/css/p_CartItem.css" rel="stylesheet" />
+    <link href="~/css/p_ProductModal.css" rel="stylesheet" />
+    @* 新增... *@
 </head>
 <body>
     <header>
@@ -23,7 +29,9 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">所有商品</a>
                         </li>
                     </ul>
+                    @* 新增... *@
                     <div id="layout-target"></div>
+                    @* 新增... *@
                 </div>
             </div>
         </nav>
@@ -44,6 +52,10 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    @* 新增... *@
+    <script src="~/js/CartItem.js"></script>
+    <script src="~/js/ProductIndex.js"></script>
+    @* 新增... *@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

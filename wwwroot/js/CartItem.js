@@ -1,43 +1,10 @@
 ﻿//cart = {
 //    
 //}
-var data =
-{
-    proID: "CB001",
-    img: "img/neko.png",
-    name: "咖啡A",
-    price: 680,
-    qty: 3,
-}
-var data2 =
-{
-    proID: "CB002",
-    img: "img/neko.png",
-    name: "咖啡B",
-    price: 360,
-    qty: 3,
-}
-var data3 =
-{
-    proID: "CB002",
-    img: "img/neko.png",
-    name: "咖啡B",
-    price: 360,
-    qty: 2,
-}
-var data4 =
-{
-    proID: "CB003",
-    img: "img/neko.png",
-    name: "咖啡C",
-    price: 360,
-    qty: 1,
-}
-
 
 /**
  * 把資料加入localstorage
- * @param {Object} data 一組dataset的物件
+ * @param {object} data 一組包含proID、img、name、price、qty的data物件
  */
 function addLs(data) {
     var storage = window.localStorage
@@ -54,8 +21,35 @@ function addLs(data) {
 
 
 /**
+ * 把資料移出localstorage
+ * @param {string} proID 要移出之物件的proID
+ */
+function removeLs(proID) {
+    var storage = window.localStorage
+    var strValue = storage.getItem("cart")
+    var objValue = JSON.parse(strValue)
+    var resultValue = objValue.filter((e) => e.proID != proID)
+    storage.setItem("cart", JSON.stringify(resultValue))
+}
+
+
+/**
+ * 更新localstorage內指定資料的qty
+ * @param {object} data 一組包含proID、img、name、price、qty的data物件
+ */
+function updateLs(data) {
+    var storage = window.localStorage
+    var strValue = storage.getItem("cart")
+    var objValue = JSON.parse(strValue)
+    var value = objValue.find((e) => e.proID == data.proID)
+    value.qty = data.qty
+    addLs(value)
+}
+
+
+/**
  * 取得購物籃產品的部分檢視
- * @param {Object} data 一組dataset的物件
+ * @param {object} data 一組包含proID、img、name、price、qty的data物件
  */
 function getHtml(data) {
     $.ajax({
@@ -71,7 +65,7 @@ function getHtml(data) {
 
 /**
  * 把購物籃產品的部分檢視加入購物籃
- * @param {Object} data 一組dataset的物件
+ * @param {object} data 一組包含proID、img、name、price、qty的data物件
  */
 function addHtml(data) {
     var carts = $('#layout-target').find('.card-title')
@@ -86,6 +80,12 @@ function addHtml(data) {
         getHtml(data)
     }
 }
+
+
+/**
+ * 把資料放入localstorage並且把購物籃產品加入購物籃
+ * @param {object} data 一組包含proID、img、name、price、qty的data物件
+ */
 function setLsHtml(data) {
     addLs(data)
     addHtml(data)

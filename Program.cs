@@ -1,7 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using BigPorject.Models;
+using Microsoft.Data.SqlClient;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+var connectionString = builder.Configuration.GetConnectionString("ProjectDb");
+builder.Services.AddDbContext <ProjectContext> (x => x.UseSqlServer(connectionString));
 
 var app = builder.Build();
 
@@ -18,6 +24,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
 	name: "default",
-	pattern: "{controller=Home}/{action=Index}/{id?}");
+	pattern: "{controller=Product}/{action=Index}/{id?}");
 
 app.Run();
