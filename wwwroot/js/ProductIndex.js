@@ -1,9 +1,8 @@
 ﻿//每頁顯示文字改變
+//點選分頁設定卡片數量
 function changeText(self) {
-    $(document).on('click', function (event) {
-        var text = $(event.target).text()
-        $(self).closest('.dropdown').find('button').text(text)
-    })
+    $(self).closest('.dropdown').find('button').text($(self).text())
+    Set_Page(40, $(this).data('num'))
 }
 
 //點選關閉按鈕關閉篩選選單 
@@ -35,6 +34,13 @@ function cardBtnAdd(self) {
 function modalBtnClose(self) {
     $(self).closest('.modalFixed').remove()
 }
+
+//點擊產品浮窗外區域關閉浮窗
+$(document).on('click', function (e) {
+    if ($('.modalFixed')[0] == e.target) {
+        $('.modalFixed').remove()
+    }
+})
 
 //產品浮窗的Uom數量更新
 function modalBtnUom(self) {
@@ -185,13 +191,12 @@ $('.topbtn').on('click', function () {
 })
 
 //瀏覽器載入時設定分頁
+totalItem = "@total_item"
 window.onload = function () {
     Set_Page(40, 12)
 }
-//點選分頁設定卡片數量
-$('.f-show-item').on('click', function () {
-    Set_Page(40, $(this).data('num'))
-})
+
+
 /**
  * 設定分頁、設定css並繫結點擊事件
  * @param {number} total_item 總卡片
