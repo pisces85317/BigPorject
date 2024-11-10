@@ -1,5 +1,6 @@
 ﻿using BigPorject.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace BigPorject.Controllers
@@ -14,6 +15,30 @@ namespace BigPorject.Controllers
         }
         public async Task<IActionResult> Index()
         {
+            var category = Request.Query["category"].ToString();
+            if (category == "產地")
+            {
+                var Country = Request.Query["Country"].ToString();
+                var query = from p in _context.Products
+                            where p.Country!.Contains(Country)
+                            select p;
+                return View(await query.ToListAsync());
+            }else if(category == "風味")
+            {
+                var Flavor = Request.Query["Flavor"].ToString();
+                var query = from p in _context.Products
+                            where p.Flavor!.Contains(Flavor)
+                            select p;
+                return View(await query.ToListAsync());
+            }                    
+            else if(category == "濾掛咖啡")
+            {
+                var query = from p in _context.Products
+                            where p.Category == "濾掛咖啡"
+                            select p;
+                return View(await query.ToListAsync());
+            }
+            
             return View(await _context.Products.ToListAsync());
         }
         [HttpPost]
@@ -25,18 +50,6 @@ namespace BigPorject.Controllers
         public IActionResult ShowProductModal()
         {
             return PartialView("_PartialProductModal");
-        }
-        public IActionResult SelectProduct(string column, string value)
-        {
-            if (column == "所有商品")
-            {
-                //var query = from p in Products
-                //            select p;
-                //var a = query.ToList();
-                //return new JsonResult(a);
-            }
-
-            return new JsonResult("");
         }
     }
 }

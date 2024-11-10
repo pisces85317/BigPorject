@@ -1,6 +1,7 @@
-﻿//cart = {
-//    
-//}
+﻿/* 
+ * Cart
+ */
+
 
 /**
  * 把資料加入localstorage
@@ -89,4 +90,36 @@ function addHtml(data) {
 function setLsHtml(data) {
     addLs(data)
     addHtml(data)
+}
+
+
+/***/
+
+/*
+ * 頁面刷新 
+ */
+
+
+/**
+ * 查詢參數物件
+ * @property {string} category 分類
+ * @property {string} country 產地
+ * @property {string} flavor 風味
+ */
+const QuestionParameter = {
+    category: "",
+    country: "",
+    flavor: "",
+    setUrl: function () {
+        return ""
+    }
+}
+
+
+/**
+ * 導到新頁面
+ * @param {string} newUrl 新的網址
+ */
+function newDoc(newUrl) {
+    window.location.assign("http://localhost:5122/Product/Index" + newUrl)
 }

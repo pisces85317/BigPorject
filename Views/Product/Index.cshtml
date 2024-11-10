@@ -1,4 +1,4 @@
-﻿@model List<Product>
+﻿@model List<BigPorject.Models.Product>
 @{
     var total_item = Model.Count;
 }
@@ -20,15 +20,15 @@
                     </div>
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingOne">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">產區</button>
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">產地</button>
                         </h2>
                         <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionSidebar">
                             <div class="accordion-body">
-                                <a href="#">衣索比亞</a>
-                                <a href="#">巴西</a>
-                                <a href="#">哥倫比亞</a>
-                                <a href="#">瓜地馬拉</a>
-                                <a href="#">肯亞</a>
+                                <a>衣索比亞</a>
+                                <a>巴西</a>
+                                <a>哥倫比亞</a>
+                                <a>瓜地馬拉</a>
+                                <a>肯亞</a>
                             </div>
                         </div>
                     </div>
@@ -38,17 +38,17 @@
                         </h2>
                         <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionSidebar">
                             <div class="accordion-body">
-                                <a href="#">果香</a>
-                                <a href="#">花香</a>
-                                <a href="#">巧克力</a>
-                                <a href="#">紅酒</a>
-                                <a href="#">堅果香</a>
-                                <a href="#">茶香</a>
+                                <a>果香</a>
+                                <a>花香</a>
+                                <a>巧克力</a>
+                                <a>紅酒</a>
+                                <a>堅果香</a>
+                                <a>茶香</a>
                             </div>
                         </div>
                     </div>
                     <div class="accordion-item">
-                        <a href="#" class="accordion-header accordion-button">濾掛系列</a>
+                        <a class="accordion-header accordion-button">濾掛系列</a>
                     </div>
                 </div>
             </div>
@@ -71,6 +71,7 @@
                                     排序
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButtonPriceSort">
+                                    <li class="dropdown-item">綜合</li>
                                     <li class="dropdown-item">價格:由低到高</li>
                                     <li class="dropdown-item">價格:由高到低</li>
                                 </ul>
@@ -157,7 +158,7 @@
                                     data-bs-toggle="dropdown"
                                     data-bs-auto-close="outside"
                                     aria-expanded="false">
-                                處理方式
+                                處理法
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonProcedure">
                                 <div class="dropdown-item" style="display:flex;justify-content:right">

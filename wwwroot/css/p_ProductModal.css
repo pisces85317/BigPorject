@@ -61,18 +61,15 @@
 
     .bigImg .bigImgWrapper {
         display: flex;
-        width: 400%;
+        width: 300%;
         transition: transform 200ms ease-out;
     }
 
 .bigImgWrapper div {
     width: 100%;
     height: auto;
-}
-
-.mainImg {
-    width: 100%;
-    height: auto;
+    display:flex;
+    justify-content:center;
 }
 
 .smallImg {

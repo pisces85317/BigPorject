@@ -250,24 +250,18 @@ function backToTop() {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
 }
-//點選分類設定麵包屑路徑
+
+
+//分類點擊事件
 $('.accordion a').on('click', function () {
-    SetBreadcrumb(this)
-})
-/**
- * 根據點選的分類顯示對應的麵包屑路徑
- * @param {any} test 當前元素
- */
-function SetBreadcrumb(test) {
-    //<li class="breadcrumb-item active" aria-current="page">所有商品</li>
-    if ($(test).text() == "所有商品" || $(test).text() == "耳掛系列") {
-        $('.breadcrumb').empty()
-        $('.breadcrumb').append('<li class="breadcrumb-item"><a href="/Home/Index">首頁</a></li>')
-        $('.breadcrumb').append(`<li class="breadcrumb-item active" aria-current="page">${$(test).text()}</li>`)
-    } else {
-        $('.breadcrumb').empty()
-        $('.breadcrumb').append('<li class="breadcrumb-item"><a href="/Home/Index">首頁</a></li>')
-        $('.breadcrumb').append(`<li class="breadcrumb-item">${$(test).closest('.accordion-item').find('button').text()}</li>`)
-        $('.breadcrumb').append(`<li class="breadcrumb-item active" aria-current="page">${$(test).text()}</li>`)
+    //設定麵包屑路徑
+    var text = $(this).text()
+    $('.breadcrumb').empty()
+    $('.breadcrumb').append('<li class="breadcrumb-item"><a href="/Home/Index">首頁</a></li>')
+    if (text != "所有商品" && text != "濾掛系列") {
+        $('.breadcrumb').append(`<li class="breadcrumb-item">${$(this).closest('.accordion-item').find('button').text()}</li>`)
     }
-}
+    $('.breadcrumb').append(`<li class="breadcrumb-item active" aria-current="page">${text}</li>`)
+    //設定url
+
+})
