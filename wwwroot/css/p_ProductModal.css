@@ -10,6 +10,7 @@
     outline: 0;
     background-color: rgb(0, 0, 0, .5);
 }
+
     .modalFixed::-webkit-scrollbar {
         display: none;
     }
@@ -68,8 +69,8 @@
 .bigImgWrapper div {
     width: 100%;
     height: auto;
-    display:flex;
-    justify-content:center;
+    display: flex;
+    justify-content: center;
 }
 
 .smallImg {
@@ -168,6 +169,10 @@
     border-top: 1px solid white;
     color: white;
     margin-top: 1rem;
+}
+
+.productDescText h3 {
+    margin-top: .5rem;
 }
 
 .productDescText hr {

@@ -13,11 +13,10 @@ function filterBtnClose(test) {
 
 //產品卡顯示產品浮窗
 function cardBtnAdd(self) {
-    console.log($(self).data('id'))
     $.ajax({
         url: "/Product/ShowProductModal",
         method: "POST",
-        data: $(self).data('id'),
+        data: { proID: `${$(self).data('id')}` },
         success: function (data) {
             $('body').append(data);
         }
@@ -95,44 +94,18 @@ function slideImg(i) {
 }
 
 //產品浮窗加入購物籃
-function modalBtnAdd() {
-    // 測試中...
+function modalBtnAdd(self) {
+    var _price = parseInt($(self).data('price'))
+    var _qty = parseInt($(self).closest('.productFormat').find('input[type="number"]').val())
     var data =
     {
-        proID: "CB001",
-        img: "img/neko.png",
-        name: "咖啡A",
-        price: 680,
-        qty: 3,
-    }
-    var data2 =
-    {
-        proID: "CB002",
-        img: "img/neko.png",
-        name: "咖啡B",
-        price: 360,
-        qty: 3,
-    }
-    var data3 =
-    {
-        proID: "CB002",
-        img: "img/neko.png",
-        name: "咖啡B",
-        price: 360,
-        qty: 2,
-    }
-    var data4 =
-    {
-        proID: "CB003",
-        img: "img/neko.png",
-        name: "咖啡C",
-        price: 360,
-        qty: 1,
+        proID: $(self).data('id'),
+        img: $(self).data('img'),
+        name: $(self).data('name'),
+        price: _price,
+        qty: _qty,
     }
     setLsHtml(data)
-    setLsHtml(data2)
-    setLsHtml(data3)
-    setLsHtml(data4)
 }
 
 //購物籃產品數量加減
@@ -140,13 +113,16 @@ function cartBtnUom(self) {
     var input = $(self).parent('.cartBtn').find('input')
     var uom = parseInt($(input).val())
     Update_Btn_Uom(uom, self, input)
+    var cartItem = $(self).closest('.cart')
+    var _price = parseInt($(cartItem).find('span').text())
+    var _qty = parseInt($(cartItem).find('input[type="number"]').val())
     var data =
     {
-        proID: "CB001",
-        img: "img/neko.png",
-        name: "咖啡A",
-        price: 680,
-        qty: 5,
+        proID: $(cartItem).find('.card-title').data('id'),
+        img: $(cartItem).find('img').prop('src'),
+        name: $(cartItem).find('.card-title').text(),
+        price: _price,
+        qty: _qty,
     }
     updateLs(data)
 }

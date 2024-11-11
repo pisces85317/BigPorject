@@ -23,33 +23,37 @@ namespace BigPorject.Controllers
                             where p.Country!.Contains(country)
                             select p;
                 return View(await query.ToListAsync());
-            }else if(category == "風味")
+            }
+            else if (category == "風味")
             {
                 var flavor = Request.Query["flavor"].ToString();
                 var query = from p in _context.Products
                             where p.Flavor!.Contains(flavor)
                             select p;
                 return View(await query.ToListAsync());
-            }                    
-            else if(category == "濾掛系列")
+            }
+            else if (category == "濾掛系列")
             {
                 var query = from p in _context.Products
                             where p.Category == "濾掛咖啡"
                             select p;
                 return View(await query.ToListAsync());
             }
-            
+
             return View(await _context.Products.ToListAsync());
         }
         [HttpPost]
         public IActionResult AddCartItemToLayout(CartItemData data)
         {
-            return PartialView("_PartialCartItem", data);
+            return PartialView("_PartialCartItem", data);                         
         }
-        [HttpGet]
-        public IActionResult ShowProductModal()
+        [HttpPost]
+        public async Task<IActionResult> ShowProductModal(string proID)
         {
-            return PartialView("_PartialProductModal");
+            var query = (from p in _context.Products
+                         where p.ProductId == proID
+                         select p).SingleOrDefaultAsync();
+            return PartialView("_PartialProductModal", await query);
         }
     }
 }

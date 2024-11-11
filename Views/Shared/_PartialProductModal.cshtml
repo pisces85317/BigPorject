@@ -1,4 +1,5 @@
 ﻿@* Modal 產品資訊互動視窗 *@
+@model BigPorject.Models.Product
 <div class="modalFixed">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -34,12 +35,12 @@
                         <div class="col-6">
                             @* 產品規格 *@
                             <div class="productFormat">
-                                <h1>產品名稱</h1>
-                                <p>產地</p>
-                                <p>風味</p>
-                                <p>處理方式</p>
-                                <p>烘培程度</p>
-                                <p>價格</p>
+                                <h1>@Model.ProductName</h1>
+                                <p><span>產地 : </span>@Model.Country</p>
+                                <p><span>風味 : </span>@Model.Flavor</p>
+                                <p><span>處理法 : </span>@Model.Method</p>
+                                <p><span>烘焙程度 : </span>@Model.Baking</p>
+                                <p><span>價格 : </span>NT.@Model.Price</p>
                                 @* 數量 *@
                                 <div class="modalUOMcomponent">
                                     @* 可在函式裡設定最大最小值 *@
@@ -49,7 +50,12 @@
                                 </div>
                                 @* 加入購物車 *@
                                 <div class="modalBtn">
-                                    <button class="btn btn-primary" onclick="modalBtnAdd()">加入購物車</button>
+                                    <button class="btn btn-primary" 
+                                            data-id="@Model.ProductId" 
+                                            data-img="/img/neko.png" 
+                                            data-name="@Model.ProductName" 
+                                            data-price="@Model.Price"
+                                            onclick="modalBtnAdd(this)">加入購物車</button>
                                 </div>
                             </div>
                         </div>
@@ -58,9 +64,11 @@
                         <div class="productDesc">
                             <div class="productDescText">
                                 <div>
-                                    <h6>產品描述</h6>
+                                    <h3>產品描述</h3>
                                 </div>
-                                <p>這是一段文字</p>
+                                <div>
+                                    <p>@Model.Description</p>
+                                </div>
                                 <hr />
                                 <div>
                                     <a href="#">more</a>
