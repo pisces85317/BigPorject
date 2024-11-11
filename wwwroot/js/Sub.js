@@ -101,25 +101,22 @@ function setLsHtml(data) {
 
 
 /**
- * 查詢參數物件
- * @property {string} category 分類
- * @property {string} country 產地
- * @property {string} flavor 風味
+ * 問號參數map
  */
-const QuestionParameter = {
-    category: "",
-    country: "",
-    flavor: "",
-    setUrl: function () {
-        return ""
-    }
-}
+var queryMap = new Map();
 
+//var urlString = window.location.href
 
 /**
- * 導到新頁面
- * @param {string} newUrl 新的網址
+ * 處理問號參數，導到新頁面
+ * @param {any} query_map 問號參數map 
  */
-function newDoc(newUrl) {
-    window.location.assign("http://localhost:5122/Product/Index" + newUrl)
+function newDoc(query_map) {
+    var queryString = []
+    query_map.forEach(function (value, key) {
+        queryString.push(`${key}=${value}`)
+    })
+    var suit_urlString = "?" + queryString.join('&')
+    console.log(suit_urlString)
+    //window.location.assign("http://localhost:5122/Product/Index" + suit_urlString)
 }

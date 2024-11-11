@@ -11,19 +11,13 @@ function filterBtnClose(test) {
     $(test).closest('.dropdown-menu').removeClass('show');
 }
 
-//當range的value更動時顯示其值在對應的span裡和input的樣式
-function valueChange(test) {
-    $(test).next('span').text($(test).val());
-    const progress = ($(test).val() - $(test).prop('min')) / ($(test).prop('max') - $(test).prop('min')) * 100;
-    $(test).css('background', 'linear-gradient(to right, #FFB818 0%, #FFB818 ' + progress + '%, #ffd068 ' + progress + '%, #ffd068 100%)')
-}
-
 //產品卡顯示產品浮窗
 function cardBtnAdd(self) {
+    console.log($(self).data('id'))
     $.ajax({
         url: "/Product/ShowProductModal",
-        method: "GET",
-        //data: data,
+        method: "POST",
+        data: $(self).data('id'),
         success: function (data) {
             $('body').append(data);
         }
@@ -255,13 +249,66 @@ function backToTop() {
 //分類點擊事件
 $('.accordion a').on('click', function () {
     //設定麵包屑路徑
-    var text = $(this).text()
+    //設定問號參數map
+    queryMap.delete("country")
+    queryMap.delete("flavor")
     $('.breadcrumb').empty()
     $('.breadcrumb').append('<li class="breadcrumb-item"><a href="/Home/Index">首頁</a></li>')
+    var text = $(this).text()
     if (text != "所有商品" && text != "濾掛系列") {
-        $('.breadcrumb').append(`<li class="breadcrumb-item">${$(this).closest('.accordion-item').find('button').text()}</li>`)
+        var ca_text = $(this).closest('.accordion-item').find('button').text()
+        $('.breadcrumb').append(`<li class="breadcrumb-item">${ca_text}</li>`)
+        queryMap.set("category", ca_text)
+        if (ca_text == "產地") {
+            queryMap.set("country", text)
+        }
+        else if (ca_text == "風味") {
+            queryMap.set("flavor", text)
+        }
+    } else {
+        queryMap.set("category", text)
     }
     $('.breadcrumb').append(`<li class="breadcrumb-item active" aria-current="page">${text}</li>`)
-    //設定url
+    newDoc(queryMap)
+})
 
+
+//篩選點擊事件:烘焙程度，處理法
+$('.filter input[type="checkbox"]').on('click', function () {
+    let colElem = $(this).closest('.dropdown').find('button').text()
+    if (colElem == "烘培程度") {
+        let backingCheckedArr = []
+        let bakingList = $(this).closest('.dropdown').find('input[type="checkbox"]:checked')
+        if (bakingList.length == 0) {
+            queryMap.delete("backing")
+        } else {
+            bakingList.each(function () {
+                backingCheckedArr.push($(this).closest('.CBcontainer').text())
+            })
+            queryMap.set("backing", backingCheckedArr.join('%'))
+        }
+    } else if (colElem == "處理法") {
+        let methodCheckedArr = []
+        let methodList = $(this).closest('.dropdown').find('input[type="checkbox"]:checked')
+        if (methodList.length == 0) {
+            queryMap.delete("method")
+        } else {
+            methodList.each(function () {
+                methodCheckedArr.push($(this).closest('.CBcontainer').text())
+            })
+            queryMap.set("method", methodCheckedArr.join('%'))
+        }
+    }
+    newDoc(queryMap)
+})
+
+
+//篩選輸入事件:味道
+$('.filterTasteItem input[type="range"]').on('input', function () {
+    //當range的value更動時，顯示其值在對應的span裡和input的樣式
+    $(this).next('span').text($(this).val());
+    const progress = ($(this).val() - $(this).prop('min')) / ($(this).prop('max') - $(this).prop('min')) * 100;
+    $(this).css('background', 'linear-gradient(to right, #FFB818 0%, #FFB818 ' + progress + '%, #ffd068 ' + progress + '%, #ffd068 100%)')
+
+    //console.log($(this).prop('id'))
 })

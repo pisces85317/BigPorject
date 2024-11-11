@@ -18,20 +18,20 @@ namespace BigPorject.Controllers
             var category = Request.Query["category"].ToString();
             if (category == "產地")
             {
-                var Country = Request.Query["Country"].ToString();
+                var country = Request.Query["country"].ToString();
                 var query = from p in _context.Products
-                            where p.Country!.Contains(Country)
+                            where p.Country!.Contains(country)
                             select p;
                 return View(await query.ToListAsync());
             }else if(category == "風味")
             {
-                var Flavor = Request.Query["Flavor"].ToString();
+                var flavor = Request.Query["flavor"].ToString();
                 var query = from p in _context.Products
-                            where p.Flavor!.Contains(Flavor)
+                            where p.Flavor!.Contains(flavor)
                             select p;
                 return View(await query.ToListAsync());
             }                    
-            else if(category == "濾掛咖啡")
+            else if(category == "濾掛系列")
             {
                 var query = from p in _context.Products
                             where p.Category == "濾掛咖啡"

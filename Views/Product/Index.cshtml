@@ -81,7 +81,9 @@
                                         type="button"
                                         id="dropdownMenuButtonItem"
                                         data-bs-toggle="dropdown"
-                                        aria-expanded="false">每頁顯示12個</button>
+                                        aria-expanded="false">
+                                    每頁顯示12個
+                                </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButtonItem">
                                     <li class="dropdown-item f-show-item" data-num="12" onclick="changeText(this)">每頁顯示12個</li>
                                     <li class="dropdown-item f-show-item" data-num="18" onclick="changeText(this)">每頁顯示18個</li>
@@ -154,13 +156,13 @@
                         <div class="dropdown">
                             <button class="btn btn-primary dropdown-toggle"
                                     type="button"
-                                    id="dropdownMenuButtonProcedure"
+                                    id="dropdownMenuButtonMethod"
                                     data-bs-toggle="dropdown"
                                     data-bs-auto-close="outside"
                                     aria-expanded="false">
                                 處理法
                             </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonProcedure">
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonMethod">
                                 <div class="dropdown-item" style="display:flex;justify-content:right">
                                     <button type="button" class="btn-close" aria-label="Close" onclick="filterBtnClose(this)"></button>
                                 </div>
@@ -194,19 +196,19 @@
                                 </div>
                                 <div class="dropdown-item filterTasteItem">
                                     <div>
-                                        香氣<input type="range" min="1" max="5" value="1" id="fragrance" oninput="valueChange(this)" /><span>1</span>
+                                        香氣<input type="range" min="1" max="5" value="1" id="fragrance" /><span>1</span>
                                     </div>
                                     <div>
-                                        酸味<input type="range" min="1" max="5" value="1" id="sour" oninput="valueChange(this)" /><span>1</span>
+                                        酸味<input type="range" min="1" max="5" value="1" id="sour" /><span>1</span>
                                     </div>
                                     <div>
-                                        苦味<input type="range" min="1" max="5" value="1" id="bitter" oninput="valueChange(this)" /><span>1</span>
+                                        苦味<input type="range" min="1" max="5" value="1" id="bitter" /><span>1</span>
                                     </div>
                                     <div>
-                                        甜味<input type="range" min="1" max="5" value="1" id="sweet" oninput="valueChange(this)" /><span>1</span>
+                                        甜味<input type="range" min="1" max="5" value="1" id="sweet" /><span>1</span>
                                     </div>
                                     <div>
-                                        厚實<input type="range" min="1" max="5" value="1" id="strong" oninput="valueChange(this)" /><span>1</span>
+                                        厚實<input type="range" min="1" max="5" value="1" id="strong" /><span>1</span>
                                     </div>
                                 </div>
                             </div>
@@ -223,7 +225,7 @@
                                     <div class="card">
                                         <div class="cardImgBody">
                                             <a href="/Product/Index"><img src="~/img/neko.png" class="card-img-top"></a>
-                                            <button class="btn btn-primary" onclick="cardBtnAdd(this)">加入購物車</button>
+                                            <button class="btn btn-primary" data-id="@p.ProductId" onclick="cardBtnAdd(this)">加入購物車</button>
 
                                         </div>
                                         <div class="card-body">
