@@ -1,14 +1,7 @@
-﻿//每頁顯示文字改變
-//點選分頁設定卡片數量
-function changeText(self) {
-    $(self).closest('.dropdown').find('button').text($(self).text())
-    Set_Page(40, $(this).data('num'))
-}
-
-//點選關閉按鈕關閉篩選選單 
-function filterBtnClose(test) {
-    $(test).closest('.dropdown-menu').prev().removeClass('show');
-    $(test).closest('.dropdown-menu').removeClass('show');
+﻿//篩選的關閉按鈕
+function filterBtnClose(self) {
+    $(self).closest('.dropdown-menu').removeClass('show');
+    $(self).closest('.dropdown-menu').prev().removeClass('show');
 }
 
 //產品卡顯示產品浮窗
@@ -68,9 +61,8 @@ function Update_Btn_Uom(uom, self, input) {
 }
 
 //產品浮窗的圖片互動
-currentIndex = 0 // 不可以刪掉!!!
+let currentIndex = 0 // 不可以刪掉!!!
 function changeImg(test) {
-    //let currentIndex = 0;
     let totalImagesS = $('.bigImgWrapper div').length;
 
     currentIndex = test
@@ -168,39 +160,7 @@ window.onload = function () {
 
 
 /**
- * 設定分頁、設定css並繫結點擊事件
- * @param {number} total_item 總卡片
- * @param {number} item_per_page 每頁要顯示的卡片數量
- */
-function Set_Page(total_item, item_per_page) {
-    // 頁數的數量 = 總卡片/每頁要顯示的卡片數量
-    let total_pages = Math.ceil(total_item / item_per_page)
-
-    // 根據頁數的數量生成分頁標籤，在分頁清單中的第一個清單增加css類別
-    $('.pageul').empty()
-    for (let i = 1; i <= total_pages; i++) {
-        $('.pageul').append(`<li><a href="#">${i}</a></li>`)
-    }
-    $('.pageul li').first().addClass('active')
-
-    // 顯示第一頁的卡片
-    showPage(1, item_per_page)
-
-    //繫結分頁的點擊事件
-    $('.pageul li a').on('click', function (e) {
-        e.preventDefault();
-        let currentPage = $(this).text()
-        $('.pageul li').removeClass('active')
-        $(this).parent().addClass('active')
-        // 顯示當前頁面的卡片
-        showPage(currentPage, item_per_page)
-        // 回到頁面頂部
-        backToTop()
-    })
-}
-
-/**
- * 根據點選的分頁顯示卡片數量
+ * (根據點選的分頁顯示卡片數量)
  * @param {number} page_num 當前分頁數
  * @param {number} item_per_page 每頁要顯示的卡片數量
  */
@@ -212,13 +172,6 @@ function showPage(page_num, item_per_page) {
 
     $('.cardContainer').find('.col-4').css('display', 'none');
     $('.cardContainer').find('.col-4').slice(start, end).css('display', 'flex')
-}
-/**
- * 回到頂部
- */
-function backToTop() {
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
 }
 
 
@@ -249,9 +202,44 @@ $('.accordion a').on('click', function () {
 })
 
 
+//價格排序點擊事件
+$('.priceSort li').on('click', function () {
+    var text = $(this).text()
+    if (text == "綜合") {
+        queryMap.delete("sort")
+    } else if (text.includes("由低到高")) {
+        queryMap.set("sort", "desc")
+    } else if (text.includes("由高到低")) {
+        queryMap.set("sort","asc")
+    }
+    newDoc(queryMap)
+})
+
+
+//每頁顯示點擊事件
+$('.itemShow li').on('click', function () {
+    //每頁顯示文字改變
+    //點選分頁設定卡片數量
+    $(this).closest('.dropdown').find('button').text($(this).text())
+    Set_Page(40, $(this).data('num'))
+    //設定問號參數map
+    queryMap.set("item", $(this).data('num'))
+    newDoc(queryMap)
+})
+
+
+//篩選點擊事件:價格
+$('.filter input[type="submit"]').on('click', function () {
+    //點選Go按鈕關閉篩選選單
+    filterBtnClose(this)
+    //設定問號參數map
+    
+})
+
+
 //篩選點擊事件:烘焙程度，處理法
 $('.filter input[type="checkbox"]').on('click', function () {
-    let colElem = $(this).closest('.dropdown').find('button').text()
+    let colElem = $(this).closest('.dropdown').find('button').text().trim()
     if (colElem == "烘培程度") {
         let backingCheckedArr = []
         let bakingList = $(this).closest('.dropdown').find('input[type="checkbox"]:checked')
@@ -280,11 +268,48 @@ $('.filter input[type="checkbox"]').on('click', function () {
 
 
 //篩選輸入事件:味道
-$('.filterTasteItem input[type="range"]').on('input', function () {
+$('.filter input[type="range"]').on('input', function () {
     //當range的value更動時，顯示其值在對應的span裡和input的樣式
     $(this).next('span').text($(this).val());
     const progress = ($(this).val() - $(this).prop('min')) / ($(this).prop('max') - $(this).prop('min')) * 100;
     $(this).css('background', 'linear-gradient(to right, #FFB818 0%, #FFB818 ' + progress + '%, #ffd068 ' + progress + '%, #ffd068 100%)')
-
-    //console.log($(this).prop('id'))
+    //設定問號參數map
+    queryMap.set($(this).prop('id'), $(this).val())
+    if (queryMap.get($(this).prop('id')) == 1) {
+        queryMap.delete($(this).prop('id'))
+    }
+    newDoc(queryMap)
 })
+
+
+/**
+ * 設定分頁、css和點擊事件
+ * @param {number} total_item 總卡片
+ * @param {number} item_per_page 每頁要顯示的卡片數量
+ */
+function Set_Page(total_item, item_per_page) {
+    // 頁數的數量 = 總卡片/每頁要顯示的卡片數量
+    let total_pages = Math.ceil(total_item / item_per_page)
+
+    // 根據頁數的數量生成分頁標籤，在分頁清單中的第一個清單增加css類別
+    $('.pageul').empty()
+    for (let i = 1; i <= total_pages; i++) {
+        $('.pageul').append(`<li><a>${i}</a></li>`)
+    }
+    $('.pageul li').first().addClass('active')
+
+    // (顯示第一頁的卡片)
+    showPage(1, item_per_page)
+
+    //分頁點擊事件
+    $('.pageul li a').on('click', function (e) {
+        e.preventDefault();
+        let currentPage = $(this).text()
+        $('.pageul li').removeClass('active')
+        $(this).parent().addClass('active')
+        // (顯示當前頁面的卡片)
+        showPage(currentPage, item_per_page)
+        queryMap.set("page", $(this).text())
+        newDoc(queryMap)
+    })
+}

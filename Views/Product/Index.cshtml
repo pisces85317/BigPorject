@@ -54,7 +54,7 @@
             </div>
             <div class="col-9">
                 @* 數量和排序 *@
-                <div class="numSort row">
+                <div class="ItemSort row">
                     @* 數量 *@
                     <div class="col">
                         查詢結果的數量
@@ -70,7 +70,7 @@
                                         aria-expanded="false">
                                     排序
                                 </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButtonPriceSort">
+                                <ul class="dropdown-menu priceSort" aria-labelledby="dropdownMenuButtonPriceSort">
                                     <li class="dropdown-item">綜合</li>
                                     <li class="dropdown-item">價格:由低到高</li>
                                     <li class="dropdown-item">價格:由高到低</li>
@@ -79,15 +79,14 @@
                             <div class="dropdown">
                                 <button class="btn btn-primary dropdown-toggle"
                                         type="button"
-                                        id="dropdownMenuButtonItem"
+                                        id="dropdownMenuButtonItemShow"
                                         data-bs-toggle="dropdown"
                                         aria-expanded="false">
                                     每頁顯示12個
                                 </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButtonItem">
-                                    <li class="dropdown-item f-show-item" data-num="12" onclick="changeText(this)">每頁顯示12個</li>
-                                    <li class="dropdown-item f-show-item" data-num="18" onclick="changeText(this)">每頁顯示18個</li>
-                                    <li class="dropdown-item f-show-item" data-num="24" onclick="changeText(this)">每頁顯示24個</li>
+                                <ul class="dropdown-menu itemShow" aria-labelledby="dropdownMenuButtonItemShow">
+                                    <li class="dropdown-item f-show-item" data-num="12">每頁顯示12個</li>
+                                    <li class="dropdown-item f-show-item" data-num="18">每頁顯示18個</li>
                                 </ul>
                             </div>
                         </div>
@@ -110,10 +109,10 @@
                                     <button type="button" class="btn-close" aria-label="Close" onclick="filterBtnClose(this)"></button>
                                 </div>
                                 <div class="dropdown-item filterPriceItem">
-                                    <input type="text" value="min" />
+                                    <input type="number" min="0" max="999" />
                                     <span> - </span>
-                                    <input type="text" value="max" />
-                                    <input type="submit" value="Go" onclick="filterBtnClose(this)" />
+                                    <input type="number" min="0" max="999" />
+                                    <input type="submit" value="Go" />
                                 </div>
                             </div>
                         </div>

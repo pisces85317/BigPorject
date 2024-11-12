@@ -24,6 +24,7 @@
             text-decoration: none;
             background-color: #E0732A;
             color: white;
+            cursor: pointer;
         }
 
         .pageul li.active a {
