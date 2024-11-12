@@ -183,7 +183,7 @@ $('.accordion a').on('click', function () {
     queryMap.delete("flavor")
     $('.breadcrumb').empty()
     $('.breadcrumb').append('<li class="breadcrumb-item"><a href="/Home/Index">首頁</a></li>')
-    var text = $(this).text()
+    var text = $(this).text().trim()
     if (text != "所有商品" && text != "濾掛系列") {
         var ca_text = $(this).closest('.accordion-item').find('button').text()
         $('.breadcrumb').append(`<li class="breadcrumb-item">${ca_text}</li>`)
@@ -210,7 +210,7 @@ $('.priceSort li').on('click', function () {
     } else if (text.includes("由低到高")) {
         queryMap.set("sort", "desc")
     } else if (text.includes("由高到低")) {
-        queryMap.set("sort","asc")
+        queryMap.set("sort", "asc")
     }
     newDoc(queryMap)
 })
@@ -233,7 +233,16 @@ $('.filter input[type="submit"]').on('click', function () {
     //點選Go按鈕關閉篩選選單
     filterBtnClose(this)
     //設定問號參數map
-    
+    var min = $('.filterPriceItem').find('input[name="min"]').val()
+    var max = $('.filterPriceItem').find('input[name="max"]').val()
+    if (min == "" && max == "") {
+        queryMap.delete("price")
+    } else {
+        (min == "") ? min = 0 : null;
+        (max == "") ? max = 0 : null;
+        queryMap.set("price", `${min}#${max}`)
+    }
+    newDoc(queryMap)
 })
 
 
@@ -249,7 +258,7 @@ $('.filter input[type="checkbox"]').on('click', function () {
             bakingList.each(function () {
                 backingCheckedArr.push($(this).closest('.CBcontainer').text())
             })
-            queryMap.set("backing", backingCheckedArr.join('%'))
+            queryMap.set("backing", backingCheckedArr.join('#'))
         }
     } else if (colElem == "處理法") {
         let methodCheckedArr = []
@@ -260,7 +269,7 @@ $('.filter input[type="checkbox"]').on('click', function () {
             methodList.each(function () {
                 methodCheckedArr.push($(this).closest('.CBcontainer').text())
             })
-            queryMap.set("method", methodCheckedArr.join('%'))
+            queryMap.set("method", methodCheckedArr.join('#'))
         }
     }
     newDoc(queryMap)
@@ -283,7 +292,7 @@ $('.filter input[type="range"]').on('input', function () {
 
 
 /**
- * 設定分頁、css和點擊事件
+ * 設定分頁的數量、css和點擊事件
  * @param {number} total_item 總卡片
  * @param {number} item_per_page 每頁要顯示的卡片數量
  */
