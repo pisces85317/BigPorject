@@ -152,9 +152,10 @@ $('.topbtn').on('click', function () {
     document.documentElement.scrollTop = 0;
 })
 
-//瀏覽器載入時設定分頁
+//瀏覽器載入
 totalItem = "@total_item"
 window.onload = function () {
+    //設定分頁
     Set_Page(40, 12)
 }
 
@@ -312,12 +313,14 @@ function Set_Page(total_item, item_per_page) {
 
     //分頁點擊事件
     $('.pageul li a').on('click', function (e) {
+        //設定樣式
         e.preventDefault();
         let currentPage = $(this).text()
         $('.pageul li').removeClass('active')
         $(this).parent().addClass('active')
         // (顯示當前頁面的卡片)
         showPage(currentPage, item_per_page)
+        //設定問號參數map
         queryMap.set("page", $(this).text())
         newDoc(queryMap)
     })
