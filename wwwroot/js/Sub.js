@@ -99,24 +99,25 @@ function setLsHtml(data) {
  * 頁面刷新 
  */
 
+function loadParams() {
+    var queryString = new URLSearchParams(window.location.search);
+    if (queryString) {
+        queryString.forEach((value, key) => {
+            var valueArray = value.includes("#") ? value.split("#") : value;
+            console.log(`參數名稱: ${key}, 值: ${decodeURIComponent(valueArray)}`);
+        });
+    }
+}
 
-/**
- * 問號參數map
- */
-var queryMap = new Map();
+function setUrl(key, value) {
+    var queryMap = new URLSearchParams(window.location.search);
+    queryMap.set(key, value)
+    window.location.assign(window.location.origin + window.location.pathname + "?" + queryMap)
+}
 
-//var urlString = window.location.href
-
-/**
- * 處理問號參數，導到新頁面
- * @param {any} query_map 問號參數map 
- */
-function newDoc(query_map) {
-    var queryString = []
-    query_map.forEach(function (value, key) {
-        queryString.push(`${key}=${value}`)
-    })
-    var suit_urlString = "?" + queryString.join('&')
-    console.log(suit_urlString)
-    //window.location.assign("http://localhost:5122/Product/Index" + suit_urlString)
+function deleteUrl(key) {
+    var queryMap = new URLSearchParams(window.location.search);
+    queryMap.delete(key)
+    var q = (queryMap.size == 0) ? "" : "?";
+    window.location.assign(window.location.origin + window.location.pathname + q + queryMap)
 }

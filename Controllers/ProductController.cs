@@ -13,26 +13,25 @@ namespace BigPorject.Controllers
         {
             _context = dbContext;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string column)
         {
-            var category = Request.Query["category"].ToString();
-            if (category == "產地")
+            if (column == "產地")
             {
-                var country = Request.Query["country"].ToString();
+                var category = Request.Query["category"].ToString();
                 var query = from p in _context.Products
-                            where p.Country!.Contains(country)
+                            where p.Country!.Contains(category)
                             select p;
                 return View(await query.ToListAsync());
             }
-            else if (category == "風味")
+            else if (column == "風味")
             {
-                var flavor = Request.Query["flavor"].ToString();
+                var category = Request.Query["category"].ToString();
                 var query = from p in _context.Products
-                            where p.Flavor!.Contains(flavor)
+                            where p.Flavor!.Contains(category)
                             select p;
                 return View(await query.ToListAsync());
             }
-            else if (category == "濾掛系列")
+            else if (column == "濾掛系列")
             {
                 var query = from p in _context.Products
                             where p.Category == "濾掛咖啡"
@@ -45,7 +44,7 @@ namespace BigPorject.Controllers
         [HttpPost]
         public IActionResult AddCartItemToLayout(CartItemData data)
         {
-            return PartialView("_PartialCartItem", data);                         
+            return PartialView("_PartialCartItem", data);
         }
         [HttpPost]
         public async Task<IActionResult> ShowProductModal(string proID)

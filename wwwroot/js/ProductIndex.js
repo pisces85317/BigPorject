@@ -157,6 +157,8 @@ totalItem = "@total_item"
 window.onload = function () {
     //設定分頁
     Set_Page(40, 12)
+    //測試中...
+    loadParams()
 }
 
 
@@ -179,27 +181,18 @@ function showPage(page_num, item_per_page) {
 //分類點擊事件
 $('.accordion a').on('click', function () {
     //設定麵包屑路徑
-    //設定問號參數map
-    queryMap.delete("country")
-    queryMap.delete("flavor")
+    //設定問號參數
     $('.breadcrumb').empty()
     $('.breadcrumb').append('<li class="breadcrumb-item"><a href="/Home/Index">首頁</a></li>')
     var text = $(this).text().trim()
     if (text != "所有商品" && text != "濾掛系列") {
         var ca_text = $(this).closest('.accordion-item').find('button').text()
         $('.breadcrumb').append(`<li class="breadcrumb-item">${ca_text}</li>`)
-        queryMap.set("category", ca_text)
-        if (ca_text == "產地") {
-            queryMap.set("country", text)
-        }
-        else if (ca_text == "風味") {
-            queryMap.set("flavor", text)
-        }
+        setUrl("category", text)
     } else {
-        queryMap.set("category", text)
+        deleteUrl("category")
     }
     $('.breadcrumb').append(`<li class="breadcrumb-item active" aria-current="page">${text}</li>`)
-    newDoc(queryMap)
 })
 
 
@@ -207,25 +200,26 @@ $('.accordion a').on('click', function () {
 $('.priceSort li').on('click', function () {
     var text = $(this).text()
     if (text == "綜合") {
-        queryMap.delete("sort")
+        deleteUrl("sort")
+        $(this).closest('.dropdown').find('button').text("排序")
     } else if (text.includes("由低到高")) {
-        queryMap.set("sort", "desc")
+        $(this).closest('.dropdown').find('button').text(text)
+        setUrl("sort", "desc")
     } else if (text.includes("由高到低")) {
-        queryMap.set("sort", "asc")
+        $(this).closest('.dropdown').find('button').text(text)
+        setUrl("sort", "asc")
     }
-    newDoc(queryMap)
 })
 
 
 //每頁顯示點擊事件
 $('.itemShow li').on('click', function () {
     //每頁顯示文字改變
-    //點選分頁設定卡片數量
     $(this).closest('.dropdown').find('button').text($(this).text())
+    //點選分頁設定卡片數量
     Set_Page(40, $(this).data('num'))
     //設定問號參數map
-    queryMap.set("item", $(this).data('num'))
-    newDoc(queryMap)
+    setUrl("item", $(this).data('num'))
 })
 
 
@@ -237,13 +231,12 @@ $('.filter input[type="submit"]').on('click', function () {
     var min = $('.filterPriceItem').find('input[name="min"]').val()
     var max = $('.filterPriceItem').find('input[name="max"]').val()
     if (min == "" && max == "") {
-        queryMap.delete("price")
+        deleteUrl("price")
     } else {
         (min == "") ? min = 0 : null;
         (max == "") ? max = 0 : null;
-        queryMap.set("price", `${min}#${max}`)
+        setUrl("price", `${min}#${max}`)
     }
-    newDoc(queryMap)
 })
 
 
@@ -254,26 +247,25 @@ $('.filter input[type="checkbox"]').on('click', function () {
         let backingCheckedArr = []
         let bakingList = $(this).closest('.dropdown').find('input[type="checkbox"]:checked')
         if (bakingList.length == 0) {
-            queryMap.delete("backing")
+            deleteUrl("backing")
         } else {
             bakingList.each(function () {
                 backingCheckedArr.push($(this).closest('.CBcontainer').text())
             })
-            queryMap.set("backing", backingCheckedArr.join('#'))
+            setUrl("backing", backingCheckedArr.join('#'))
         }
     } else if (colElem == "處理法") {
         let methodCheckedArr = []
         let methodList = $(this).closest('.dropdown').find('input[type="checkbox"]:checked')
         if (methodList.length == 0) {
-            queryMap.delete("method")
+            deleteUrl("method")
         } else {
             methodList.each(function () {
                 methodCheckedArr.push($(this).closest('.CBcontainer').text())
             })
-            queryMap.set("method", methodCheckedArr.join('#'))
+            setUrl("method", methodCheckedArr.join('#'))
         }
     }
-    newDoc(queryMap)
 })
 
 
@@ -283,12 +275,13 @@ $('.filter input[type="range"]').on('input', function () {
     $(this).next('span').text($(this).val());
     const progress = ($(this).val() - $(this).prop('min')) / ($(this).prop('max') - $(this).prop('min')) * 100;
     $(this).css('background', 'linear-gradient(to right, #FFB818 0%, #FFB818 ' + progress + '%, #ffd068 ' + progress + '%, #ffd068 100%)')
+})
+$('.filter input[type="range"]').on("change", function () {
     //設定問號參數map
-    queryMap.set($(this).prop('id'), $(this).val())
+    setUrl($(this).prop('id'), $(this).val())
     if (queryMap.get($(this).prop('id')) == 1) {
-        queryMap.delete($(this).prop('id'))
+        deleteUrl($(this).prop('id'))
     }
-    newDoc(queryMap)
 })
 
 
@@ -321,7 +314,6 @@ function Set_Page(total_item, item_per_page) {
         // (顯示當前頁面的卡片)
         showPage(currentPage, item_per_page)
         //設定問號參數map
-        queryMap.set("page", $(this).text())
-        newDoc(queryMap)
+        setUrl("page", $(this).text())
     })
 }
