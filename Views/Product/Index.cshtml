@@ -57,7 +57,7 @@
                 <div class="ItemSort row">
                     @* 數量 *@
                     <div class="col">
-                        查詢結果的數量
+                        @Model.Count 項
                     </div>
                     @* Dropdown 排序 *@
                     <div class="col-auto">
@@ -131,7 +131,7 @@
                                 <div class="dropdown-item" style="display:flex;justify-content:right">
                                     <button type="button" class="btn-close" aria-label="Close" onclick="filterBtnClose(this)"></button>
                                 </div>
-                                <div class="dropdown-item filterBakingItem">
+                                <div class="dropdown-item filter-baking-item">
                                     <div>
                                         <label for="L" class="CBcontainer"><input type="checkbox" id="L" /><span class="checkmark"></span>淺</label>
                                     </div>
@@ -165,7 +165,7 @@
                                 <div class="dropdown-item" style="display:flex;justify-content:right">
                                     <button type="button" class="btn-close" aria-label="Close" onclick="filterBtnClose(this)"></button>
                                 </div>
-                                <div class="dropdown-item filterProcedureItem">
+                                <div class="dropdown-item filter-method-item">
                                     <div>
                                         <label for="Wet" class="CBcontainer"><input type="checkbox" id="Wet" /><span class="checkmark"></span>水洗</label>
                                     </div>

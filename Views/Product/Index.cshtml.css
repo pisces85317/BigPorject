@@ -145,7 +145,7 @@
         opacity: 0.75;
     }
 
-.filterPriceItem, .filterBakingItem, .filterProcedureItem, .filterTasteItem {
+.filterPriceItem, .filter-baking-item, .filter-method-item, .filterTasteItem {
     padding-top: 1rem;
 }
 
@@ -177,11 +177,11 @@
                 color: var(--font-color);
             }
 
-.dropdown-item.filterBakingItem:hover, .dropdown-item.filterProcedureItem:hover, .dropdown-item.filterTasteItem:hover {
+.dropdown-item.filter-baking-item:hover, .dropdown-item.filter-method-item:hover, .dropdown-item.filterTasteItem:hover {
     color: black;
 }
 
-.filterBakingItem div, .filterProcedureItem div, .filterTasteItem div {
+.filter-baking-item div, .filter-method-item div, .filterTasteItem div {
     display: flex;
     margin-bottom: 1rem;
     align-items: center;

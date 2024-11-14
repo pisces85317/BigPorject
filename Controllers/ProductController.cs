@@ -13,11 +13,10 @@ namespace BigPorject.Controllers
         {
             _context = dbContext;
         }
-        public async Task<IActionResult> Index(string column)
+        public async Task<IActionResult> Index(string column, string category)
         {
             if (column == "產地")
             {
-                var category = Request.Query["category"].ToString();
                 var query = from p in _context.Products
                             where p.Country!.Contains(category)
                             select p;
@@ -25,7 +24,6 @@ namespace BigPorject.Controllers
             }
             else if (column == "風味")
             {
-                var category = Request.Query["category"].ToString();
                 var query = from p in _context.Products
                             where p.Flavor!.Contains(category)
                             select p;

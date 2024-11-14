@@ -104,8 +104,22 @@ function loadParams() {
     if (queryString) {
         queryString.forEach((value, key) => {
             var valueArray = value.includes("#") ? value.split("#") : value;
-            console.log(`參數名稱: ${key}, 值: ${decodeURIComponent(valueArray)}`);
+            console.log(`參數名稱: ${key}, 值: ${valueArray}`);
         });
+    }
+    setCheckbox("baking")
+    setCheckbox("method")
+}
+
+function setCheckbox(key) {
+    var queryString = new URLSearchParams(window.location.search);
+    if (queryString.has(key)) {
+        var valueArray = queryString.get(key).split("#")
+        $(`.filter-${key}-item input[type="checkbox"]`).each(function () {
+            var text = $(this).closest('.CBcontainer').text()
+            var checked = valueArray.some(function (val) { return val == text })
+            $(this).prop("checked", checked)
+        })
     }
 }
 

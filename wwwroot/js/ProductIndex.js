@@ -153,10 +153,10 @@ $('.topbtn').on('click', function () {
 })
 
 //瀏覽器載入
-totalItem = "@total_item"
 window.onload = function () {
     //設定分頁
-    Set_Page(40, 12)
+    totalItem = parseInt($(".ItemSort>:first").text())
+    Set_Page(totalItem, 12)
     //測試中...
     loadParams()
 }
@@ -188,9 +188,11 @@ $('.accordion a').on('click', function () {
     if (text != "所有商品" && text != "濾掛系列") {
         var ca_text = $(this).closest('.accordion-item').find('button').text()
         $('.breadcrumb').append(`<li class="breadcrumb-item">${ca_text}</li>`)
-        setUrl("category", text)
+        var newUrl = window.location.origin + `/Product/Index/${ca_text}/${text}`
+        window.location.assign(newUrl)
     } else {
-        deleteUrl("category")
+        var newUrl = window.location.origin + `/Product/Index/${text}`
+        window.location.assign(newUrl)
     }
     $('.breadcrumb').append(`<li class="breadcrumb-item active" aria-current="page">${text}</li>`)
 })
@@ -244,29 +246,24 @@ $('.filter input[type="submit"]').on('click', function () {
 $('.filter input[type="checkbox"]').on('click', function () {
     let colElem = $(this).closest('.dropdown').find('button').text().trim()
     if (colElem == "烘培程度") {
-        let backingCheckedArr = []
-        let bakingList = $(this).closest('.dropdown').find('input[type="checkbox"]:checked')
-        if (bakingList.length == 0) {
-            deleteUrl("backing")
-        } else {
-            bakingList.each(function () {
-                backingCheckedArr.push($(this).closest('.CBcontainer').text())
-            })
-            setUrl("backing", backingCheckedArr.join('#'))
-        }
+        setCheckboxUrl("baking",this)
     } else if (colElem == "處理法") {
-        let methodCheckedArr = []
-        let methodList = $(this).closest('.dropdown').find('input[type="checkbox"]:checked')
-        if (methodList.length == 0) {
-            deleteUrl("method")
-        } else {
-            methodList.each(function () {
-                methodCheckedArr.push($(this).closest('.CBcontainer').text())
-            })
-            setUrl("method", methodCheckedArr.join('#'))
-        }
+        setCheckboxUrl("method", this)
     }
 })
+
+function setCheckboxUrl(key,self) {
+    let CheckedArr = []
+    let List = $(self).closest('.dropdown').find('input[type="checkbox"]:checked')
+    if (List.length == 0) {
+        deleteUrl(key)
+    } else {
+        List.each(function () {
+            CheckedArr.push($(this).closest('.CBcontainer').text())
+        })
+        setUrl(key, CheckedArr.join('#'))
+    }
+}
 
 
 //篩選輸入事件:味道
