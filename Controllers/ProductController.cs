@@ -15,6 +15,18 @@ namespace BigPorject.Controllers
         }
         public async Task<IActionResult> Index(string column, string category)
         {
+            // 要有一個分類篩選後的產品總數量
+            string sort = Request.Query["sort"].ToString();
+            string item = Request.Query["item"].ToString();
+            string page = Request.Query["page"].ToString();
+            string price = Request.Query["price"].ToString();
+            string baking = Request.Query["baking"].ToString();
+            string method = Request.Query["method"].ToString();
+            string fragrance = Request.Query["fragrance"].ToString();
+            string sour = Request.Query["sour"].ToString();
+            string bitter = Request.Query["bitter"].ToString();
+            string sweet = Request.Query["sweet"].ToString();
+            string strong = Request.Query["strong"].ToString();
             if (column == "產地")
             {
                 var query = from p in _context.Products

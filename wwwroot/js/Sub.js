@@ -96,21 +96,33 @@ function setLsHtml(data) {
 /***/
 
 /*
- * 頁面刷新 
+ * Load and SetUrl
  */
 
 function loadParams() {
-    var queryString = new URLSearchParams(window.location.search);
-    if (queryString) {
-        queryString.forEach((value, key) => {
-            var valueArray = value.includes("#") ? value.split("#") : value;
-            console.log(`參數名稱: ${key}, 值: ${valueArray}`);
-        });
-    }
+    setBreadcrumb()
     setCheckbox("baking")
     setCheckbox("method")
+    setRange()
+    setPage()
 }
 
+function setBreadcrumb() {
+    var pathname = window.location.pathname.split('/')
+    $('.breadcrumb').append('<li class="breadcrumb-item"><a href="/Home/Index">首頁</a></li>')
+    switch (pathname.length) {
+        case 4:
+            $('.breadcrumb').append(`<li class="breadcrumb-item">${decodeURI(pathname[3])}</li>`)
+            break;
+        case 5:
+            $('.breadcrumb').append(`<li class="breadcrumb-item">${decodeURI(pathname[3])}</li>`)
+            $('.breadcrumb').append(`<li class="breadcrumb-item">${decodeURI(pathname[4])}</li>`)
+            break;
+        default:
+            $('.breadcrumb').append(`<li class="breadcrumb-item">所有商品</li>`)
+            break;
+    }
+}
 function setCheckbox(key) {
     var queryString = new URLSearchParams(window.location.search);
     if (queryString.has(key)) {
@@ -122,13 +134,51 @@ function setCheckbox(key) {
         })
     }
 }
+function setRange() {
+    var queryString = new URLSearchParams(window.location.search);
+    $('.filterTasteItem input[type="range"]').each(function () {
+        if (queryString.has($(this).prop('id'))) {
+            var value = queryString.get($(this).prop('id'))
+            $(this).next('span').text(value)
+            $(this).val(value)
+            var progress = ($(this).val() - 1) / 4 * 100;
+            $(this).css('background', `linear-gradient(to right,#FFB818 ${progress}%, #fff ${progress}%)`);
+        }
+    })
+}
+function setPage() {
+    var queryString = new URLSearchParams(window.location.search);
+    var totalItem = parseInt($(".ItemSort>:first").text())
+    var pageItem = (queryString.has("item")) ? queryString.get("item") : 12
+    let pageNum = Math.ceil(totalItem / pageItem) // 頁數的數量 = 產品總數量/每頁顯示數量
+
+    // 根據頁數的數量生成分頁標籤
+    for (let i = 1; i <= pageNum; i++) {
+        $('.pageul').append(`<li><a>${i}</a></li>`)
+    }
+
+    // 設定css
+    $('.pageul li').removeClass('active')
+    if (queryString.has("page")) {
+        var page = $('.pageul li a').filter(function () { return $(this).text() == queryString.get("page") })
+        // ??? var page = $('.pageul li a').filter((e) => $(e).text() == queryString.get("page"))
+        $(page).parent().addClass('active')
+    } else {
+        $('.pageul>:first').addClass('active')
+    }
+
+    // 分頁點擊事件
+    $('.pageul li a').on('click', function (e) {
+        // 設定問號參數map
+        setUrl("page", $(this).text())
+    })
+}
 
 function setUrl(key, value) {
     var queryMap = new URLSearchParams(window.location.search);
     queryMap.set(key, value)
     window.location.assign(window.location.origin + window.location.pathname + "?" + queryMap)
 }
-
 function deleteUrl(key) {
     var queryMap = new URLSearchParams(window.location.search);
     queryMap.delete(key)

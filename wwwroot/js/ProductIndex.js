@@ -35,31 +35,6 @@ function modalBtnUom(self) {
     Update_Btn_Uom(uom, self, input)
 }
 
-/**
- * Uom數量更新
- * @param {number} uom 數量
- * @param {any} self 加減號按鈕元素
- * @param {any} input 輸入元素
- */
-function Update_Btn_Uom(uom, self, input) {
-    if ($(self).text() == "+") {
-        // 設定購買上限為10
-        if (uom == 10) {
-            $(input).val(uom)
-        } else {
-            $(input).val(uom + 1)
-        }
-    }
-    if ($(self).text() == "-") {
-        // 設定購買下限為1
-        if (uom == 1) {
-            $(input).val(uom)
-        } else {
-            $(input).val(uom - 1)
-        }
-    }
-}
-
 //產品浮窗的圖片互動
 let currentIndex = 0 // 不可以刪掉!!!
 function changeImg(test) {
@@ -127,6 +102,31 @@ function cartBtnClose(self) {
     cartItem.remove()
 }
 
+/**
+ * Uom數量更新
+ * @param {number} uom 數量
+ * @param {any} self 加減號按鈕元素
+ * @param {any} input 輸入元素
+ */
+function Update_Btn_Uom(uom, self, input) {
+    if ($(self).text() == "+") {
+        // 設定購買上限為10
+        if (uom == 10) {
+            $(input).val(uom)
+        } else {
+            $(input).val(uom + 1)
+        }
+    }
+    if ($(self).text() == "-") {
+        // 設定購買下限為1
+        if (uom == 1) {
+            $(input).val(uom)
+        } else {
+            $(input).val(uom - 1)
+        }
+    }
+}
+
 //瀏覽器滾動到指定位置時顯示/隱藏按鈕
 window.onscroll = function () {
     scrollFunction();
@@ -154,47 +154,21 @@ $('.topbtn').on('click', function () {
 
 //瀏覽器載入
 window.onload = function () {
-    //設定分頁
-    totalItem = parseInt($(".ItemSort>:first").text())
-    Set_Page(totalItem, 12)
-    //測試中...
     loadParams()
-}
-
-
-/**
- * (根據點選的分頁顯示卡片數量)
- * @param {number} page_num 當前分頁數
- * @param {number} item_per_page 每頁要顯示的卡片數量
- */
-function showPage(page_num, item_per_page) {
-    // 要顯示的卡片起始值
-    let start = (page_num - 1) * item_per_page
-    // 要顯示的卡片結束值
-    let end = start + item_per_page
-
-    $('.cardContainer').find('.col-4').css('display', 'none');
-    $('.cardContainer').find('.col-4').slice(start, end).css('display', 'flex')
 }
 
 
 //分類點擊事件
 $('.accordion a').on('click', function () {
-    //設定麵包屑路徑
-    //設定問號參數
-    $('.breadcrumb').empty()
-    $('.breadcrumb').append('<li class="breadcrumb-item"><a href="/Home/Index">首頁</a></li>')
     var text = $(this).text().trim()
     if (text != "所有商品" && text != "濾掛系列") {
-        var ca_text = $(this).closest('.accordion-item').find('button').text()
-        $('.breadcrumb').append(`<li class="breadcrumb-item">${ca_text}</li>`)
-        var newUrl = window.location.origin + `/Product/Index/${ca_text}/${text}`
+        var col_text = $(this).closest('.accordion-item').find('button').text()
+        var newUrl = window.location.origin + `/Product/Index/${col_text}/${text}`
         window.location.assign(newUrl)
     } else {
         var newUrl = window.location.origin + `/Product/Index/${text}`
         window.location.assign(newUrl)
     }
-    $('.breadcrumb').append(`<li class="breadcrumb-item active" aria-current="page">${text}</li>`)
 })
 
 
@@ -203,12 +177,9 @@ $('.priceSort li').on('click', function () {
     var text = $(this).text()
     if (text == "綜合") {
         deleteUrl("sort")
-        $(this).closest('.dropdown').find('button').text("排序")
     } else if (text.includes("由低到高")) {
-        $(this).closest('.dropdown').find('button').text(text)
         setUrl("sort", "desc")
     } else if (text.includes("由高到低")) {
-        $(this).closest('.dropdown').find('button').text(text)
         setUrl("sort", "asc")
     }
 })
@@ -216,12 +187,13 @@ $('.priceSort li').on('click', function () {
 
 //每頁顯示點擊事件
 $('.itemShow li').on('click', function () {
-    //每頁顯示文字改變
-    $(this).closest('.dropdown').find('button').text($(this).text())
-    //點選分頁設定卡片數量
-    Set_Page(40, $(this).data('num'))
     //設定問號參數map
-    setUrl("item", $(this).data('num'))
+    var queryMap = new URLSearchParams(window.location.search);
+    queryMap.delete("page")
+    queryMap.set("item", $(this).data('num'))
+    window.location.assign(window.location.origin + window.location.pathname + "?" + queryMap)
+    //點選分頁設定卡片數量
+    setPage()
 })
 
 
@@ -245,14 +217,14 @@ $('.filter input[type="submit"]').on('click', function () {
 //篩選點擊事件:烘焙程度，處理法
 $('.filter input[type="checkbox"]').on('click', function () {
     let colElem = $(this).closest('.dropdown').find('button').text().trim()
-    if (colElem == "烘培程度") {
-        setCheckboxUrl("baking",this)
+    if (colElem == "烘焙程度") {
+        setCheckboxUrl("baking", this)
     } else if (colElem == "處理法") {
         setCheckboxUrl("method", this)
     }
 })
 
-function setCheckboxUrl(key,self) {
+function setCheckboxUrl(key, self) {
     let CheckedArr = []
     let List = $(self).closest('.dropdown').find('input[type="checkbox"]:checked')
     if (List.length == 0) {
@@ -270,47 +242,14 @@ function setCheckboxUrl(key,self) {
 $('.filter input[type="range"]').on('input', function () {
     //當range的value更動時，顯示其值在對應的span裡和input的樣式
     $(this).next('span').text($(this).val());
-    const progress = ($(this).val() - $(this).prop('min')) / ($(this).prop('max') - $(this).prop('min')) * 100;
-    $(this).css('background', 'linear-gradient(to right, #FFB818 0%, #FFB818 ' + progress + '%, #ffd068 ' + progress + '%, #ffd068 100%)')
+    var progress = ($(this).val() - $(this).prop('min')) / ($(this).prop('max') - $(this).prop('min')) * 100;
+    $(this).css('background', `linear-gradient(to right,#FFB818 ${progress}%, #fff ${progress}%)`)
 })
 $('.filter input[type="range"]').on("change", function () {
     //設定問號參數map
-    setUrl($(this).prop('id'), $(this).val())
-    if (queryMap.get($(this).prop('id')) == 1) {
+    if ($(this).val() == 1) {
         deleteUrl($(this).prop('id'))
+    } else {
+        setUrl($(this).prop('id'), $(this).val())
     }
 })
-
-
-/**
- * 設定分頁的數量、css和點擊事件
- * @param {number} total_item 總卡片
- * @param {number} item_per_page 每頁要顯示的卡片數量
- */
-function Set_Page(total_item, item_per_page) {
-    // 頁數的數量 = 總卡片/每頁要顯示的卡片數量
-    let total_pages = Math.ceil(total_item / item_per_page)
-
-    // 根據頁數的數量生成分頁標籤，在分頁清單中的第一個清單增加css類別
-    $('.pageul').empty()
-    for (let i = 1; i <= total_pages; i++) {
-        $('.pageul').append(`<li><a>${i}</a></li>`)
-    }
-    $('.pageul li').first().addClass('active')
-
-    // (顯示第一頁的卡片)
-    showPage(1, item_per_page)
-
-    //分頁點擊事件
-    $('.pageul li a').on('click', function (e) {
-        //設定樣式
-        e.preventDefault();
-        let currentPage = $(this).text()
-        $('.pageul li').removeClass('active')
-        $(this).parent().addClass('active')
-        // (顯示當前頁面的卡片)
-        showPage(currentPage, item_per_page)
-        //設定問號參數map
-        setUrl("page", $(this).text())
-    })
-}
