@@ -13,7 +13,12 @@ namespace BigPorject.Controllers
         {
             _context = dbContext;
         }
-        public async Task<IActionResult> Index(string column, string category)
+        public async Task<IActionResult> All()
+        {
+            return View(await _context.Products.ToListAsync());
+        }
+        [HttpPost]
+        public async Task<IActionResult> Query(string column, string category)
         {
             // 要有一個分類篩選後的產品總數量
             string sort = Request.Query["sort"].ToString();

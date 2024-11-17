@@ -163,11 +163,9 @@ $('.accordion a').on('click', function () {
     var text = $(this).text().trim()
     if (text != "所有商品" && text != "濾掛系列") {
         var col_text = $(this).closest('.accordion-item').find('button').text()
-        var newUrl = window.location.origin + `/Product/Index/${col_text}/${text}`
-        window.location.assign(newUrl)
+        var ajaxUrl = window.location.origin + `/Product/Query/${col_text}/${text}`
     } else {
-        var newUrl = window.location.origin + `/Product/Index/${text}`
-        window.location.assign(newUrl)
+        var ajaxUrl = window.location.origin + `/Product/Query/${text}`
     }
 })
 
@@ -191,7 +189,7 @@ $('.itemShow li').on('click', function () {
     var queryMap = new URLSearchParams(window.location.search);
     queryMap.delete("page")
     queryMap.set("item", $(this).data('num'))
-    window.location.assign(window.location.origin + window.location.pathname + "?" + queryMap)
+    //window.location.assign(window.location.origin + window.location.pathname + "?" + queryMap)
     //點選分頁設定卡片數量
     setPage()
 })

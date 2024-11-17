@@ -105,6 +105,7 @@ function loadParams() {
     setCheckbox("method")
     setRange()
     setPage()
+    //要有一個呼叫產地、風味、烘焙程度、處理法的ajax
 }
 
 function setBreadcrumb() {
@@ -124,9 +125,9 @@ function setBreadcrumb() {
     }
 }
 function setCheckbox(key) {
-    var queryString = new URLSearchParams(window.location.search);
-    if (queryString.has(key)) {
-        var valueArray = queryString.get(key).split("#")
+    var queryMap = new URLSearchParams(window.location.search);
+    if (queryMap.has(key)) {
+        var valueArray = queryMap.get(key).split("#")
         $(`.filter-${key}-item input[type="checkbox"]`).each(function () {
             var text = $(this).closest('.CBcontainer').text()
             var checked = valueArray.some(function (val) { return val == text })
@@ -135,10 +136,10 @@ function setCheckbox(key) {
     }
 }
 function setRange() {
-    var queryString = new URLSearchParams(window.location.search);
+    var queryMap = new URLSearchParams(window.location.search);
     $('.filterTasteItem input[type="range"]').each(function () {
-        if (queryString.has($(this).prop('id'))) {
-            var value = queryString.get($(this).prop('id'))
+        if (queryMap.has($(this).prop('id'))) {
+            var value = queryMap.get($(this).prop('id'))
             $(this).next('span').text(value)
             $(this).val(value)
             var progress = ($(this).val() - 1) / 4 * 100;
@@ -147,9 +148,9 @@ function setRange() {
     })
 }
 function setPage() {
-    var queryString = new URLSearchParams(window.location.search);
+    var queryMap = new URLSearchParams(window.location.search);
     var totalItem = parseInt($(".ItemSort>:first").text())
-    var pageItem = (queryString.has("item")) ? queryString.get("item") : 12
+    var pageItem = (queryMap.has("item")) ? queryMap.get("item") : 12
     let pageNum = Math.ceil(totalItem / pageItem) // 頁數的數量 = 產品總數量/每頁顯示數量
 
     // 根據頁數的數量生成分頁標籤
@@ -159,8 +160,8 @@ function setPage() {
 
     // 設定css
     $('.pageul li').removeClass('active')
-    if (queryString.has("page")) {
-        var page = $('.pageul li a').filter(function () { return $(this).text() == queryString.get("page") })
+    if (queryMap.has("page")) {
+        var page = $('.pageul li a').filter(function () { return $(this).text() == queryMap.get("page") })
         // ??? var page = $('.pageul li a').filter((e) => $(e).text() == queryString.get("page"))
         $(page).parent().addClass('active')
     } else {
@@ -177,11 +178,11 @@ function setPage() {
 function setUrl(key, value) {
     var queryMap = new URLSearchParams(window.location.search);
     queryMap.set(key, value)
-    window.location.assign(window.location.origin + window.location.pathname + "?" + queryMap)
+    //window.location.assign(window.location.origin + window.location.pathname + "?" + queryMap)
 }
 function deleteUrl(key) {
     var queryMap = new URLSearchParams(window.location.search);
     queryMap.delete(key)
     var q = (queryMap.size == 0) ? "" : "?";
-    window.location.assign(window.location.origin + window.location.pathname + q + queryMap)
+    //window.location.assign(window.location.origin + window.location.pathname + q + queryMap)
 }
