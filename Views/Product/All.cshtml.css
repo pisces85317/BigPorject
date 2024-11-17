@@ -248,38 +248,43 @@
             border-radius: 50%;
         }
 /*修改Card 產品卡樣式*/
+.card {
+    border: none !important;
+}
+
 .cardImgBody {
     position: relative;
 }
 
-    .cardImgBody .btn {
+    .cardImgBody > div {
         position: absolute;
-        left: 50%;
-        bottom: 0;
-        transform: translate(-50%,100%);
         width: 100%;
-        border-radius: 0;
+        height: 100%;
+        background-color: rgba(0,0,0,.25);
+        bottom: 0;
         opacity: 0;
-        transition: all 200ms ease-out;
-        margin: 0;
-        color: white;
-        padding: .5rem 0;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
     }
 
-        .cardImgBody .btn:focus {
-            box-shadow: none;
+        .cardImgBody > div > * {
+            background-color: var(--highlight-color);
+            width: 3rem;
+            aspect-ratio: 1/1;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            cursor: pointer;
         }
 
-    .cardImgBody .btn-primary {
-        background-color: var(--highlight-color);
-        border-color: var(--highlight-color);
-    }
-
-.card:hover .btn {
-    transform: translate(-50%);
+.card:hover .cardImgBody > div {
     opacity: 1;
     transition: all 200ms ease-out;
 }
+
 /*到頂部*/
 .topbtn {
     background-color: #E0732A;

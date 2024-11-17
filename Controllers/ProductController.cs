@@ -15,9 +15,41 @@ namespace BigPorject.Controllers
         }
         public async Task<IActionResult> All()
         {
-            return View(await _context.Products.ToListAsync());
+            //拋出產品集合、產地、風味、烘焙程度、處理法的所有值的模型
+            var products = await _context.Products.ToListAsync();
+            var country = _context.Products
+                .Select(p => p.Country)
+                .Where(c => !string.IsNullOrEmpty(c))
+                .ToList()
+                .SelectMany(c => c!.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                .Select(s => s.Trim())
+                .Distinct()
+                .ToArray();
+            var flavor = _context.Products
+                .Select(p => p.Flavor)
+                .Where(c => !string.IsNullOrEmpty(c))
+                .ToList()
+                .SelectMany(c => c!.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                .Select(s => s.Trim())
+                .Distinct()
+                .ToArray();
+            var baking = _context.Products.Select(p => p.Baking)
+                .Distinct()
+                .ToArray();
+            var method = _context.Products.Select(p => p.Method)
+                .Distinct()
+                .ToArray();
+            DocLoad docLoad = new DocLoad()
+            {
+                Products = products,
+                Country = country,
+                Flavor = flavor,
+                Baking = baking!,
+                Method = method!
+            };
+            return View(docLoad);
         }
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> Query(string column, string category)
         {
             // 要有一個分類篩選後的產品總數量
@@ -69,6 +101,15 @@ namespace BigPorject.Controllers
                          select p).SingleOrDefaultAsync();
             return PartialView("_PartialProductModal", await query);
         }
+    }
+    public class DocLoad
+    {
+        public List<Product>? Products { get; set; }
+        public string[]? Country { get; set; }
+        public string[]? Flavor { get; set; }
+        public string[]? Baking { get; set; }
+        public string[]? Method { get; set; }
+
     }
     public class CartItemData
     {

@@ -105,9 +105,7 @@ function loadParams() {
     setCheckbox("method")
     setRange()
     setPage()
-    //要有一個呼叫產地、風味、烘焙程度、處理法的ajax
 }
-
 function setBreadcrumb() {
     var pathname = window.location.pathname.split('/')
     $('.breadcrumb').append('<li class="breadcrumb-item"><a href="/Home/Index">首頁</a></li>')

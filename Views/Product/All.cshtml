@@ -1,7 +1,4 @@
-﻿@model List<BigPorject.Models.Product>
-@{
-    var total_item = Model.Count;
-}
+﻿@model BigPorject.Controllers.DocLoad
 <div class="productList">
     @* Breadcrumb 麵包屑 *@
     <nav aria-label="breadcrumb">
@@ -22,11 +19,10 @@
                         </h2>
                         <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionSidebar">
                             <div class="accordion-body">
-                                <a>衣索比亞</a>
-                                <a>巴西</a>
-                                <a>哥倫比亞</a>
-                                <a>瓜地馬拉</a>
-                                <a>肯亞</a>
+                                @foreach (string c in Model.Country!)
+                                {
+                                    <a>@c</a>
+                                }
                             </div>
                         </div>
                     </div>
@@ -36,12 +32,10 @@
                         </h2>
                         <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionSidebar">
                             <div class="accordion-body">
-                                <a>果香</a>
-                                <a>花香</a>
-                                <a>巧克力</a>
-                                <a>酒香</a>
-                                <a>堅果香</a>
-                                <a>茶香</a>
+                                @foreach (string f in Model.Flavor!)
+                                {
+                                    <a>@f</a>
+                                }
                             </div>
                         </div>
                     </div>
@@ -55,7 +49,7 @@
                 <div class="ItemSort row">
                     @* 數量 *@
                     <div class="col">
-                        @Model.Count 項
+                        @Model.Products!.Count() 項
                     </div>
                     @* Dropdown 排序 *@
                     <div class="col-auto">
@@ -130,21 +124,12 @@
                                     <button type="button" class="btn-close" aria-label="Close" onclick="filterBtnClose(this)"></button>
                                 </div>
                                 <div class="dropdown-item filter-baking-item">
-                                    <div>
-                                        <label for="L" class="CBcontainer"><input type="checkbox" id="L" /><span class="checkmark"></span>淺</label>
-                                    </div>
-                                    <div>
-                                        <label for="LM" class="CBcontainer"><input type="checkbox" id="LM" /><span class="checkmark"></span>中淺</label>
-                                    </div>
-                                    <div>
-                                        <label for="M" class="CBcontainer"><input type="checkbox" id="M" /><span class="checkmark"></span>中</label>
-                                    </div>
-                                    <div>
-                                        <label for="MH" class="CBcontainer"><input type="checkbox" id="MH" /><span class="checkmark"></span>中深</label>
-                                    </div>
-                                    <div>
-                                        <label for="H" class="CBcontainer"><input type="checkbox" id="H" /><span class="checkmark"></span>深</label>
-                                    </div>
+                                    @foreach (string b in Model.Baking!)
+                                    {
+                                        <div>
+                                            <label for="@b" class="CBcontainer"><input type="checkbox" id="@b" /><span class="checkmark"></span>@b</label>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -164,15 +149,12 @@
                                     <button type="button" class="btn-close" aria-label="Close" onclick="filterBtnClose(this)"></button>
                                 </div>
                                 <div class="dropdown-item filter-method-item">
-                                    <div>
-                                        <label for="Wet" class="CBcontainer"><input type="checkbox" id="Wet" /><span class="checkmark"></span>水洗</label>
-                                    </div>
-                                    <div>
-                                        <label for="Dry" class="CBcontainer"><input type="checkbox" id="Dry" /><span class="checkmark"></span>日曬</label>
-                                    </div>
-                                    <div>
-                                        <label for="Honey" class="CBcontainer"><input type="checkbox" id="Honey" /><span class="checkmark"></span>蜜處理</label>
-                                    </div>
+                                    @foreach (string m in Model.Method!)
+                                    {
+                                        <div>
+                                            <label for="@m" class="CBcontainer"><input type="checkbox" id="@m" /><span class="checkmark"></span>@m</label>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -216,14 +198,24 @@
                 <div class="cardContainer">
                     <div class="row">
                         @{
-                            foreach (Product p in Model)
+                            foreach (Product p in Model.Products!)
                             {
                                 <div class="col-4">
                                     <div class="card">
                                         <div class="cardImgBody">
-                                            <a href="/Product/All"><img src="~/img/neko.png" class="card-img-top"></a>
-                                            <button class="btn btn-primary" data-id="@p.ProductId" onclick="cardBtnAdd(this)">加入購物車</button>
-                                            <button>商品連結</button>
+                                            <img src="~/img/neko.png" class="card-img-top">
+                                            <div>
+                                                <a href="/Home/Index">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="#464646" width="32" height="32" class="bi bi-share" viewBox="0 0 16 16">
+                                                        <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
+                                                    </svg>
+                                                </a>
+                                                <div data-id="@p.ProductId" onclick="cardBtnAdd(this)">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#464646" class="bi bi-cart" viewBox="0 0 16 16">
+                                                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+                                                    </svg>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="card-body">
                                             <h5 class="card-title text-center">@p.ProductName</h5>
