@@ -184,3 +184,41 @@ function deleteUrl(key) {
     var q = (queryMap.size == 0) ? "" : "?";
     //window.location.assign(window.location.origin + window.location.pathname + q + queryMap)
 }
+
+function getProData(queryString) {
+    $.ajax({
+        url: queryString,
+        method: "GET",
+        success: function (jsonData) {
+            $(".ItemSort>:first").text(jsonData.totalCount + "項")
+            $('.cardContainer .row').empty()
+            for (let i = 0; i < jsonData.products.length; i++) {
+                let doc =
+                ` <div class="col-4">
+                    <div class="card">
+                        <div class="cardImgBody">
+                            <img src="/img/neko.png" class="card-img-top">
+                            <div>
+                                <a href="/Home/Index">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="#464646" width="32" height="32" class="bi bi-share" viewBox="0 0 16 16">
+                                        <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
+                                    </svg>
+                                </a>
+                                <div data-id="${jsonData.products[i].productId}" onclick="cardBtnAdd(this)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#464646" class="bi bi-cart" viewBox="0 0 16 16">
+                                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title text-center">${jsonData.products[i].productName}</h5>
+                            <p class="card-text text-center">NT.${jsonData.products[i].price}</p>
+                        </div>
+                    </div>
+                  </div>`
+                $('.cardContainer .row').append(doc)
+            }
+        }
+    })
+}

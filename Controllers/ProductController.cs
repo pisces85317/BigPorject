@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace BigPorject.Controllers
 {
@@ -50,9 +51,10 @@ namespace BigPorject.Controllers
             return View(docLoad);
         }
         [HttpGet]
-        public async Task<IActionResult> Query(string column, string category)
+        public async Task<IActionResult> Query(string column, string? category)
         {
-            // 要有一個分類篩選後的產品總數量
+            var query = from p in _context.Products
+                        select p;
             string sort = Request.Query["sort"].ToString();
             string item = Request.Query["item"].ToString();
             string page = Request.Query["page"].ToString();
@@ -66,27 +68,27 @@ namespace BigPorject.Controllers
             string strong = Request.Query["strong"].ToString();
             if (column == "產地")
             {
-                var query = from p in _context.Products
-                            where p.Country!.Contains(category)
-                            select p;
-                return View(await query.ToListAsync());
+                query = from p in _context.Products
+                        where p.Country!.Contains(category!)
+                        select p;
+                return Json(new DatanNum() { Products = await query.ToListAsync(), TotalCount = query.Count() });
             }
             else if (column == "風味")
             {
-                var query = from p in _context.Products
-                            where p.Flavor!.Contains(category)
-                            select p;
-                return View(await query.ToListAsync());
+                query = from p in _context.Products
+                        where p.Flavor!.Contains(category!)
+                        select p;
+                return Json(new DatanNum() { Products = await query.ToListAsync(), TotalCount = query.Count() });
             }
             else if (column == "濾掛系列")
             {
-                var query = from p in _context.Products
-                            where p.Category == "濾掛咖啡"
-                            select p;
-                return View(await query.ToListAsync());
+                query = from p in _context.Products
+                        where p.Category == "濾掛咖啡"
+                        select p;
+                return Json(new DatanNum() { Products = await query.ToListAsync(), TotalCount = query.Count() });
             }
 
-            return View(await _context.Products.ToListAsync());
+            return Json(new DatanNum() { Products = await query.ToListAsync(), TotalCount = query.Count() });
         }
         [HttpPost]
         public IActionResult AddCartItemToLayout(CartItemData data)
@@ -118,5 +120,10 @@ namespace BigPorject.Controllers
         public string? name { get; set; }
         public int price { get; set; }
         public int qty { get; set; }
+    }
+    public class DatanNum
+    {
+        public List<Product>? Products { get; set; }
+        public int TotalCount { get; set; }
     }
 }

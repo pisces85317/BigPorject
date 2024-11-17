@@ -164,8 +164,10 @@ $('.accordion a').on('click', function () {
     if (text != "所有商品" && text != "濾掛系列") {
         var col_text = $(this).closest('.accordion-item').find('button').text()
         var ajaxUrl = window.location.origin + `/Product/Query/${col_text}/${text}`
+        getProData(ajaxUrl)
     } else {
         var ajaxUrl = window.location.origin + `/Product/Query/${text}`
+        getProData(ajaxUrl)
     }
 })
 
