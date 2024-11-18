@@ -14,11 +14,16 @@ namespace BigPorject.Controllers
         {
             _context = dbContext;
         }
+
         [ActionName("所有商品")]
         public async Task<IActionResult> All()
         {
             //拋出產品集合、產地、風味、烘焙程度、處理法的所有值的模型
-            var products = await _context.Products.ToListAsync();
+            var products = await _context.Products
+                .OrderBy(p => p.Id)
+                .Take(12)
+                .ToListAsync();
+            var totalcount = _context.Products.Count();
             var country = _context.Products
                 .Select(p => p.Country)
                 .Where(c => !string.IsNullOrEmpty(c))
@@ -44,6 +49,7 @@ namespace BigPorject.Controllers
             DocLoad docLoad = new DocLoad()
             {
                 Products = products,
+                TotalCount = totalcount,
                 Country = country,
                 Flavor = flavor,
                 Baking = baking!,
@@ -52,44 +58,34 @@ namespace BigPorject.Controllers
             return View("All", docLoad);
         }
         [HttpGet]
-        public async Task<IActionResult> Query(string column, string? category)
+        public async Task<IActionResult> Query(string column, string? category, QueryParams queryParams)
         {
             var query = from p in _context.Products
                         select p;
-            string sort = Request.Query["sort"].ToString();
-            string item = Request.Query["item"].ToString();
-            string page = Request.Query["page"].ToString();
-            string price = Request.Query["price"].ToString();
-            string baking = Request.Query["baking"].ToString();
-            string method = Request.Query["method"].ToString();
-            string fragrance = Request.Query["fragrance"].ToString();
-            string sour = Request.Query["sour"].ToString();
-            string bitter = Request.Query["bitter"].ToString();
-            string sweet = Request.Query["sweet"].ToString();
-            string strong = Request.Query["strong"].ToString();
             if (column == "產地")
             {
                 query = from p in _context.Products
                         where p.Country!.Contains(category!)
                         select p;
-                return Json(new DatanNum() { Products = await query.ToListAsync(), TotalCount = query.Count() });
+
+                return Json(new DatanNum() { Products = await SuitQuery(query, queryParams), TotalCount = query.Count() });
             }
             else if (column == "風味")
             {
                 query = from p in _context.Products
                         where p.Flavor!.Contains(category!)
                         select p;
-                return Json(new DatanNum() { Products = await query.ToListAsync(), TotalCount = query.Count() });
+                return Json(new DatanNum() { Products = await SuitQuery(query, queryParams), TotalCount = query.Count() });
             }
             else if (column == "濾掛系列")
             {
                 query = from p in _context.Products
                         where p.Category == "濾掛咖啡"
                         select p;
-                return Json(new DatanNum() { Products = await query.ToListAsync(), TotalCount = query.Count() });
+                return Json(new DatanNum() { Products = await SuitQuery(query, queryParams), TotalCount = query.Count() });
             }
 
-            return Json(new DatanNum() { Products = await query.ToListAsync(), TotalCount = query.Count() });
+            return Json(new DatanNum() { Products = await SuitQuery(query, queryParams), TotalCount = query.Count() });
         }
         [HttpPost]
         public IActionResult AddCartItemToLayout(CartItemData data)
@@ -104,10 +100,19 @@ namespace BigPorject.Controllers
                          select p).SingleOrDefaultAsync();
             return PartialView("_PartialProductModal", await query);
         }
+        private async Task<List<Product>> SuitQuery(IQueryable<Product> products, QueryParams queryParams)
+        {
+            var suitQuery = products
+                .OrderBy(p => p.Id) //兩個if(是否價格排序)(倒敘或正敘)
+                .Skip((queryParams.page - 1) * queryParams.item)
+                .Take(queryParams.item);
+            return await suitQuery.ToListAsync();
+        }
     }
     public class DocLoad
     {
         public List<Product>? Products { get; set; }
+        public int TotalCount { get; set; }
         public string[]? Country { get; set; }
         public string[]? Flavor { get; set; }
         public string[]? Baking { get; set; }
@@ -126,5 +131,31 @@ namespace BigPorject.Controllers
     {
         public List<Product>? Products { get; set; }
         public int TotalCount { get; set; }
+    }
+    public class QueryParams
+    {
+        public string? sort { get; set; }
+        public int item { get; set; } = 12;
+        public int page { get; set; } = 1;
+        public string? price
+        {
+            get => price;
+            set
+            {
+                price = value;
+                min = int.Parse(price?.Split('#')[0] ?? "0");
+                max = int.Parse(price?.Split('#')[1] ?? "0");
+            }
+        }
+
+        public int min { get; private set; }
+        public int max { get; private set; }
+        public string? baking { get; set; }
+        public string? method { get; set; }
+        public string? fragrance { get; set; }
+        public string? sour { get; set; }
+        public string? bitter { get; set; }
+        public string? sweet { get; set; }
+        public string? strong { get; set; }
     }
 }
