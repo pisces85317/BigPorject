@@ -14,6 +14,7 @@ namespace BigPorject.Controllers
         {
             _context = dbContext;
         }
+        [ActionName("所有商品")]
         public async Task<IActionResult> All()
         {
             //拋出產品集合、產地、風味、烘焙程度、處理法的所有值的模型
@@ -48,7 +49,7 @@ namespace BigPorject.Controllers
                 Baking = baking!,
                 Method = method!
             };
-            return View(docLoad);
+            return View("All", docLoad);
         }
         [HttpGet]
         public async Task<IActionResult> Query(string column, string? category)

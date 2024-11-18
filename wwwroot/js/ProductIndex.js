@@ -156,19 +156,26 @@ $('.topbtn').on('click', function () {
 window.onload = function () {
     loadParams()
 }
+window.onpopstate = function () {
+    loadParams()
+    getProData(getAjaxUrl())
+}
 
 
 //分類點擊事件
 $('.accordion a').on('click', function () {
     var text = $(this).text().trim()
-    if (text != "所有商品" && text != "濾掛系列") {
-        var col_text = $(this).closest('.accordion-item').find('button').text()
-        var ajaxUrl = window.location.origin + `/Product/Query/${col_text}/${text}`
-        getProData(ajaxUrl)
-    } else {
+    if (text == "所有商品" || text == "濾掛系列") {
+        history.pushState({ pathname: "column" }, "", window.location.origin + `/Product/${text}`)
         var ajaxUrl = window.location.origin + `/Product/Query/${text}`
         getProData(ajaxUrl)
+    } else {
+        var col_text = $(this).closest('.accordion-item').find('button').text()
+        history.pushState({ pathname: "category" }, "", window.location.origin + `/Product/${col_text}/${text}`)
+        var ajaxUrl = window.location.origin + `/Product/Query/${col_text}/${text}`
+        getProData(ajaxUrl)
     }
+    setBreadcrumb()
 })
 
 
@@ -191,7 +198,8 @@ $('.itemShow li').on('click', function () {
     var queryMap = new URLSearchParams(window.location.search);
     queryMap.delete("page")
     queryMap.set("item", $(this).data('num'))
-    //window.location.assign(window.location.origin + window.location.pathname + "?" + queryMap)
+    history.pushState({ key: "set" }, "", window.location.origin + window.location.pathname + "?" + queryMap)
+    getProData(getAjaxUrl())
     //點選分頁設定卡片數量
     setPage()
 })

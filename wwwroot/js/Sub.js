@@ -107,19 +107,16 @@ function loadParams() {
     setPage()
 }
 function setBreadcrumb() {
+    $('.breadcrumb').empty()
     var pathname = window.location.pathname.split('/')
     $('.breadcrumb').append('<li class="breadcrumb-item"><a href="/Home/Index">首頁</a></li>')
-    switch (pathname.length) {
-        case 4:
-            $('.breadcrumb').append(`<li class="breadcrumb-item">${decodeURI(pathname[3])}</li>`)
-            break;
-        case 5:
-            $('.breadcrumb').append(`<li class="breadcrumb-item">${decodeURI(pathname[3])}</li>`)
-            $('.breadcrumb').append(`<li class="breadcrumb-item">${decodeURI(pathname[4])}</li>`)
-            break;
-        default:
-            $('.breadcrumb').append(`<li class="breadcrumb-item">所有商品</li>`)
-            break;
+    if (pathname.length > 3) {
+        $('.breadcrumb').append(`<li class="breadcrumb-item">${decodeURI(pathname[2])}</li>`)
+        $('.breadcrumb').append(`<li class="breadcrumb-item">${decodeURI(pathname[3])}</li>`)
+    } else if (pathname.length > 2) {
+        $('.breadcrumb').append(`<li class="breadcrumb-item">${decodeURI(pathname[2])}</li>`)
+    } else {
+        $('.breadcrumb').append(`<li class="breadcrumb-item">所有商品</li>`)
     }
 }
 function setCheckbox(key) {
@@ -152,6 +149,7 @@ function setPage() {
     let pageNum = Math.ceil(totalItem / pageItem) // 頁數的數量 = 產品總數量/每頁顯示數量
 
     // 根據頁數的數量生成分頁標籤
+    $('.pageul').empty()
     for (let i = 1; i <= pageNum; i++) {
         $('.pageul').append(`<li><a>${i}</a></li>`)
     }
@@ -176,25 +174,42 @@ function setPage() {
 function setUrl(key, value) {
     var queryMap = new URLSearchParams(window.location.search);
     queryMap.set(key, value)
-    //window.location.assign(window.location.origin + window.location.pathname + "?" + queryMap)
+    history.pushState({ key: "set" }, "", window.location.origin + window.location.pathname + "?" + queryMap)
+    getProData(getAjaxUrl())
 }
 function deleteUrl(key) {
     var queryMap = new URLSearchParams(window.location.search);
     queryMap.delete(key)
     var q = (queryMap.size == 0) ? "" : "?";
-    //window.location.assign(window.location.origin + window.location.pathname + q + queryMap)
+    history.pushState({ key: "delete" }, "", window.location.origin + window.location.pathname + q + queryMap)
+    getProData(getAjaxUrl())
 }
-
+function getAjaxUrl() {
+    var queryMap = new URLSearchParams(window.location.search);
+    var q = (queryMap.size == 0) ? "" : "?";
+    var pathname = window.location.pathname.split('/')
+    var ajaxurl = ""
+    if (pathname.length == 2) {
+        ajaxurl = window.location.origin + "/Product/Query/所有商品" + q + queryMap
+        return ajaxurl
+    } else {
+        pathname.splice(2, 0, "Query")
+        var newpathname = pathname.join('/')
+        ajaxurl = window.location.origin + newpathname + q + queryMap
+        return ajaxurl
+    }
+}
 function getProData(queryString) {
     $.ajax({
         url: queryString,
         method: "GET",
         success: function (jsonData) {
-            $(".ItemSort>:first").text(jsonData.totalCount + "項")
+            $(".ItemSort>:first").text(jsonData.totalCount + " 項")
             $('.cardContainer .row').empty()
+            setPage()
             for (let i = 0; i < jsonData.products.length; i++) {
                 let doc =
-                ` <div class="col-4">
+                    ` <div class="col-4">
                     <div class="card">
                         <div class="cardImgBody">
                             <img src="/img/neko.png" class="card-img-top">
