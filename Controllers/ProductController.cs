@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using LinqKit.Core;
+using LinqKit;
 
 namespace BigPorject.Controllers
 {
@@ -58,34 +60,40 @@ namespace BigPorject.Controllers
             return View("All", docLoad);
         }
         [HttpGet]
-        public async Task<IActionResult> Query(string column, string? category, QueryParams queryParams)
+        public async Task<IActionResult> Query(string column, string? category)
         {
-            var query = from p in _context.Products
-                        select p;
+            List<Product> query = (from p in _context.Products
+                                   select p).ToList();
             if (column == "產地")
             {
-                query = from p in _context.Products
-                        where p.Country!.Contains(category!)
-                        select p;
-
-                return Json(new DatanNum() { Products = await SuitQuery(query, queryParams), TotalCount = query.Count() });
+                query = (from p in _context.Products
+                         where p.Country!.Contains(category!)
+                         select p).ToList();
             }
             else if (column == "風味")
             {
-                query = from p in _context.Products
-                        where p.Flavor!.Contains(category!)
-                        select p;
-                return Json(new DatanNum() { Products = await SuitQuery(query, queryParams), TotalCount = query.Count() });
+                query = (from p in _context.Products
+                         where p.Flavor!.Contains(category!)
+                         select p).ToList();
             }
             else if (column == "濾掛系列")
             {
-                query = from p in _context.Products
-                        where p.Category == "濾掛咖啡"
-                        select p;
-                return Json(new DatanNum() { Products = await SuitQuery(query, queryParams), TotalCount = query.Count() });
+                query = (from p in _context.Products
+                         where p.Category == "濾掛咖啡"
+                         select p).ToList();
+            }
+            //https://github.com/scottksmith95/LINQKit
+            var Andpredicate = PredicateBuilder.New<Product>(true); // AND
+            var Orpredicate = PredicateBuilder.New<Product>(); // OR
+
+            var method = Request.Query["method"].ToString();
+            if (!string.IsNullOrEmpty(method))
+            {
+                
             }
 
-            return Json(new DatanNum() { Products = await SuitQuery(query, queryParams), TotalCount = query.Count() });
+
+            return Json(new DatanNum() { Products = await , TotalCount = query.Count() });
         }
         [HttpPost]
         public IActionResult AddCartItemToLayout(CartItemData data)
@@ -100,14 +108,14 @@ namespace BigPorject.Controllers
                          select p).SingleOrDefaultAsync();
             return PartialView("_PartialProductModal", await query);
         }
-        private async Task<List<Product>> SuitQuery(IQueryable<Product> products, QueryParams queryParams)
-        {
-            var suitQuery = products
-                .OrderBy(p => p.Id) //兩個if(是否價格排序)(倒敘或正敘)
-                .Skip((queryParams.page - 1) * queryParams.item)
-                .Take(queryParams.item);
-            return await suitQuery.ToListAsync();
-        }
+        //private async Task<List<Product>> SuitQuery(IQueryable<Product> products, QueryParams queryParams)
+        //{
+        //    var suitQuery = products
+        //        .OrderBy(p => p.Id) //兩個if(是否價格排序)(倒敘或正敘)
+        //        .Skip((queryParams.page - 1) * queryParams.item)
+        //        .Take(queryParams.item);
+        //    return await suitQuery.ToListAsync();
+        //}
     }
     public class DocLoad
     {
@@ -131,31 +139,5 @@ namespace BigPorject.Controllers
     {
         public List<Product>? Products { get; set; }
         public int TotalCount { get; set; }
-    }
-    public class QueryParams
-    {
-        public string? sort { get; set; }
-        public int item { get; set; } = 12;
-        public int page { get; set; } = 1;
-        public string? price
-        {
-            get => price;
-            set
-            {
-                price = value;
-                min = int.Parse(price?.Split('#')[0] ?? "0");
-                max = int.Parse(price?.Split('#')[1] ?? "0");
-            }
-        }
-
-        public int min { get; private set; }
-        public int max { get; private set; }
-        public string? baking { get; set; }
-        public string? method { get; set; }
-        public string? fragrance { get; set; }
-        public string? sour { get; set; }
-        public string? bitter { get; set; }
-        public string? sweet { get; set; }
-        public string? strong { get; set; }
     }
 }
