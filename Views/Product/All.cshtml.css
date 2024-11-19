@@ -113,6 +113,13 @@
         color: var(--font-color);
     }
 
+@media (max-width: 576px) {
+    .ItemSort.row > * {
+        padding-top: 0;
+        padding-bottom: calc(var(--bs-gutter-x) * .5);
+    }
+}
+
 .dropdown-toggle {
     display: flex;
     align-items: center;
@@ -148,6 +155,13 @@
     .filter * {
         color: var(--font-color);
     }
+
+@media (max-width: 576px) {
+    .filter.row > * {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+}
 
 .dropdown-menu {
     background-color: var(--background-color);

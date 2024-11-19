@@ -104,22 +104,22 @@ function setUI() {
     setCheckbox("baking")
     setCheckbox("method")
     setRange()
-    setPage()
 }
 function setBreadcrumb() {
     $('.breadcrumb').empty()
     var pathname = window.location.pathname.split('/')
     $('.breadcrumb').append('<li class="breadcrumb-item"><a href="/Home/Index">首頁</a></li>')
-    if (pathname.length > 4) {
+    if (pathname.length > 3) {
+        $('.breadcrumb').append(`<li class="breadcrumb-item">${decodeURI(pathname[2])}</li>`)
         $('.breadcrumb').append(`<li class="breadcrumb-item">${decodeURI(pathname[3])}</li>`)
-        $('.breadcrumb').append(`<li class="breadcrumb-item">${decodeURI(pathname[4])}</li>`)
-    } else if (pathname.length > 3) {
-        $('.breadcrumb').append(`<li class="breadcrumb-item">${decodeURI(pathname[3])}</li>`)
+    } else if (pathname.length > 2) {
+        $('.breadcrumb').append(`<li class="breadcrumb-item">${decodeURI(pathname[2])}</li>`)
     } else {
         $('.breadcrumb').append(`<li class="breadcrumb-item">所有商品</li>`)
     }
 }
 function setCheckbox(key) {
+    $(`.filter-${key}-item input[type="checkbox"]`).prop("checked", false)
     var queryMap = new URLSearchParams(window.location.search);
     if (queryMap.has(key)) {
         var valueArray = queryMap.get(key).split("#")
@@ -189,11 +189,11 @@ function getAjaxUrl() {
     var q = (queryMap.size == 0) ? "" : "?";
     var pathname = window.location.pathname.split('/')
     var ajaxurl = ""
-    if (pathname.length == 3) {
-        ajaxurl = window.location.origin + "/Product/Query/所有商品" + q + queryMap
+    if (pathname.length < 4) {
+        ajaxurl = window.location.origin + `/Api/Query/${(pathname[2] != null) ? pathname[2] : "所有商品"}` + q + queryMap
         return ajaxurl
     } else {
-        pathname.splice(2, 1, "Query")
+        pathname.splice(1, 1, "Api", "Query")
         var newpathname = pathname.join('/')
         ajaxurl = window.location.origin + newpathname + q + queryMap
         return ajaxurl

@@ -4,6 +4,9 @@ const accordion = document.querySelector('.accordion');
 
 // 當視窗大小改變時的處理函數
 function handleMediaChange(e) {
+    if (accordion == null) {
+        return
+    }
     if (e.matches) {
         accordion.classList.add('collapse'); // 新增類別
     } else {
@@ -186,9 +189,13 @@ window.onpopstate = function () {
 //分類點擊事件
 $('.accordion a').on('click', function () {
     var text = $(this).text().trim()
+    $(this).closest('.collapse').removeClass('show')
+    $(this).closest('.accordion').removeClass('show')
+    $(this).closest('.accordion-item').find('button').addClass('collapsed')
+    $(this).closest('.col-12').find('.navbar-toggler').addClass('collapsed')
     if (text == "所有商品" || text == "濾掛系列") {
         //A:保留UI
-        history.pushState({ pathname: "column" }, "", window.location.origin + `/Product/要隱藏/${text}` + window.location.search)
+        history.pushState({ pathname: "column" }, "", window.location.origin + `/Product/${text}` + window.location.search)
         getProData(getAjaxUrl())
         //B:不要UI
         //window.location.assign(window.location.origin + `/Product/要隱藏/${text}`)
@@ -196,7 +203,7 @@ $('.accordion a').on('click', function () {
     } else {
         var col_text = $(this).closest('.accordion-item').find('button').text()
         //A:保留UI
-        history.pushState({ pathname: "column" }, "", window.location.origin + `/Product/要隱藏/${col_text}/${text}` + window.location.search)
+        history.pushState({ pathname: "column" }, "", window.location.origin + `/Product/${col_text}/${text}` + window.location.search)
         getProData(getAjaxUrl())
         //B:不要UI
         //window.location.assign(window.location.origin + `/Product/要隱藏/${col_text}/${text}`)
