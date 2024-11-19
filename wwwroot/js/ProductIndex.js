@@ -154,10 +154,11 @@ $('.topbtn').on('click', function () {
 
 //瀏覽器載入
 window.onload = function () {
-    loadParams()
+    setUI()
+    getProData(getAjaxUrl())
 }
 window.onpopstate = function () {
-    loadParams()
+    setUI()
     getProData(getAjaxUrl())
 }
 
@@ -166,14 +167,20 @@ window.onpopstate = function () {
 $('.accordion a').on('click', function () {
     var text = $(this).text().trim()
     if (text == "所有商品" || text == "濾掛系列") {
-        history.pushState({ pathname: "column" }, "", window.location.origin + `/Product/${text}`)
-        var ajaxUrl = window.location.origin + `/Product/Query/${text}`
-        getProData(ajaxUrl)
+        //A:保留UI
+        history.pushState({ pathname: "column" }, "", window.location.origin + `/Product/要隱藏/${text}` + window.location.search)
+        getProData(getAjaxUrl())
+        //B:不要UI
+        //window.location.assign(window.location.origin + `/Product/要隱藏/${text}`)
+        //getProData(getAjaxUrl())
     } else {
         var col_text = $(this).closest('.accordion-item').find('button').text()
-        history.pushState({ pathname: "category" }, "", window.location.origin + `/Product/${col_text}/${text}`)
-        var ajaxUrl = window.location.origin + `/Product/Query/${col_text}/${text}`
-        getProData(ajaxUrl)
+        //A:保留UI
+        history.pushState({ pathname: "column" }, "", window.location.origin + `/Product/要隱藏/${col_text}/${text}` + window.location.search)
+        getProData(getAjaxUrl())
+        //B:不要UI
+        //window.location.assign(window.location.origin + `/Product/要隱藏/${col_text}/${text}`)
+        //getProData(getAjaxUrl())
     }
     setBreadcrumb()
 })

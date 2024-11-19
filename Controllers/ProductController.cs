@@ -18,14 +18,10 @@ namespace BigPorject.Controllers
             _context = dbContext;
         }
 
-        [ActionName("所有商品")]
+        [ActionName("要隱藏")]
         public async Task<IActionResult> All()
         {
             //拋出產品集合、產地、風味、烘焙程度、處理法的所有值的模型
-            var products = await _context.Products
-                .OrderBy(p => p.Id)
-                .Take(12)
-                .ToListAsync();
             var totalcount = _context.Products.Count();
             var country = _context.Products
                 .Select(p => p.Country)
@@ -51,7 +47,6 @@ namespace BigPorject.Controllers
                 .ToArray();
             DocLoad docLoad = new DocLoad()
             {
-                Products = products,
                 TotalCount = totalcount,
                 Country = country,
                 Flavor = flavor,
@@ -194,7 +189,6 @@ namespace BigPorject.Controllers
     }
     public class DocLoad
     {
-        public List<Product>? Products { get; set; }
         public int TotalCount { get; set; }
         public string[]? Country { get; set; }
         public string[]? Flavor { get; set; }
