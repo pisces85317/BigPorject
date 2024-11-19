@@ -1,4 +1,24 @@
-﻿//篩選的關閉按鈕
+﻿// 定義媒體查詢條件
+const mediaQuery = window.matchMedia('(max-width: 576px)');
+const accordion = document.querySelector('.accordion');
+
+// 當視窗大小改變時的處理函數
+function handleMediaChange(e) {
+    if (e.matches) {
+        accordion.classList.add('collapse'); // 新增類別
+    } else {
+        accordion.classList.remove('collapse'); // 移除類別
+    }
+}
+
+// 初次執行檢查
+handleMediaChange(mediaQuery);
+
+// 監聽視窗大小變化
+mediaQuery.addEventListener('change', handleMediaChange);
+
+
+//篩選的關閉按鈕
 function filterBtnClose(self) {
     $(self).closest('.dropdown-menu').removeClass('show');
     $(self).closest('.dropdown-menu').prev().removeClass('show');
@@ -189,7 +209,9 @@ $('.accordion a').on('click', function () {
 //價格排序點擊事件
 $('.priceSort li').on('click', function () {
     var text = $(this).text()
+    $(this).closest('div').find('button').text(text)
     if (text == "綜合") {
+        $(this).closest('div').find('button').text("排序")
         deleteUrl("sort")
     } else if (text.includes("由低到高")) {
         setUrl("sort", "desc")
@@ -202,13 +224,12 @@ $('.priceSort li').on('click', function () {
 //每頁顯示點擊事件
 $('.itemShow li').on('click', function () {
     //設定問號參數map
+    $(this).closest('div').find('button').text($(this).text())
     var queryMap = new URLSearchParams(window.location.search);
     queryMap.delete("page")
     queryMap.set("item", $(this).data('num'))
     history.pushState({ key: "set" }, "", window.location.origin + window.location.pathname + "?" + queryMap)
     getProData(getAjaxUrl())
-    //點選分頁設定卡片數量
-    setPage()
 })
 
 

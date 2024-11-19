@@ -8,7 +8,18 @@
     <div class="container">
         <div class="row">
             @* Sidebar 側邊欄 *@
-            <div class="col-3">
+            <div class="col-12 col-sm-3">
+                <div class="navSm">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                        </ol>
+                    </nav>
+                    <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordionSidebar" aria-controls="accordionSidebar" aria-expanded="true" aria-label="Toggle navigation">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#FFF" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
+                        </svg>
+                    </button>
+                </div>
                 <div class="accordion" id="accordionSidebar">
                     <div class="accordion-item">
                         <a class="accordion-header accordion-button">所有商品</a>
@@ -44,7 +55,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-9">
+            <div class="col-12 col-sm-9">
                 @* 數量和排序 *@
                 <div class="ItemSort row">
                     @* 數量 *@
@@ -74,7 +85,7 @@
                                         id="dropdownMenuButtonItemShow"
                                         data-bs-toggle="dropdown"
                                         aria-expanded="false">
-                                    每頁顯示
+                                    每頁顯示12個
                                 </button>
                                 <ul class="dropdown-menu itemShow" aria-labelledby="dropdownMenuButtonItemShow">
                                     <li class="dropdown-item f-show-item" data-num="12">每頁顯示12個</li>

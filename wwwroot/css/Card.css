@@ -7,9 +7,19 @@
 .card {
     border: none !important;
 }
-
+.cardImgBody2 {
+    display: none;
+}
 .cardImgBody {
     position: relative;
+}
+@media (max-width: 576px) {
+    .cardImgBody{
+        display:none;
+    }
+    .cardImgBody2{
+        display:block;
+    }
 }
 
     .cardImgBody > div {

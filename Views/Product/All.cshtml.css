@@ -15,7 +15,47 @@
     background-color: var(--background-color);
 }
 
+@media (max-width: 576px) {
+    .productList > nav {
+        display: none;
+    }
+}
+
 /*修改Sidebar 側邊欄的樣式*/
+.navSm {
+    display: none;
+}
+
+    .navSm nav {
+        display: flex;
+        align-items: center;
+    }
+
+    .navSm ol {
+        margin: 0;
+    }
+
+@media (max-width: 576px) {
+    .navSm {
+        display: flex;
+        justify-content: space-between;
+    }
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+.navbar-toggler svg {
+    transform: rotate(-180deg);
+    transition: transform 0.2s ease-in-out;
+}
+
+.navbar-toggler.collapsed svg {
+    transform: rotate(0);
+    transition: transform 0.2s ease-in-out;
+}
+
 .accordion a {
     padding-bottom: 1rem;
     color: var(--font-color);

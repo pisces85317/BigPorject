@@ -209,7 +209,7 @@ function getProData(queryString) {
             setPage()
             for (let i = 0; i < jsonData.products.length; i++) {
                 let doc =
-                    ` <div class="col-4">
+                    ` <div class="col-sm-4 col-6">
                     <div class="card">
                         <div class="cardImgBody">
                             <img src="/img/neko.png" class="card-img-top">
@@ -225,6 +225,9 @@ function getProData(queryString) {
                                     </svg>
                                 </div>
                             </div>
+                        </div>
+                        <div class="cardImgBody2">
+                            <a href="/Home/Index"><img src="/img/neko.png" class="card-img-top"></a>
                         </div>
                         <div class="card-body">
                             <h5 class="card-title text-center">${jsonData.products[i].productName}</h5>
