@@ -145,7 +145,7 @@
         opacity: 0.75;
     }
 
-.filterPriceItem, .filterBakingItem, .filterProcedureItem, .filterTasteItem {
+.filterPriceItem, .filter-baking-item, .filter-method-item, .filterTasteItem {
     padding-top: 1rem;
 }
 
@@ -177,11 +177,11 @@
                 color: var(--font-color);
             }
 
-.dropdown-item.filterBakingItem:hover, .dropdown-item.filterProcedureItem:hover, .dropdown-item.filterTasteItem:hover {
+.dropdown-item.filter-baking-item:hover, .dropdown-item.filter-method-item:hover, .dropdown-item.filterTasteItem:hover {
     color: black;
 }
 
-.filterBakingItem div, .filterProcedureItem div, .filterTasteItem div {
+.filter-baking-item div, .filter-method-item div, .filterTasteItem div {
     display: flex;
     margin-bottom: 1rem;
     align-items: center;
@@ -235,7 +235,7 @@
         margin: 0 1rem;
         height: .2rem;
         border-radius: 0.25rem;
-        background: #ffd068;
+        background: #fff;
     }
 
         .filterTasteItem input[type="range"]::-webkit-slider-thumb {
@@ -247,39 +247,7 @@
             /*background: url(/img/neko.png);*/
             border-radius: 50%;
         }
-/*修改Card 產品卡樣式*/
-.cardImgBody {
-    position: relative;
-}
 
-    .cardImgBody .btn {
-        position: absolute;
-        left: 50%;
-        bottom: 0;
-        transform: translate(-50%,100%);
-        width: 100%;
-        border-radius: 0;
-        opacity: 0;
-        transition: all 200ms ease-out;
-        margin: 0;
-        color: white;
-        padding: .5rem 0;
-    }
-
-        .cardImgBody .btn:focus {
-            box-shadow: none;
-        }
-
-    .cardImgBody .btn-primary {
-        background-color: var(--highlight-color);
-        border-color: var(--highlight-color);
-    }
-
-.card:hover .btn {
-    transform: translate(-50%);
-    opacity: 1;
-    transition: all 200ms ease-out;
-}
 /*到頂部*/
 .topbtn {
     background-color: #E0732A;

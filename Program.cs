@@ -24,6 +24,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
 	name: "default",
-	pattern: "{controller=Product}/{action=Index}/{id?}");
+	pattern: "{controller=Product}/{action=所有商品}/{column?}/{category?}"); // <-- New
 
 app.Run();
