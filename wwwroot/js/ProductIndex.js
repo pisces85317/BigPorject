@@ -1,6 +1,7 @@
 ﻿// 定義媒體查詢條件
 const mediaQuery = window.matchMedia('(max-width: 576px)');
 const accordion = document.querySelector('.accordion');
+const filter = document.querySelector('.filter');
 
 // 當視窗大小改變時的處理函數
 function handleMediaChange(e) {
@@ -9,8 +10,10 @@ function handleMediaChange(e) {
     }
     if (e.matches) {
         accordion.classList.add('collapse'); // 新增類別
+        filter.classList.add('collapse');
     } else {
         accordion.classList.remove('collapse'); // 移除類別
+        filter.classList.remove('collapse');
     }
 }
 

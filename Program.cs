@@ -23,17 +23,20 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 //New
 app.MapControllerRoute(
-    name: "Product",
-    pattern: "{controller=Product}/{column?}/{category?}",
-    defaults: new { controller = "Product", action = "All" });
-app.MapControllerRoute(
-    name: "Api",
-    pattern: "{controller=Api}/{action=Query}/{column}/{category?}");
+    name: "Query",
+    pattern: "Product/Query/{column}/{category?}",
+    defaults: new { controller = "Product", action = "Query" });
 
+app.MapControllerRoute(
+    name: "Product",
+    pattern: "Product/{column?}/{category?}",
+    defaults: new { controller = "Product", action = "All" });
+//
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 app.Run();

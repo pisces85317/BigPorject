@@ -104,6 +104,7 @@ function setUI() {
     setCheckbox("baking")
     setCheckbox("method")
     setRange()
+    setPage()
 }
 function setBreadcrumb() {
     $('.breadcrumb').empty()
@@ -144,7 +145,7 @@ function setRange() {
 }
 function setPage() {
     var queryMap = new URLSearchParams(window.location.search);
-    var totalItem = parseInt($(".ItemSort>:first").text())
+    var totalItem = parseInt($(".ItemSort > div:first").text())
     var pageItem = (queryMap.has("item")) ? queryMap.get("item") : 12
     let pageNum = Math.ceil(totalItem / pageItem) // 頁數的數量 = 產品總數量/每頁顯示數量
 
@@ -190,10 +191,10 @@ function getAjaxUrl() {
     var pathname = window.location.pathname.split('/')
     var ajaxurl = ""
     if (pathname.length < 4) {
-        ajaxurl = window.location.origin + `/Api/Query/${(pathname[2] != null) ? pathname[2] : "所有商品"}` + q + queryMap
+        ajaxurl = window.location.origin + `/Product/Query/${(pathname[2] != null) ? pathname[2] : "所有商品"}` + q + queryMap
         return ajaxurl
     } else {
-        pathname.splice(1, 1, "Api", "Query")
+        pathname.splice(2, 0, "Query")
         var newpathname = pathname.join('/')
         ajaxurl = window.location.origin + newpathname + q + queryMap
         return ajaxurl
@@ -204,8 +205,8 @@ function getProData(queryString) {
         url: queryString,
         method: "GET",
         success: function (jsonData) {
-            $(".ItemSort>:first").text(jsonData.totalCount + " 項")
-            $('.cardContainer .row').empty()
+            $(".ItemSort > div:first").text(jsonData.totalCount + " 項")
+            $('.cardContainer').empty()
             setPage()
             for (let i = 0; i < jsonData.products.length; i++) {
                 let doc =
@@ -235,7 +236,7 @@ function getProData(queryString) {
                         </div>
                     </div>
                   </div>`
-                $('.cardContainer .row').append(doc)
+                $('.cardContainer').append(doc)
             }
         }
     })

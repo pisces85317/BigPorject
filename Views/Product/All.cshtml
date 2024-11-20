@@ -58,6 +58,11 @@
             <div class="col-12 col-sm-9">
                 @* 數量和排序 *@
                 <div class="ItemSort row">
+                    <button class="navbar-toggler col-auto collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#filter" aria-controls="filter" aria-expanded="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="17.5" height="17.5" fill="#FFF" class="bi bi-filter-left" viewBox="0 0 16 16">
+                            <path d="M2 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m0-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5" />
+                        </svg>
+                    </button>
                     @* 數量 *@
                     <div class="col">
                     </div>
@@ -95,8 +100,8 @@
                     </div>
                 </div>
                 @* Dropdown 篩選 *@
-                <div class="filter row">
-                    <div class="col-auto">
+                <div class="filter row" id="filter">
+                    <div class="col-3">
                         <div class="dropdown">
                             <button class="btn btn-primary dropdown-toggle"
                                     type="button"
@@ -119,7 +124,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-auto">
+                    <div class="col-3">
                         <div class="dropdown">
                             <button class="btn btn-primary dropdown-toggle"
                                     type="button"
@@ -144,7 +149,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-auto">
+                    <div class="col-3">
                         <div class="dropdown">
                             <button class="btn btn-primary dropdown-toggle"
                                     type="button"
@@ -169,7 +174,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-auto">
+                    <div class="col-3">
                         <div class="dropdown">
                             <button class="btn btn-primary dropdown-toggle"
                                     type="button"
@@ -205,9 +210,7 @@
                     </div>
                 </div>
                 @* Card 產品卡 *@
-                <div class="cardContainer">
-                    <div class="row">
-                    </div>
+                <div class="cardContainer row">
                 </div>
                 @* 分頁 (Pagination) *@
                 <div class="page">

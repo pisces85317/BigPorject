@@ -42,16 +42,16 @@
     }
 }
 
-.navbar-toggler:focus {
+.navSm .navbar-toggler:focus {
     box-shadow: none;
 }
 
-.navbar-toggler svg {
+.navSm .navbar-toggler svg {
     transform: rotate(-180deg);
     transition: transform 0.2s ease-in-out;
 }
 
-.navbar-toggler.collapsed svg {
+.navSm .navbar-toggler.collapsed svg {
     transform: rotate(0);
     transition: transform 0.2s ease-in-out;
 }
@@ -104,19 +104,21 @@
         box-shadow: inherit;
     }
 /*修改Dropdown 排序的樣式*/
-.ItemSort {
-    margin-left: 0;
-    margin-right: 0;
+.ItemSort * {
+    color: var(--font-color);
 }
 
-    .ItemSort * {
-        color: var(--font-color);
-    }
+.ItemSort > button {
+    display: none;
+}
 
-@media (max-width: 576px) {
-    .ItemSort.row > * {
-        padding-top: 0;
-        padding-bottom: calc(var(--bs-gutter-x) * .5);
+.ItemSort .navbar-toggler:focus {
+    box-shadow: none;
+}
+
+@media(max-width: 576px) {
+    .ItemSort > button {
+        display: block;
     }
 }
 
@@ -147,20 +149,8 @@
     background-color: inherit;
 }
 /*修改Dropdown 篩選的樣式*/
-.filter {
-    margin-left: 0;
-    margin-right: 0;
-}
-
-    .filter * {
-        color: var(--font-color);
-    }
-
-@media (max-width: 576px) {
-    .filter.row > * {
-        padding-top: 0;
-        padding-bottom: 0;
-    }
+.filter * {
+    color: var(--font-color);
 }
 
 .dropdown-menu {
