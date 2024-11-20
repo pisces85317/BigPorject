@@ -1,4 +1,30 @@
-﻿//篩選的關閉按鈕
+﻿// 定義媒體查詢條件
+const mediaQuery = window.matchMedia('(max-width: 576px)');
+const accordion = document.querySelector('.accordion');
+const filter = document.querySelector('.filter');
+
+// 當視窗大小改變時的處理函數
+function handleMediaChange(e) {
+    if (accordion == null) {
+        return
+    }
+    if (e.matches) {
+        accordion.classList.add('collapse'); // 新增類別
+        filter.classList.add('collapse');
+    } else {
+        accordion.classList.remove('collapse'); // 移除類別
+        filter.classList.remove('collapse');
+    }
+}
+
+// 初次執行檢查
+handleMediaChange(mediaQuery);
+
+// 監聽視窗大小變化
+mediaQuery.addEventListener('change', handleMediaChange);
+
+
+//篩選的關閉按鈕
 function filterBtnClose(self) {
     $(self).closest('.dropdown-menu').removeClass('show');
     $(self).closest('.dropdown-menu').prev().removeClass('show');
@@ -154,10 +180,11 @@ $('.topbtn').on('click', function () {
 
 //瀏覽器載入
 window.onload = function () {
-    loadParams()
+    setUI()
+    getProData(getAjaxUrl())
 }
 window.onpopstate = function () {
-    loadParams()
+    setUI()
     getProData(getAjaxUrl())
 }
 
@@ -165,15 +192,25 @@ window.onpopstate = function () {
 //分類點擊事件
 $('.accordion a').on('click', function () {
     var text = $(this).text().trim()
+    $(this).closest('.collapse').removeClass('show')
+    $(this).closest('.accordion').removeClass('show')
+    $(this).closest('.accordion-item').find('button').addClass('collapsed')
+    $(this).closest('.col-12').find('.navbar-toggler').addClass('collapsed')
     if (text == "所有商品" || text == "濾掛系列") {
-        history.pushState({ pathname: "column" }, "", window.location.origin + `/Product/${text}`)
-        var ajaxUrl = window.location.origin + `/Product/Query/${text}`
-        getProData(ajaxUrl)
+        //A:保留UI
+        history.pushState({ pathname: "column" }, "", window.location.origin + `/Product/${text}` + window.location.search)
+        getProData(getAjaxUrl())
+        //B:不要UI
+        //window.location.assign(window.location.origin + `/Product/要隱藏/${text}`)
+        //getProData(getAjaxUrl())
     } else {
         var col_text = $(this).closest('.accordion-item').find('button').text()
-        history.pushState({ pathname: "category" }, "", window.location.origin + `/Product/${col_text}/${text}`)
-        var ajaxUrl = window.location.origin + `/Product/Query/${col_text}/${text}`
-        getProData(ajaxUrl)
+        //A:保留UI
+        history.pushState({ pathname: "column" }, "", window.location.origin + `/Product/${col_text}/${text}` + window.location.search)
+        getProData(getAjaxUrl())
+        //B:不要UI
+        //window.location.assign(window.location.origin + `/Product/要隱藏/${col_text}/${text}`)
+        //getProData(getAjaxUrl())
     }
     setBreadcrumb()
 })
@@ -182,7 +219,9 @@ $('.accordion a').on('click', function () {
 //價格排序點擊事件
 $('.priceSort li').on('click', function () {
     var text = $(this).text()
+    $(this).closest('div').find('button').text(text)
     if (text == "綜合") {
+        $(this).closest('div').find('button').text("排序")
         deleteUrl("sort")
     } else if (text.includes("由低到高")) {
         setUrl("sort", "desc")
@@ -195,13 +234,12 @@ $('.priceSort li').on('click', function () {
 //每頁顯示點擊事件
 $('.itemShow li').on('click', function () {
     //設定問號參數map
+    $(this).closest('div').find('button').text($(this).text())
     var queryMap = new URLSearchParams(window.location.search);
     queryMap.delete("page")
     queryMap.set("item", $(this).data('num'))
     history.pushState({ key: "set" }, "", window.location.origin + window.location.pathname + "?" + queryMap)
     getProData(getAjaxUrl())
-    //點選分頁設定卡片數量
-    setPage()
 })
 
 

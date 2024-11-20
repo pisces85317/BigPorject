@@ -15,7 +15,47 @@
     background-color: var(--background-color);
 }
 
+@media (max-width: 576px) {
+    .productList > nav {
+        display: none;
+    }
+}
+
 /*修改Sidebar 側邊欄的樣式*/
+.navSm {
+    display: none;
+}
+
+    .navSm nav {
+        display: flex;
+        align-items: center;
+    }
+
+    .navSm ol {
+        margin: 0;
+    }
+
+@media (max-width: 576px) {
+    .navSm {
+        display: flex;
+        justify-content: space-between;
+    }
+}
+
+.navSm .navbar-toggler:focus {
+    box-shadow: none;
+}
+
+.navSm .navbar-toggler svg {
+    transform: rotate(-180deg);
+    transition: transform 0.2s ease-in-out;
+}
+
+.navSm .navbar-toggler.collapsed svg {
+    transform: rotate(0);
+    transition: transform 0.2s ease-in-out;
+}
+
 .accordion a {
     padding-bottom: 1rem;
     color: var(--font-color);
@@ -64,14 +104,23 @@
         box-shadow: inherit;
     }
 /*修改Dropdown 排序的樣式*/
-.ItemSort {
-    margin-left: 0;
-    margin-right: 0;
+.ItemSort * {
+    color: var(--font-color);
 }
 
-    .ItemSort * {
-        color: var(--font-color);
+.ItemSort > button {
+    display: none;
+}
+
+.ItemSort .navbar-toggler:focus {
+    box-shadow: none;
+}
+
+@media(max-width: 576px) {
+    .ItemSort > button {
+        display: block;
     }
+}
 
 .dropdown-toggle {
     display: flex;
@@ -100,14 +149,9 @@
     background-color: inherit;
 }
 /*修改Dropdown 篩選的樣式*/
-.filter {
-    margin-left: 0;
-    margin-right: 0;
+.filter * {
+    color: var(--font-color);
 }
-
-    .filter * {
-        color: var(--font-color);
-    }
 
 .dropdown-menu {
     background-color: var(--background-color);

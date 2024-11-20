@@ -8,7 +8,18 @@
     <div class="container">
         <div class="row">
             @* Sidebar 側邊欄 *@
-            <div class="col-3">
+            <div class="col-12 col-sm-3">
+                <div class="navSm">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                        </ol>
+                    </nav>
+                    <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordionSidebar" aria-controls="accordionSidebar" aria-expanded="true" aria-label="Toggle navigation">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="17.5" height="17.5" fill="#FFF" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
+                        </svg>
+                    </button>
+                </div>
                 <div class="accordion" id="accordionSidebar">
                     <div class="accordion-item">
                         <a class="accordion-header accordion-button">所有商品</a>
@@ -44,12 +55,16 @@
                     </div>
                 </div>
             </div>
-            <div class="col-9">
+            <div class="col-12 col-sm-9">
                 @* 數量和排序 *@
                 <div class="ItemSort row">
+                    <button class="navbar-toggler col-auto collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#filter" aria-controls="filter" aria-expanded="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="17.5" height="17.5" fill="#FFF" class="bi bi-filter-left" viewBox="0 0 16 16">
+                            <path d="M2 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m0-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5" />
+                        </svg>
+                    </button>
                     @* 數量 *@
                     <div class="col">
-                        @Model.TotalCount 項
                     </div>
                     @* Dropdown 排序 *@
                     <div class="col-auto">
@@ -74,7 +89,7 @@
                                         id="dropdownMenuButtonItemShow"
                                         data-bs-toggle="dropdown"
                                         aria-expanded="false">
-                                    每頁顯示
+                                    每頁顯示12個
                                 </button>
                                 <ul class="dropdown-menu itemShow" aria-labelledby="dropdownMenuButtonItemShow">
                                     <li class="dropdown-item f-show-item" data-num="12">每頁顯示12個</li>
@@ -85,8 +100,8 @@
                     </div>
                 </div>
                 @* Dropdown 篩選 *@
-                <div class="filter row">
-                    <div class="col-auto">
+                <div class="filter row" id="filter">
+                    <div class="col-3">
                         <div class="dropdown">
                             <button class="btn btn-primary dropdown-toggle"
                                     type="button"
@@ -109,7 +124,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-auto">
+                    <div class="col-3">
                         <div class="dropdown">
                             <button class="btn btn-primary dropdown-toggle"
                                     type="button"
@@ -134,7 +149,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-auto">
+                    <div class="col-3">
                         <div class="dropdown">
                             <button class="btn btn-primary dropdown-toggle"
                                     type="button"
@@ -159,7 +174,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-auto">
+                    <div class="col-3">
                         <div class="dropdown">
                             <button class="btn btn-primary dropdown-toggle"
                                     type="button"
@@ -195,37 +210,7 @@
                     </div>
                 </div>
                 @* Card 產品卡 *@
-                <div class="cardContainer">
-                    <div class="row">
-                        @{
-                            foreach (Product p in Model.Products!)
-                            {
-                                <div class="col-4">
-                                    <div class="card">
-                                        <div class="cardImgBody">
-                                            <img src="~/img/neko.png" class="card-img-top">
-                                            <div>
-                                                <a href="/Home/Index">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="#464646" width="32" height="32" class="bi bi-share" viewBox="0 0 16 16">
-                                                        <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
-                                                    </svg>
-                                                </a>
-                                                <div data-id="@p.ProductId" onclick="cardBtnAdd(this)">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#464646" class="bi bi-cart" viewBox="0 0 16 16">
-                                                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title text-center">@p.ProductName</h5>
-                                            <p class="card-text text-center">NT.@p.Price</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                        }
-                    </div>
+                <div class="cardContainer row">
                 </div>
                 @* 分頁 (Pagination) *@
                 <div class="page">

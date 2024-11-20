@@ -6,6 +6,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using LinqKit.Core;
 using LinqKit;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System;
 
 namespace BigPorject.Controllers
 {
@@ -18,14 +19,9 @@ namespace BigPorject.Controllers
             _context = dbContext;
         }
 
-        [ActionName("所有商品")]
         public async Task<IActionResult> All()
         {
             //拋出產品集合、產地、風味、烘焙程度、處理法的所有值的模型
-            var products = await _context.Products
-                .OrderBy(p => p.Id)
-                .Take(12)
-                .ToListAsync();
             var totalcount = _context.Products.Count();
             var country = _context.Products
                 .Select(p => p.Country)
@@ -51,7 +47,6 @@ namespace BigPorject.Controllers
                 .ToArray();
             DocLoad docLoad = new DocLoad()
             {
-                Products = products,
                 TotalCount = totalcount,
                 Country = country,
                 Flavor = flavor,
@@ -60,7 +55,6 @@ namespace BigPorject.Controllers
             };
             return View("All", docLoad);
         }
-        [HttpGet]
         public IActionResult Query(string column, string? category)
         {
             // 分類
@@ -87,7 +81,8 @@ namespace BigPorject.Controllers
 
             //篩選
             var predicateAnd = PredicateBuilder.New<Product>(true); // AND
-            var predicateOr = PredicateBuilder.New<Product>(true); // OR
+            var predicateOr1 = PredicateBuilder.New<Product>(true); // OR
+            var predicateOr2 = PredicateBuilder.New<Product>(true); // OR
 
             var price = Request.Query["price"].ToString();
             if (!string.IsNullOrEmpty(price))
@@ -97,16 +92,15 @@ namespace BigPorject.Controllers
                 predicateAnd = predicateAnd.And(p => p.Price >= min);
                 predicateAnd = predicateAnd.And(p => p.Price <= max);
             }
-            // ?? and or 的組合
             var baking = Request.Query["baking"].ToString();
             if (!string.IsNullOrEmpty(baking))
             {
                 string[] bakingArr = baking.Split('#');
                 foreach (string b in bakingArr)
                 {
-                    predicateOr = predicateOr.Or(p => p.Baking == b);
+                    predicateOr1 = predicateOr1.Or(p => p.Baking == b);
                 }
-                predicateAnd = predicateAnd.And(predicateOr);
+                predicateAnd = predicateAnd.And(predicateOr1);
             }
             var method = Request.Query["method"].ToString();
             if (!string.IsNullOrEmpty(method))
@@ -114,9 +108,9 @@ namespace BigPorject.Controllers
                 string[] methodArr = method.Split('#');
                 foreach (string m in methodArr)
                 {
-                    predicateOr = predicateOr.Or(p => p.Method == m);
+                    predicateOr2 = predicateOr2.Or(p => p.Method == m);
                 }
-                predicateAnd = predicateAnd.And(predicateOr);
+                predicateAnd = predicateAnd.And(predicateOr2);
             }
             // ?? 條件如何判斷
             var fragrance = Request.Query["fragrance"].ToString();
@@ -149,8 +143,6 @@ namespace BigPorject.Controllers
                 var strongInt = Convert.ToInt32(strong);
                 predicateAnd = predicateAnd.And(p => p.Strong <= strongInt);
             }
-
-            //var query2 = query.Where(predicateAnd).Where(predicateOr);
             var query2 = query.Where(predicateAnd);
 
             // 排序
@@ -178,6 +170,7 @@ namespace BigPorject.Controllers
 
             return Json(new DatanNum() { Products = query4, TotalCount = query2.Count() });
         }
+
         [HttpPost]
         public IActionResult AddCartItemToLayout(CartItemData data)
         {
@@ -194,7 +187,6 @@ namespace BigPorject.Controllers
     }
     public class DocLoad
     {
-        public List<Product>? Products { get; set; }
         public int TotalCount { get; set; }
         public string[]? Country { get; set; }
         public string[]? Flavor { get; set; }
@@ -210,6 +202,7 @@ namespace BigPorject.Controllers
         public int price { get; set; }
         public int qty { get; set; }
     }
+
     public class DatanNum
     {
         public List<Product>? Products { get; set; }

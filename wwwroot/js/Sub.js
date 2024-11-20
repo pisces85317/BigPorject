@@ -99,7 +99,7 @@ function setLsHtml(data) {
  * Load and SetUrl
  */
 
-function loadParams() {
+function setUI() {
     setBreadcrumb()
     setCheckbox("baking")
     setCheckbox("method")
@@ -120,6 +120,7 @@ function setBreadcrumb() {
     }
 }
 function setCheckbox(key) {
+    $(`.filter-${key}-item input[type="checkbox"]`).prop("checked", false)
     var queryMap = new URLSearchParams(window.location.search);
     if (queryMap.has(key)) {
         var valueArray = queryMap.get(key).split("#")
@@ -144,7 +145,7 @@ function setRange() {
 }
 function setPage() {
     var queryMap = new URLSearchParams(window.location.search);
-    var totalItem = parseInt($(".ItemSort>:first").text())
+    var totalItem = parseInt($(".ItemSort > div:first").text())
     var pageItem = (queryMap.has("item")) ? queryMap.get("item") : 12
     let pageNum = Math.ceil(totalItem / pageItem) // 頁數的數量 = 產品總數量/每頁顯示數量
 
@@ -189,8 +190,8 @@ function getAjaxUrl() {
     var q = (queryMap.size == 0) ? "" : "?";
     var pathname = window.location.pathname.split('/')
     var ajaxurl = ""
-    if (pathname.length == 2) {
-        ajaxurl = window.location.origin + "/Product/Query/所有商品" + q + queryMap
+    if (pathname.length < 4) {
+        ajaxurl = window.location.origin + `/Product/Query/${(pathname[2] != null) ? pathname[2] : "所有商品"}` + q + queryMap
         return ajaxurl
     } else {
         pathname.splice(2, 0, "Query")
@@ -204,12 +205,12 @@ function getProData(queryString) {
         url: queryString,
         method: "GET",
         success: function (jsonData) {
-            $(".ItemSort>:first").text(jsonData.totalCount + " 項")
-            $('.cardContainer .row').empty()
+            $(".ItemSort > div:first").text(jsonData.totalCount + " 項")
+            $('.cardContainer').empty()
             setPage()
             for (let i = 0; i < jsonData.products.length; i++) {
                 let doc =
-                    ` <div class="col-4">
+                    ` <div class="col-sm-4 col-6">
                     <div class="card">
                         <div class="cardImgBody">
                             <img src="/img/neko.png" class="card-img-top">
@@ -226,13 +227,16 @@ function getProData(queryString) {
                                 </div>
                             </div>
                         </div>
+                        <div class="cardImgBody2">
+                            <a href="/Home/Index"><img src="/img/neko.png" class="card-img-top"></a>
+                        </div>
                         <div class="card-body">
                             <h5 class="card-title text-center">${jsonData.products[i].productName}</h5>
                             <p class="card-text text-center">NT.${jsonData.products[i].price}</p>
                         </div>
                     </div>
                   </div>`
-                $('.cardContainer .row').append(doc)
+                $('.cardContainer').append(doc)
             }
         }
     })
