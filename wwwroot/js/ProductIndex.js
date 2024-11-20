@@ -1,10 +1,11 @@
 ﻿// 定義媒體查詢條件
-const mediaQuery = window.matchMedia('(max-width: 576px)');
-const accordion = document.querySelector('.accordion');
-const filter = document.querySelector('.filter');
+var mediaQuery = window.matchMedia('(max-width: 576px)');
+
 
 // 當視窗大小改變時的處理函數
 function handleMediaChange(e) {
+    var accordion = document.querySelector('.accordion');
+    var filter = document.querySelector('.filter');
     if (accordion == null) {
         return
     }

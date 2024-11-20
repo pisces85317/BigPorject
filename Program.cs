@@ -31,6 +31,16 @@ app.MapControllerRoute(
     defaults: new { controller = "Product", action = "Query" });
 
 app.MapControllerRoute(
+    name: "GetModal",
+    pattern: "Product/ShowProductModal",
+    defaults: new { controller = "Product", action = "ShowProductModal" });
+
+app.MapControllerRoute(
+    name: "GetCartItem",
+    pattern: "Product/AddCartItemToLayout",
+    defaults: new { controller = "Product", action = "AddCartItemToLayout" });
+
+app.MapControllerRoute(
     name: "Product",
     pattern: "Product/{column?}/{category?}",
     defaults: new { controller = "Product", action = "All" });
