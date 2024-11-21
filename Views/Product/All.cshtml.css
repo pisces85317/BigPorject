@@ -5,11 +5,11 @@
 }
 
 .productList {
-    --font-color: white;
+    --font-color: #464646;
     --font-color-hover: #cccccc;
-    --background-color: #464646; /*如果inherit失效就用此變數*/
+    --background-color: #fff; /*如果inherit失效就用此變數*/
     --main-color: #2E724A;
-    --highlight-color: #FFB818;
+    --highlight-color: #b6d7a8;
     --sub-color1: #E0732A;
     --sub-color2: #A31313;
     background-color: var(--background-color);
@@ -83,7 +83,7 @@
 }
 
     .accordion-button::after {
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23FFFFFF'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23464646'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
     }
 
     .accordion-button:not(.collapsed) {
@@ -92,7 +92,7 @@
     }
 
         .accordion-button:not(.collapsed)::after {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23FFFFFF'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23464646'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
         }
 
     .accordion-button:hover {
@@ -128,7 +128,7 @@
 }
 
     .dropdown-toggle:not(.show)::after {
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23FFFFFF'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23464646'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
         transform: rotate(180deg);
     }
 
@@ -138,7 +138,7 @@
         height: 1.25rem;
         margin-left: 1rem;
         content: "";
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23FFFFFF'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23464646'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
         background-repeat: no-repeat;
         border: none;
         transition: transform 0.2s ease-in-out;
@@ -204,7 +204,7 @@
         border-radius: .25rem;
         max-width: 4rem;
         text-align: center;
-        color: var(--background-color);
+        color: var(--font-color);
     }
 
         .filterPriceItem input[type="number"]::-webkit-outer-spin-button,
@@ -285,7 +285,7 @@
         margin: 0 1rem;
         height: .3rem;
         border-radius: 0.25rem;
-        background: #fff;
+        background: var(--highlight-color);
     }
 
 @media(max-width: 576px) {
@@ -299,14 +299,13 @@
     position: relative;
     width: 10px;
     height: 10px;
-    background-color: var(--highlight-color);
-    /*background: url(/img/neko.png);*/
+    background-color: var(--main-color);
     border-radius: 50%;
 }
 
 /*到頂部*/
 .topbtn {
-    background-color: #E0732A;
+    background-color: #b6d7a8;
     width: 3rem;
     aspect-ratio: 1/1;
     border-radius: 50%;

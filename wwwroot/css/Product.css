@@ -1,15 +1,15 @@
 ﻿/*修改麵包屑樣式*/
 .breadcrumb-item a {
-    color: white;
+    color: #464646;
     text-decoration: none;
 }
 
 .breadcrumb-item::before {
-    color: white;
+    color: #464646;
 }
 
 .breadcrumb-item.active, .breadcrumb li {
-    color: #cccccc;
+    color: #b6d7a8;
 }
 
 /*修改bootstrap的樣式*/
@@ -20,6 +20,7 @@
 /*修改Card 產品卡樣式*/
 .card {
     border: none !important;
+    background-color: #b6d7a8;
 }
 
 .cardImgBody2 {
@@ -53,7 +54,7 @@
 }
 
     .cardImgBody > div > * {
-        background-color: #FFB818;
+        background-color: #b6d7a8;
         width: 3rem;
         aspect-ratio: 1/1;
         border-radius: 50%;
@@ -87,7 +88,7 @@
     }
 
 .modal-content {
-    background-color: #464646;
+    background-color: #FFF;
 }
 
 .modal-header {
@@ -96,52 +97,19 @@
 
     .modal-header .btn-close {
         box-shadow: none;
-        background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23FFFFFF'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat;
+        background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23464646'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat;
     }
 
-.bigImg {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    background-color: white;
-    border-radius: 0.5rem;
+.carousel {
+    height: 359px;
 }
 
-    .bigImg .prev, .bigImg .next {
-        cursor: pointer;
-        position: absolute;
-        top: 50%;
-        width: auto;
-        padding: 8px;
-        margin-top: -22px;
-        color: #FFB818;
-        text-decoration: none;
-        font-weight: bold;
-        font-size: 30px;
-        transition: 200ms ease-out;
-        border-radius: 50%;
-    }
+.carousel-control-prev-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23b6d7a8'%3e%3cpath d='M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z'/%3e%3c/svg%3e");
+}
 
-    .bigImg .next {
-        right: 0;
-        border-radius: 50%;
-    }
-
-        .bigImg .prev:hover, .bigImg .next:hover {
-            color: #cccccc;
-        }
-
-    .bigImg .bigImgWrapper {
-        display: flex;
-        width: 300%;
-        transition: transform 200ms ease-out;
-    }
-
-.bigImgWrapper div {
-    width: 100%;
-    height: auto;
-    display: flex;
-    justify-content: center;
+.carousel-control-next-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23b6d7a8'%3e%3cpath d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
 }
 
 .smallImg {
@@ -159,7 +127,7 @@
 }
 
     .subImg:hover {
-        outline: 2px solid #FFB818;
+        outline: 2px solid #b6d7a8;
         border-radius: 0.5rem;
     }
 
@@ -167,14 +135,14 @@
     margin-bottom: 0;
     padding-left: 1rem;
     padding-bottom: 1rem;
-    color: white;
+    color: #464646;
 }
 
 .productFormat h1 {
     padding-bottom: 0;
     margin-bottom: 1rem;
-    border-bottom: 1px solid #cccccc;
-    color: white;
+    border-bottom: 1px solid #464646;
+    color: #464646;
 }
 
 .modalUOMcomponent {
@@ -184,7 +152,7 @@
 }
 
     .modalUOMcomponent * {
-        color: white;
+        color: #464646;
     }
 
     .modalUOMcomponent button[name="minus"] {
@@ -192,7 +160,10 @@
         width: 2rem;
         height: 2rem;
         background-color: inherit;
-        border: 1px solid #cccccc;
+        border-top: 1px solid #464646;
+        border-right: none;
+        border-bottom: 1px solid #464646;
+        border-left: 1px solid #464646;
         border-radius: 0.25rem 0 0 0.25rem;
     }
 
@@ -201,7 +172,10 @@
         width: 2rem;
         height: 2rem;
         background-color: inherit;
-        border: 1px solid #cccccc;
+        border-top: 1px solid #464646;
+        border-right: 1px solid #464646;
+        border-bottom: 1px solid #464646;
+        border-left: none;
         border-radius: 0 0.25rem 0.25rem 0;
     }
 
@@ -209,7 +183,7 @@
     .modalUOMcomponent input[type="number"] {
         max-width: 8rem;
         background-color: inherit;
-        border: 1px solid #cccccc;
+        border: 1px solid #464646;
         border-radius: 0;
         cursor: default;
         text-align: center;
@@ -226,19 +200,25 @@
 }
 
     .modalBtn button {
-        color: white;
+        color: #464646;
     }
 
     .modalBtn .btn-primary {
-        background-color: #FFB818;
-        border-color: #FFB818;
+        background-color: #b6d7a8;
+        border-color: #b6d7a8;
         width: 12rem;
         box-shadow: none;
     }
 
+        .modalBtn .btn-primary:active:hover, .modalBtn .btn-primary:focus {
+            box-shadow: none;
+            color: #464646;
+        }
+
+
 .productDesc {
-    border-top: 1px solid white;
-    color: white;
+    border-top: 1px solid #464646;
+    color: #464646;
     margin-top: 1rem;
 }
 
@@ -249,7 +229,7 @@
 .productDescText hr {
     width: 20rem;
     margin: 0 auto;
-    color: white;
+    color: #464646;
 }
 
 .productDescText div {
@@ -260,11 +240,11 @@
 .productDescText a {
     text-decoration: none;
     transition: 100ms ease-out;
-    color: white;
+    color: #464646;
 }
 
     .productDescText a:hover {
-        color: #cccccc;
+        color: #b6d7a8;
         transition: 100ms ease-out;
     }
 
@@ -285,20 +265,19 @@
     .pageul li {
         display: inline-block;
         margin: 0;
-        color: white;
+        color: #464646;
+        font-size: large;
     }
 
         .pageul li a {
             display: inline-block;
             padding: 0px 5px;
             text-decoration: none;
-            background-color: #E0732A;
-            color: white;
+            background-color: #b6d7a8;
             cursor: pointer;
         }
 
         .pageul li.active a {
-            background-color: #A31313;
-            color: white;
+            background-color: #2E724A;
+            color: #464646;
         }
-

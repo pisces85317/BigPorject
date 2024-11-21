@@ -58,31 +58,6 @@ function modalBtnUom(self) {
     Update_Btn_Uom(uom, self, input)
 }
 
-//產品浮窗的圖片互動
-let currentIndex = 0 // 不可以刪掉!!!
-function changeImg(test) {
-    let totalImagesS = $('.bigImgWrapper div').length;
-
-    currentIndex = test
-    let offset = -currentIndex * (100 / totalImagesS);
-    $('.bigImgWrapper').css('transform', `translateX(${offset}%)`)
-}
-function slideImg(i) {
-    let totalImages = $('.bigImgWrapper div').length;
-    // 更新索引
-    currentIndex += i
-    // 確保索引不超出張數範圍
-    if (currentIndex < 0) {
-        currentIndex = totalImages - 1; // 返回到最後一張
-    } else if (currentIndex >= totalImages) {
-        currentIndex = 0; // 返回到第一張
-    }
-    // 計算移動的距離
-    let offset = -currentIndex * (100 / totalImages); // 每次移動 100% 的寬度
-
-    $('.bigImgWrapper').css('transform', `translateX(${offset}%)`)
-}
-
 //產品浮窗加入購物籃
 function modalBtnAdd(self) {
     var _price = parseInt($(self).data('price'))
@@ -203,7 +178,7 @@ $('.filter input[type="range"]').on('input', function () {
     //當range的value更動時，顯示其值在對應的span裡和input的樣式
     $(this).next('span').text($(this).val());
     var progress = ($(this).val() - $(this).prop('min')) / ($(this).prop('max') - $(this).prop('min')) * 100;
-    $(this).css('background', `linear-gradient(to right,#FFB818 ${progress}%, #fff ${progress}%)`)
+    $(this).css('background', `linear-gradient(to right, #2E724A ${progress}%, #b6d7a8 ${progress}%)`)
 })
 $('.filter input[type="range"]').on("change", function () {
     //設定問號參數map
@@ -374,11 +349,11 @@ function setRange() {
             $(this).next('span').text(value)
             $(this).val(value)
             var progress = ($(this).val() - 1) / 4 * 100;
-            $(this).css('background', `linear-gradient(to right,#FFB818 ${progress}%, #fff ${progress}%)`);
+            $(this).css('background', `linear-gradient(to right, #2E724A ${progress}%, #b6d7a8 ${progress}%)`);
         } else {
             $(this).next('span').text(1)
             $(this).val(1)
-            $(this).css('background', `linear-gradient(to right,#FFB818 0%, #fff 0%)`);
+            $(this).css('background', `linear-gradient(to right,#2E724A 0%, #b6d7a8 0%)`);
         }
     })
 }

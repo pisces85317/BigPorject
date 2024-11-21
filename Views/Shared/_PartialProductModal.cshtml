@@ -12,22 +12,33 @@
                         <div class="col-6">
                             @* 產品圖 *@
                             <div class="productImg">
-                                @* 產品大圖 *@
-                                <div class="bigImg">
-                                    <div class="bigImgWrapper">
-                                        <div><img src="@Model.Img" class="mainImg" /></div>
-                                        <div><img src="/img/product_img_1.jpg" class="mainImg" /></div>
-                                        <div><img src="/img/product_img_2.jpg" class="mainImg" /></div>
+                                <div id="carouselExampleIndicators" class="carousel slide" data-bs-interval="false">
+                                    <div class="carousel-inner">
+                                        <div class="carousel-item active">
+                                            <img src="@Model.Img" class="d-block w-100">
+                                        </div>
+                                        <div class="carousel-item">
+                                            <img src="/img/product_img_1.jpg" class="d-block w-100">
+                                        </div>
+                                        <div class="carousel-item">
+                                            <img src="/img/product_img_2.jpg" class="d-block w-100">
+                                        </div>
                                     </div>
-                                    <a class="prev" onclick="slideImg(-1)">&#10094;</a>
-                                    <a class="next" onclick="slideImg(1)">&#10095;</a>
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
                                 </div>
                                 @* 產品縮圖 *@
                                 <div class="smallImg">
                                     <div class="row">
-                                        <img src="@Model.Img" class="col-4 subImg" onclick="changeImg(0)" />
-                                        <img src="/img/product_img_1.jpg" class="col-4 subImg" onclick="changeImg(1)" />
-                                        <img src="/img/product_img_2.jpg" class="col-4 subImg" onclick="changeImg(2)" />
+                                        <img src="@Model.Img" class="col-4 subImg" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" aria-label="Slide 1" />
+                                        <img src="/img/product_img_1.jpg" class="col-4 subImg" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2" />
+                                        <img src="/img/product_img_2.jpg" class="col-4 subImg" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3" />
                                     </div>
                                 </div>
                             </div>
