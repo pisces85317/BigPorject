@@ -24,4 +24,8 @@ public partial class VCartProduct
     public string? UserId { get; set; }
 
     public string? Status { get; set; }
+
+    public string? DStatus { get; set; }
+
+    public string? Img { get; set; }
 }

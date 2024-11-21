@@ -38,4 +38,8 @@ public partial class Customer
     public DateTime? UpdateDate { get; set; }
 
     public string? Status { get; set; }
+
+    public bool IsSuspended { get; set; }
+
+    public bool IsDeleted { get; set; }
 }

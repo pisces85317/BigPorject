@@ -463,7 +463,7 @@ function getProData(queryString) {
                     ` <div class="col-sm-4 col-6">
                     <div class="card">
                         <div class="cardImgBody">
-                            <img src="/img/neko.png" class="card-img-top">
+                            <img src=${jsonData.products[i].Img} class="card-img-top">
                             <div>
                                 <a href="/Home/Index">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="#464646" width="32" height="32" class="bi bi-share" viewBox="0 0 16 16">
@@ -478,7 +478,7 @@ function getProData(queryString) {
                             </div>
                         </div>
                         <div class="cardImgBody2">
-                            <a href="/Home/Index"><img src="/img/neko.png" class="card-img-top"></a>
+                            <a href="/Home/Index"><img src=${jsonData.products[i].Img} class="card-img-top"></a>
                         </div>
                         <div class="card-body">
                             <h5 class="card-title text-center">${jsonData.products[i].productName}</h5>

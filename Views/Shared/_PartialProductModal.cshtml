@@ -15,9 +15,9 @@
                                 @* 產品大圖 *@
                                 <div class="bigImg">
                                     <div class="bigImgWrapper">
-                                        <div><img src="/img/neko.png" class="mainImg" /></div>
-                                        <div><img src="/img/fish.png" class="mainImg" /></div>
-                                        <div><img src="/img/pig.png" class="mainImg" /></div>
+                                        <div><img src="@Model.Img" class="mainImg" /></div>
+                                        <div><img src="/img/product_img_1.jpg" class="mainImg" /></div>
+                                        <div><img src="/img/product_img_2.jpg" class="mainImg" /></div>
                                     </div>
                                     <a class="prev" onclick="slideImg(-1)">&#10094;</a>
                                     <a class="next" onclick="slideImg(1)">&#10095;</a>
@@ -25,9 +25,9 @@
                                 @* 產品縮圖 *@
                                 <div class="smallImg">
                                     <div class="row">
-                                        <img src="/img/neko.png" class="col-4 subImg" onclick="changeImg(0)" />
-                                        <img src="/img/fish.png" class="col-4 subImg" onclick="changeImg(1)" />
-                                        <img src="/img/pig.png" class="col-4 subImg" onclick="changeImg(2)" />
+                                        <img src="@Model.Img" class="col-4 subImg" onclick="changeImg(0)" />
+                                        <img src="/img/product_img_1.jpg" class="col-4 subImg" onclick="changeImg(1)" />
+                                        <img src="/img/product_img_2.jpg" class="col-4 subImg" onclick="changeImg(2)" />
                                     </div>
                                 </div>
                             </div>
@@ -50,12 +50,14 @@
                                 </div>
                                 @* 加入購物車 *@
                                 <div class="modalBtn">
-                                    <button class="btn btn-primary" 
-                                            data-id="@Model.ProductId" 
-                                            data-img="/img/neko.png" 
-                                            data-name="@Model.ProductName" 
+                                    <button class="btn btn-primary"
+                                            data-id="@Model.ProductId"
+                                            data-img="@Model.Img"
+                                            data-name="@Model.ProductName"
                                             data-price="@Model.Price"
-                                            onclick="modalBtnAdd(this)">加入購物車</button>
+                                            onclick="modalBtnAdd(this)">
+                                        加入購物車
+                                    </button>
                                 </div>
                             </div>
                         </div>

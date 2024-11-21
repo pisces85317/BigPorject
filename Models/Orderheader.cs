@@ -28,4 +28,14 @@ public partial class Orderheader
     public DateTime? UpdateDate { get; set; }
 
     public string? Status { get; set; }
+
+    public string? Name { get; set; }
+
+    public string? Mail { get; set; }
+
+    public string? Phone { get; set; }
+
+    public string? Comment { get; set; }
+
+    public string? ShippingMethod { get; set; }
 }
