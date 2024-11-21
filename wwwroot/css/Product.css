@@ -1,4 +1,75 @@
-﻿/*修改Modal 產品資訊互動視窗樣式*/
+﻿/*修改麵包屑樣式*/
+.breadcrumb-item a {
+    color: white;
+    text-decoration: none;
+}
+
+.breadcrumb-item::before {
+    color: white;
+}
+
+.breadcrumb-item.active, .breadcrumb li {
+    color: #cccccc;
+}
+
+/*修改bootstrap的樣式*/
+.row > * {
+    padding-top: calc(var(--bs-gutter-x) * .5);
+    padding-bottom: calc(var(--bs-gutter-x) * .5);
+}
+/*修改Card 產品卡樣式*/
+.card {
+    border: none !important;
+}
+
+.cardImgBody2 {
+    display: none;
+}
+
+.cardImgBody {
+    position: relative;
+}
+
+@media (max-width: 576px) {
+    .cardImgBody {
+        display: none;
+    }
+
+    .cardImgBody2 {
+        display: block;
+    }
+}
+
+.cardImgBody > div {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,.25);
+    bottom: 0;
+    opacity: 0;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+    .cardImgBody > div > * {
+        background-color: #FFB818;
+        width: 3rem;
+        aspect-ratio: 1/1;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+.card:hover .cardImgBody > div {
+    opacity: 1;
+    transition: all 200ms ease-out;
+}
+
+/*修改Modal 產品資訊互動視窗樣式*/
 .modalFixed {
     position: fixed;
     top: 0;
@@ -196,3 +267,38 @@
         color: #cccccc;
         transition: 100ms ease-out;
     }
+
+/*頁數*/
+.page {
+    background-color: inherit;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pageul {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+    .pageul li {
+        display: inline-block;
+        margin: 0;
+        color: white;
+    }
+
+        .pageul li a {
+            display: inline-block;
+            padding: 0px 5px;
+            text-decoration: none;
+            background-color: #E0732A;
+            color: white;
+            cursor: pointer;
+        }
+
+        .pageul li.active a {
+            background-color: #A31313;
+            color: white;
+        }
+

@@ -21,69 +21,76 @@ namespace BigPorject.Controllers
 
         public async Task<IActionResult> All()
         {
-            //拋出產品集合、產地、風味、烘焙程度、處理法的所有值的模型
+            //產品總數量
             var totalcount = _context.Products.Count();
-            var country = _context.Products
+            //所有產地
+            var country0 = await _context.Products
                 .Select(p => p.Country)
                 .Where(c => !string.IsNullOrEmpty(c))
-                .ToList()
+                .ToListAsync();
+            var country = country0
                 .SelectMany(c => c!.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
                 .Select(s => s.Trim())
                 .Distinct()
                 .ToArray();
-            var flavor = _context.Products
+            //所有風味
+            var flavor0 = await _context.Products
                 .Select(p => p.Flavor)
                 .Where(c => !string.IsNullOrEmpty(c))
-                .ToList()
+                .ToListAsync();
+            var flavor = flavor0
                 .SelectMany(c => c!.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
                 .Select(s => s.Trim())
                 .Distinct()
                 .ToArray();
-            var baking = _context.Products.Select(p => p.Baking)
+            //所有烘焙程度
+            var baking = await _context.Products.Select(p => p.Baking)
                 .Distinct()
-                .ToArray();
-            var method = _context.Products.Select(p => p.Method)
+                .ToArrayAsync();
+            //所有處理法
+            var method = await _context.Products.Select(p => p.Method)
                 .Distinct()
-                .ToArray();
-            DocLoad docLoad = new DocLoad()
+                .ToArrayAsync();
+
+            return View("All", new DocLoad()
             {
                 TotalCount = totalcount,
                 Country = country,
                 Flavor = flavor,
                 Baking = baking!,
                 Method = method!
-            };
-            return View("All", docLoad);
+            });
         }
-        public IActionResult Query(string column, string? category)
+        public async Task<IActionResult> Query(string column, string? category)
         {
             // 分類
-            List<Product> query = (from p in _context.Products
-                                   select p).ToList();
+            List<Product> query = await (from p in _context.Products
+                                         select p).ToListAsync();
             if (column == "產地")
             {
-                query = (from p in _context.Products
-                         where p.Country!.Contains(category!)
-                         select p).ToList();
+                query = await (from p in _context.Products
+                               where p.Country!.Contains(category!)
+                               select p).ToListAsync();
             }
             else if (column == "風味")
             {
-                query = (from p in _context.Products
-                         where p.Flavor!.Contains(category!)
-                         select p).ToList();
+                query = await (from p in _context.Products
+                               where p.Flavor!.Contains(category!)
+                               select p).ToListAsync();
             }
             else if (column == "濾掛系列")
             {
-                query = (from p in _context.Products
-                         where p.Category == "濾掛咖啡"
-                         select p).ToList();
+                query = await (from p in _context.Products
+                               where p.Category == "濾掛咖啡"
+                               select p).ToListAsync();
             }
 
-            //篩選
+            // 篩選
             var predicateAnd = PredicateBuilder.New<Product>(true); // AND
             var predicateOr1 = PredicateBuilder.New<Product>(true); // OR
             var predicateOr2 = PredicateBuilder.New<Product>(true); // OR
 
+            // -價格
             var price = Request.Query["price"].ToString();
             if (!string.IsNullOrEmpty(price))
             {
@@ -92,6 +99,8 @@ namespace BigPorject.Controllers
                 predicateAnd = predicateAnd.And(p => p.Price >= min);
                 predicateAnd = predicateAnd.And(p => p.Price <= max);
             }
+
+            // -烘焙程度
             var baking = Request.Query["baking"].ToString();
             if (!string.IsNullOrEmpty(baking))
             {
@@ -102,6 +111,8 @@ namespace BigPorject.Controllers
                 }
                 predicateAnd = predicateAnd.And(predicateOr1);
             }
+
+            // -處理法
             var method = Request.Query["method"].ToString();
             if (!string.IsNullOrEmpty(method))
             {
@@ -112,7 +123,8 @@ namespace BigPorject.Controllers
                 }
                 predicateAnd = predicateAnd.And(predicateOr2);
             }
-            // ?? 條件如何判斷
+
+            // -味道
             var fragrance = Request.Query["fragrance"].ToString();
             if (!string.IsNullOrEmpty(fragrance))
             {
@@ -168,14 +180,9 @@ namespace BigPorject.Controllers
             var query4 = query3.Skip((pageInt - 1) * itemInt).Take(itemInt).ToList();
 
 
-            return Json(new DatanNum() { Products = query4, TotalCount = query2.Count() });
+            return Json(new { Products = query4, TotalCount = query2.Count() });
         }
 
-        [HttpPost]
-        public IActionResult AddCartItemToLayout(CartItemData data)
-        {
-            return PartialView("_PartialCartItem", data);
-        }
         [HttpPost]
         public async Task<IActionResult> ShowProductModal(string proID)
         {
@@ -183,6 +190,12 @@ namespace BigPorject.Controllers
                          where p.ProductId == proID
                          select p).SingleOrDefaultAsync();
             return PartialView("_PartialProductModal", await query);
+        }
+
+        [HttpPost]
+        public IActionResult AddCartItemToLayout(CartItemData data)
+        {
+            return PartialView("_PartialCartItem", data);
         }
     }
     public class DocLoad
@@ -201,11 +214,5 @@ namespace BigPorject.Controllers
         public string? name { get; set; }
         public int price { get; set; }
         public int qty { get; set; }
-    }
-
-    public class DatanNum
-    {
-        public List<Product>? Products { get; set; }
-        public int TotalCount { get; set; }
     }
 }

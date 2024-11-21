@@ -1,7 +1,249 @@
-﻿/* 
+﻿// 定義媒體查詢條件
+var mediaQuery = window.matchMedia('(max-width: 576px)');
+
+// 監聽視窗大小變化
+mediaQuery.addEventListener('change', handleMediaChange);
+
+//瀏覽器點擊
+window.onclick = function (e) {
+    closeModal(e)
+}
+
+//瀏覽器滾動
+window.onscroll = function () {
+    scrollFunction();
+}
+
+//瀏覽器載入
+window.onload = function () {
+    setUI()
+    getProData(getAjaxUrl())
+    // RWD初次執行檢查
+    handleMediaChange(mediaQuery);
+}
+
+//瀏覽器歷史紀錄切換
+window.onpopstate = function () {
+    setUI()
+    getProData(getAjaxUrl())
+}
+
+//篩選的關閉按鈕
+function filterBtnClose(self) {
+    $(self).closest('.dropdown-menu').removeClass('show');
+    $(self).closest('.dropdown-menu').prev().removeClass('show');
+}
+
+//產品卡顯示產品浮窗
+function cardBtnAdd(self) {
+    $.ajax({
+        url: "/Product/ShowProductModal",
+        method: "POST",
+        data: { proID: `${$(self).data('id')}` },
+        success: function (data) {
+            $('body').append(data);
+        }
+    });
+}
+
+//產品浮窗的關閉按鈕
+function modalBtnClose(self) {
+    $(self).closest('.modalFixed').remove()
+}
+
+//產品浮窗的Uom數量更新
+function modalBtnUom(self) {
+    var input = $(self).parent('.modalUOMcomponent').find('input')
+    var uom = parseInt($(input).val())
+    Update_Btn_Uom(uom, self, input)
+}
+
+//產品浮窗的圖片互動
+let currentIndex = 0 // 不可以刪掉!!!
+function changeImg(test) {
+    let totalImagesS = $('.bigImgWrapper div').length;
+
+    currentIndex = test
+    let offset = -currentIndex * (100 / totalImagesS);
+    $('.bigImgWrapper').css('transform', `translateX(${offset}%)`)
+}
+function slideImg(i) {
+    let totalImages = $('.bigImgWrapper div').length;
+    // 更新索引
+    currentIndex += i
+    // 確保索引不超出張數範圍
+    if (currentIndex < 0) {
+        currentIndex = totalImages - 1; // 返回到最後一張
+    } else if (currentIndex >= totalImages) {
+        currentIndex = 0; // 返回到第一張
+    }
+    // 計算移動的距離
+    let offset = -currentIndex * (100 / totalImages); // 每次移動 100% 的寬度
+
+    $('.bigImgWrapper').css('transform', `translateX(${offset}%)`)
+}
+
+//產品浮窗加入購物籃
+function modalBtnAdd(self) {
+    var _price = parseInt($(self).data('price'))
+    var _qty = parseInt($(self).closest('.productFormat').find('input[type="number"]').val())
+    var data =
+    {
+        proID: $(self).data('id'),
+        img: $(self).data('img'),
+        name: $(self).data('name'),
+        price: _price,
+        qty: _qty,
+    }
+    setLsHtml(data)
+}
+
+//購物籃產品數量加減
+function cartBtnUom(self) {
+    var input = $(self).parent('.cartBtn').find('input')
+    var uom = parseInt($(input).val())
+    Update_Btn_Uom(uom, self, input)
+    var cartItem = $(self).closest('.cart')
+    var data =
+    {
+        proID: $(cartItem).find('.card-title').data('id'),
+        img: $(cartItem).find('img').prop('src'),
+        name: $(cartItem).find('.card-title').text(),
+        price: parseInt($(cartItem).find('span').text()),
+        qty: parseInt($(cartItem).find('input[type="number"]').val()),
+    }
+    updateLs(data)
+}
+
+//移除購物籃產品
+function cartBtnClose(self) {
+    var cartItem = $(self).parent('.cart')
+    var id = cartItem.find('.card-title').data('id')
+    removeLs(id)
+    cartItem.remove()
+}
+
+//點擊時滾動頁面
+$('.topbtn').on('click', function () {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+})
+
+//分類點擊事件
+$('.accordion a').on('click', function () {
+    var text = $(this).text().trim()
+    $(this).closest('.collapse').removeClass('show')
+    $(this).closest('.accordion').removeClass('show')
+    $(this).closest('.accordion-item').find('button').addClass('collapsed')
+    $(this).closest('.col-12').find('.navbar-toggler').addClass('collapsed')
+    if (text == "所有商品" || text == "濾掛系列") {
+        history.pushState({ pathname: "column" }, "", window.location.origin + `/Product/${text}` + window.location.search)
+        getProData(getAjaxUrl())
+    } else {
+        var col_text = $(this).closest('.accordion-item').find('button').text()
+        history.pushState({ pathname: "column" }, "", window.location.origin + `/Product/${col_text}/${text}` + window.location.search)
+        getProData(getAjaxUrl())
+    }
+    setBreadcrumb()
+})
+
+//價格排序點擊事件
+$('.priceSort li').on('click', function () {
+    var text = $(this).text()
+    $(this).closest('div').find('button').text(text)
+    if (text == "綜合") {
+        $(this).closest('div').find('button').text("排序")
+        deleteUrl("sort")
+    } else if (text.includes("由低到高")) {
+        setUrl("sort", "desc")
+    } else if (text.includes("由高到低")) {
+        setUrl("sort", "asc")
+    }
+})
+
+//每頁顯示點擊事件
+$('.itemShow li').on('click', function () {
+    //設定問號參數map
+    $(this).closest('div').find('button').text($(this).text())
+    var queryMap = new URLSearchParams(window.location.search);
+    queryMap.delete("page")
+    queryMap.set("item", $(this).data('num'))
+    history.pushState({ key: "set" }, "", window.location.origin + window.location.pathname + "?" + queryMap)
+    getProData(getAjaxUrl())
+})
+
+//篩選點擊事件:價格
+$('.filter input[type="submit"]').on('click', function () {
+    //點選Go按鈕關閉篩選選單
+    filterBtnClose(this)
+    //設定問號參數map
+    var min = $('.filterPriceItem').find('input[name="min"]').val()
+    var max = $('.filterPriceItem').find('input[name="max"]').val()
+    if (min == "" && max == "") {
+        deleteUrl("price")
+    } else {
+        (min == "") ? min = 0 : null;
+        (max == "") ? max = 0 : null;
+        setUrl("price", `${min}#${max}`)
+    }
+})
+
+//篩選點擊事件:烘焙程度，處理法
+$('.filter input[type="checkbox"]').on('click', function () {
+    let colElem = $(this).closest('.dropdown').find('button').text().trim()
+    if (colElem == "烘焙程度") {
+        setCheckboxUrl("baking", this)
+    } else if (colElem == "處理法") {
+        setCheckboxUrl("method", this)
+    }
+})
+
+//篩選輸入事件:味道
+$('.filter input[type="range"]').on('input', function () {
+    //當range的value更動時，顯示其值在對應的span裡和input的樣式
+    $(this).next('span').text($(this).val());
+    var progress = ($(this).val() - $(this).prop('min')) / ($(this).prop('max') - $(this).prop('min')) * 100;
+    $(this).css('background', `linear-gradient(to right,#FFB818 ${progress}%, #fff ${progress}%)`)
+})
+$('.filter input[type="range"]').on("change", function () {
+    //設定問號參數map
+    if ($(this).val() == 1) {
+        deleteUrl($(this).prop('id'))
+    } else {
+        setUrl($(this).prop('id'), $(this).val())
+    }
+})
+
+//------------------SubFunction-------------------
+
+/* 
  * Cart
  */
 
+/**
+ * Uom數量更新
+ * @param {number} uom 數量
+ * @param {any} self 加減號按鈕元素
+ * @param {any} input 輸入元素
+ */
+function Update_Btn_Uom(uom, self, input) {
+    if ($(self).text() == "+") {
+        // 設定購買上限為10
+        if (uom == 10) {
+            $(input).val(uom)
+        } else {
+            $(input).val(uom + 1)
+        }
+    }
+    if ($(self).text() == "-") {
+        // 設定購買下限為1
+        if (uom == 1) {
+            $(input).val(uom)
+        } else {
+            $(input).val(uom - 1)
+        }
+    }
+}
 
 /**
  * 把資料加入localstorage
@@ -20,7 +262,6 @@ function addLs(data) {
     storage.setItem("cart", JSON.stringify(json))
 }
 
-
 /**
  * 把資料移出localstorage
  * @param {string} proID 要移出之物件的proID
@@ -32,7 +273,6 @@ function removeLs(proID) {
     var resultValue = objValue.filter((e) => e.proID != proID)
     storage.setItem("cart", JSON.stringify(resultValue))
 }
-
 
 /**
  * 更新localstorage內指定資料的qty
@@ -46,7 +286,6 @@ function updateLs(data) {
     value.qty = data.qty
     addLs(value)
 }
-
 
 /**
  * 取得購物籃產品的部分檢視
@@ -62,7 +301,6 @@ function getHtml(data) {
         }
     });
 }
-
 
 /**
  * 把購物籃產品的部分檢視加入購物籃
@@ -82,7 +320,6 @@ function addHtml(data) {
     }
 }
 
-
 /**
  * 把資料放入localstorage並且把購物籃產品加入購物籃
  * @param {object} data 一組包含proID、img、name、price、qty的data物件
@@ -93,10 +330,8 @@ function setLsHtml(data) {
 }
 
 
-/***/
-
 /*
- * Load and SetUrl
+ * SetUI n getAjax
  */
 
 function setUI() {
@@ -140,6 +375,10 @@ function setRange() {
             $(this).val(value)
             var progress = ($(this).val() - 1) / 4 * 100;
             $(this).css('background', `linear-gradient(to right,#FFB818 ${progress}%, #fff ${progress}%)`);
+        } else {
+            $(this).next('span').text(1)
+            $(this).val(1)
+            $(this).css('background', `linear-gradient(to right,#FFB818 0%, #fff 0%)`);
         }
     })
 }
@@ -171,7 +410,6 @@ function setPage() {
         setUrl("page", $(this).text())
     })
 }
-
 function setUrl(key, value) {
     var queryMap = new URLSearchParams(window.location.search);
     queryMap.set(key, value)
@@ -184,6 +422,18 @@ function deleteUrl(key) {
     var q = (queryMap.size == 0) ? "" : "?";
     history.pushState({ key: "delete" }, "", window.location.origin + window.location.pathname + q + queryMap)
     getProData(getAjaxUrl())
+}
+function setCheckboxUrl(key, self) {
+    let CheckedArr = []
+    let List = $(self).closest('.dropdown').find('input[type="checkbox"]:checked')
+    if (List.length == 0) {
+        deleteUrl(key)
+    } else {
+        List.each(function () {
+            CheckedArr.push($(this).closest('.CBcontainer').text())
+        })
+        setUrl(key, CheckedArr.join('#'))
+    }
 }
 function getAjaxUrl() {
     var queryMap = new URLSearchParams(window.location.search);
@@ -240,4 +490,57 @@ function getProData(queryString) {
             }
         }
     })
+}
+
+/**
+ * RWD
+ */
+
+/**
+ * 當視窗大小改變時的處理函數
+ * @param {any} e 媒體查詢條件
+ * @returns
+ */
+function handleMediaChange(e) {
+    var accordion = document.querySelector('.accordion');
+    var filter = document.querySelector('.filter');
+    if (accordion == null) {
+        return
+    }
+    if (e.matches) {
+        accordion.classList.add('collapse'); // 新增類別
+        filter.classList.add('collapse');
+    } else {
+        accordion.classList.remove('collapse'); // 移除類別
+        filter.classList.remove('collapse');
+    }
+}
+
+
+/**
+ * other
+ */
+
+/**
+ * 根據頁面滾動位置顯示或隱藏至頂按鈕
+ */
+function scrollFunction() {
+    if (
+        document.body.scrollTop > 200 ||
+        document.documentElement.scrollTop > 200
+    ) {
+        $('.topbtn').show()
+    } else {
+        $('.topbtn').hide()
+    }
+}
+
+/**
+ * 點擊產品浮窗外區域關閉浮窗
+ * @param {any} e
+ */
+function closeModal(e) {
+    if ($('.modalFixed')[0] == e.target) {
+        $('.modalFixed').remove()
+    }
 }

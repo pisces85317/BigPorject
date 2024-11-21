@@ -157,6 +157,12 @@
     background-color: var(--background-color);
 }
 
+@media(max-width: 576px) {
+    .dropdown-menu {
+        width: 500px;
+    }
+}
+
 .dropdown .btn {
     padding: 0;
     border: 0;
@@ -277,20 +283,26 @@
     .filterTasteItem input[type="range"] {
         cursor: pointer;
         margin: 0 1rem;
-        height: .2rem;
+        height: .3rem;
         border-radius: 0.25rem;
         background: #fff;
     }
 
-        .filterTasteItem input[type="range"]::-webkit-slider-thumb {
-            appearance: none;
-            position: relative;
-            width: 10px;
-            height: 10px;
-            background-color: var(--highlight-color);
-            /*background: url(/img/neko.png);*/
-            border-radius: 50%;
-        }
+@media(max-width: 576px) {
+    .filterTasteItem input[type="range"] {
+        width: 90%;
+    }
+}
+
+.filterTasteItem input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    position: relative;
+    width: 10px;
+    height: 10px;
+    background-color: var(--highlight-color);
+    /*background: url(/img/neko.png);*/
+    border-radius: 50%;
+}
 
 /*到頂部*/
 .topbtn {
