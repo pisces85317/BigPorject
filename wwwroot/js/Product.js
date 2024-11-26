@@ -112,11 +112,11 @@ $('.accordion a').on('click', function () {
     $(this).closest('.accordion-item').find('button').addClass('collapsed')
     $(this).closest('.col-12').find('.navbar-toggler').addClass('collapsed')
     if (text == "所有商品" || text == "濾掛系列") {
-        history.pushState({ pathname: "column" }, "", window.location.origin + `/Product/${text}` + window.location.search)
+        history.pushState({ pathname: "column" }, "", window.location.origin + `/Product/${text}`)
         getProData(getAjaxUrl())
     } else {
         var col_text = $(this).closest('.accordion-item').find('button').text()
-        history.pushState({ pathname: "column" }, "", window.location.origin + `/Product/${col_text}/${text}` + window.location.search)
+        history.pushState({ pathname: "column" }, "", window.location.origin + `/Product/${col_text}/${text}`)
         getProData(getAjaxUrl())
     }
     setBreadcrumb()
@@ -315,6 +315,7 @@ function setUI() {
     setCheckbox("method")
     setRange()
     setPage()
+    setSortNItems()
 }
 function setBreadcrumb() {
     $('.breadcrumb').empty()
@@ -384,6 +385,24 @@ function setPage() {
         // 設定問號參數map
         setUrl("page", $(this).text())
     })
+}
+function setSortNItems() {
+    var queryMap = new URLSearchParams(window.location.search);
+    if (queryMap.get("sort") == null) {
+        $('.priceSort li').closest('div').find('button').text("綜合")
+    } else {
+        if (queryMap.get("sort") == "desc") {
+            $('.priceSort li').closest('div').find('button').text("價格:由低到高")
+        }
+        else if (queryMap.get("sort") == "asc") {
+            $('.priceSort li').closest('div').find('button').text("價格:由高到低")
+        }
+    }
+    if (queryMap.get("item") == null || queryMap.get("item") == "12") {
+        $('.itemShow li').closest('div').find('button').text("每頁顯示12個")
+    } else if (queryMap.get("item") == "18") {
+        $('.itemShow li').closest('div').find('button').text("每頁顯示18個")
+    }
 }
 function setUrl(key, value) {
     var queryMap = new URLSearchParams(window.location.search);
